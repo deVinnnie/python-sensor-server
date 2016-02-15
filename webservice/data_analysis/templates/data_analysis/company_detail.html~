@@ -1,0 +1,10 @@
+{% extends "data_analysis/template.html" %}
+
+{% block title %}Company detail view{% endblock %}
+
+<h1>{{ company.name }}</h1>
+<ul>
+{% for installation in company.installation_set.all %}
+    <li><a href="{% url 'data_analysis:installation_detail' installation.pk %}">{{ installation.name }}</a></li>
+{% endfor %}
+</ul>

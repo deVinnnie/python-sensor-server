@@ -1,0 +1,12 @@
+{% extends "data_analysis/template.html" %}
+
+{% block title %}Installation detail view{% endblock %}
+
+{% block content %}
+<h1>{{ installation.name }}</h1>
+<ul>
+{% for gateway in installation.gateway_set.all %}
+    <li><a href="{% url 'data_analysis:gateway_detail' gateway.pk %}">Gateway {{ gateway.pk }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

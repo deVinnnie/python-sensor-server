@@ -1,0 +1,12 @@
+{% extends "data_analysis/template.html" %}
+
+{% block title %}Gateway detail view{% endblock %}
+
+{% block content %}
+<h1>Gateway {{ gateway.pk }}</h1>
+<ul>
+{% for sensor in gateway.sensor_set.all %}
+    <li><a href="{% url 'data_analysis:sensor_detail' sensor.pk %}">Sensor {{ sensor.pk }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "data_analysis/template.html" %}
+
+{% block title %}Sensor detail view{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Sensor {{ sensor.pk }}</h1>
+    <div class="table-responsive">
+        <table class="table-striped">
+            <thead>
+                <tr>
+                    <th>Measurement_ID</th>
+                    <th>Timestamp</th>
+                    <th>Sensor_ID</th>
+                    <th>Measurement_Type</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for measurement in sensor.measurement_set.all %}
+                    <tr>
+                        <td>{{ measurement.pk }}</td>
+                   
+                        <td>{{ measurement.timestamp }}</td>
+                    
+                        <td>{{ sensor.pk }}</td>
+                   
+                        <td>{{ measurement.measurement_type }}</td>
+                   
+                        <td>{{ measurement.total_value }} {{ measurement.measurement_type.unit }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+{% endblock %}
