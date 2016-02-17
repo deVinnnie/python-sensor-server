@@ -17,7 +17,7 @@ def companyView(request):
     # Always return an HttpResponseRedirect after successfully dealing
     # with POST data. This prevents data from being posted twice if a
     # user hits the Back button.
-    return render(request, 'data_analysis:companies', context)
+    return render(request, 'data_analysis/company.html', context)
 
 class CompanyDetailView(generic.DetailView):
     model = Company

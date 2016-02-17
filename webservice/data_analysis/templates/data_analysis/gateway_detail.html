@@ -1,12 +1,35 @@
 {% extends "data_analysis/template.html" %}
 
-{% block title %}Gateway detail view{% endblock %}
+{% block title %}Sensors{% endblock %}
 
 {% block content %}
-<h1>Gateway {{ gateway.pk }}</h1>
-<ul>
-{% for sensor in gateway.sensor_set.all %}
-    <li><a href="{% url 'data_analysis:sensor_detail' sensor.pk %}">Sensor {{ sensor.pk }}</a></li>
-{% endfor %}
-</ul>
+<h1 style="margin-top: 50px;">Gateway {{ gateway.pk }}</h1>
+<div class="table-responsive">
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>Sensor_ID</th>
+                <th>Gateway_ID</th>
+                <th>Name</th>
+                <th>Position_Long</th>
+                <th>Position_Lat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sensor in gateway.sensor_set.all %}
+                <tr>
+                    <td><a href="{% url 'data_analysis:sensor_detail' gateway.installation.company.pk gateway.installation.pk gateway.pk sensor.pk %}">Sensor {{ sensor.pk }}</a></td>
+               
+                    <td>{{ sensor.gateway.gateway_id }}</td>
+                
+                    <td>{{ sensor.name }}</td>
+               
+                    <td>{{ sensor.position_long }}</td>
+               
+                    <td>{{ sensor.position_lat }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

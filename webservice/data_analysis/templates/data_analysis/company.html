@@ -1,16 +1,27 @@
 {% extends "data_analysis/template.html" %}
 
-{% block title %}Company view{% endblock %}
+{% block title %}Isoltechnics companies{% endblock %}
 
 {% block content %}
 {% if company_list %}
-    <div class="container-fluid">
-    <h1>Companies </h1>
+    <h1 style="margin-top: 50px;">Companies</h1>
     <div class="table-responsive">
         <table class="table-striped">
-    {% for company in company_list %}
-        <li><a href="{% url 'data_analysis:company_detail' company.pk %}">{{ company.name }}</a></li>
-    {% endfor %}
+            <thead>
+                <tr>
+                    <th>Company_ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in company_list %}
+                    <tr>
+                        <td>{{ company.pk }}</td>
+                   
+                        <td><a href="{% url 'data_analysis:company_detail' company.pk %}">{{ company.name }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
 {% else %}
     <p>No companies are available.</p>
 {% endif %}

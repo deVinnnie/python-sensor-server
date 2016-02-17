@@ -10,8 +10,8 @@
     <title>{% block title %}Bootstrap 101 Template{% endblock %}</title>
 
     <!-- Bootstrap -->
-    <link href="{% static 'data_analysis/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}"" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+    <link href="{% static 'data_analysis/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'data_analysis/style.css' %}" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,8 +21,38 @@
     <![endif]-->
   </head>
   <body>
-    {% block content %}
-    {% endblock %}
+     <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    {% block nav_buttons %}
+                    
+                    {% endblock %}
+                </button>
+                <a class="navbar-brand" href="#">Data Analysis</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    {% block nav_pages %}
+                        
+                    {% endblock %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% block content %}
+                    {% block page_title %}<h1 style="margin-top: 50px;">Page title{% endblock %}</h1>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

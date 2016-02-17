@@ -44,11 +44,16 @@ class Installation(models.Model):
     installation_id = models.IntegerField(db_column='Installation_ID', primary_key=True) # Field name made lowercase.
     company = models.ForeignKey(Company, db_column='Company_ID') # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=45, blank=True) # Field name made lowercase.
-    storage_on_remote = models.IntegerField(db_column='Storage_On_Remote') # Field name made lowercase.
+    storage_on_remote = models.BooleanField(default=1, db_column='Storage_On_Remote') # Field name made lowercase.
     remote_database_id = models.IntegerField(db_column='Remote_Database_ID', blank=True, null=True) # Field name made lowercase.
     class Meta:
         managed = True
         db_table = 'Installation'
+    def storage_is_on_remote(self):
+        if (self.storage_on_remote):
+            return 'Yes'
+        else:
+            return 'No'
     def __str__(self):
         return self.name
         

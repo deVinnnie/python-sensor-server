@@ -1,36 +1,98 @@
 {% extends "data_analysis/template.html" %}
 
-{% block title %}Sensor detail view{% endblock %}
+{% load staticfiles %}
+
+{% block title %}Measurements{% endblock %}
+
+{% block nav_buttons %}
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+{% endblock %}
+
+{% block nav_pages %}
+<li class="active"><a href="#">Home</a></li>
+<li><a href="#">Page 1</a></li>
+<li><a href="#">Page 2</a></li>
+<li><a href="#">Page 3</a></li>
+{% endblock %}
 
 {% block content %}
+<h1 style="margin-top: 50px;">Sensor {{ sensor.pk }}</h1>
 <div class="container-fluid">
-    <h1>Sensor {{ sensor.pk }}</h1>
-    <div class="table-responsive">
-        <table class="table-striped">
-            <thead>
-                <tr>
-                    <th>Measurement_ID</th>
-                    <th>Timestamp</th>
-                    <th>Sensor_ID</th>
-                    <th>Measurement_Type</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for measurement in sensor.measurement_set.all %}
-                    <tr>
-                        <td>{{ measurement.pk }}</td>
-                   
-                        <td>{{ measurement.timestamp }}</td>
-                    
-                        <td>{{ sensor.pk }}</td>
-                   
-                        <td>{{ measurement.measurement_type }}</td>
-                   
-                        <td>{{ measurement.total_value }} {{ measurement.measurement_type.unit }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Measurements</h2>
+            <div class="table-responsive">
+                <table class="table-striped">
+                    <thead>
+                        <tr>
+                            <th>Measurement_ID</th>
+                            <th>Timestamp</th>
+                            <th>Sensor_ID</th>
+                            <th>Measurement_Type</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for measurement in sensor.measurement_set.all %}
+                            <tr>
+                                <td>{{ measurement.pk }}</td>
+                           
+                                <td>{{ measurement.timestamp }}</td>
+                            
+                                <td>{{ sensor.pk }}</td>
+                           
+                                <td>{{ measurement.measurement_type }}</td>
+                           
+                                <td>{{ measurement.total_value }} {{ measurement.measurement_type.unit }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2>Measurements in function of time</h2>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
 </div>
+
+<script src="{% static 'data_analysis/Chart.js-master/Chart.js' %}"></script>
+
+<script>
+    var xlabels = [];
+    {% for measurement in sensor.measurement_set.all %}
+        xlabels.push("{{ measurement.timestamp }}");
+    {% endfor %}
+
+    var ylabels = [];
+    {% for measurement in sensor.measurement_set.all %}
+        ylabels.push("{{ measurement.total_value }}");
+    {% endfor %}
+
+    var data = {
+        labels: xlabels,
+        datasets: [
+            {
+                label: "My First dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: ylabels
+            },
+        ]
+    };
+
+    Chart.defaults.global.responsive = true;
+
+    // Get the context of the canvas element we want to select
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myLineChart = new Chart(ctx).Line(data);
+</script>
+
 {% endblock %}
