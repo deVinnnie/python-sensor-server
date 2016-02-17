@@ -18,7 +18,7 @@
         <tbody>
             {% for sensor in gateway.sensor_set.all %}
                 <tr>
-                    <td><a href="{% url 'data_analysis:sensor_detail' gateway.installation.company.pk gateway.installation.pk gateway.pk sensor.pk %}">Sensor {{ sensor.pk }}</a></td>
+                    <td><a href="{{ sensor.get_absolute_url }}">Sensor {{ sensor.pk }}</a></td>
                
                     <td>{{ sensor.gateway.gateway_id }}</td>
                 

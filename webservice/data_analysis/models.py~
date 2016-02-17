@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 class Company(models.Model):
-    company_id = models.IntegerField(db_column='Company_ID', primary_key=True) # Field name made lowercase.
+    company_id = models.AutoField(db_column='Company_ID', primary_key=True) # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=45, blank=True) # Field name made lowercase.
     class Meta:
         managed = True
@@ -21,7 +21,7 @@ class Company(models.Model):
         return self.name
 
 class Gateway(models.Model):
-    gateway_id = models.IntegerField(db_column='Gateway_ID', primary_key=True) # Field name made lowercase.
+    gateway_id = models.AutoField(db_column='Gateway_ID', primary_key=True) # Field name made lowercase.
     installation = models.ForeignKey('Installation', db_column='Installation_ID', blank=True, null=True) # Field name made lowercase.
     ip_address = models.CharField(db_column='IP-address', max_length=45, blank=True) # Field name made lowercase. Field renamed to remove unsuitable characters.
     class Meta:
@@ -41,7 +41,7 @@ class GatewayConfiguration(models.Model):
         return self.gateway
 
 class Installation(models.Model):
-    installation_id = models.IntegerField(db_column='Installation_ID', primary_key=True) # Field name made lowercase.
+    installation_id = models.AutoField(db_column='Installation_ID', primary_key=True) # Field name made lowercase.
     company = models.ForeignKey(Company, db_column='Company_ID') # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=45, blank=True) # Field name made lowercase.
     storage_on_remote = models.BooleanField(default=1, db_column='Storage_On_Remote') # Field name made lowercase.
@@ -50,15 +50,15 @@ class Installation(models.Model):
         managed = True
         db_table = 'Installation'
     def storage_is_on_remote(self):
-        if (self.storage_on_remote)
+        if (self.storage_on_remote):
             return 'Yes'
-        else
+        else:
             return 'No'
     def __str__(self):
         return self.name
         
 class Sensor(models.Model):
-    sensor_id = models.IntegerField(db_column='Sensor_ID', primary_key=True) # Field name made lowercase.
+    sensor_id = models.AutoField(db_column='Sensor_ID', primary_key=True) # Field name made lowercase.
     gateway = models.ForeignKey(Gateway, db_column='Gateway_ID') # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=45, blank=True) # Field name made lowercase.
     position_long = models.DecimalField(db_column='Position_Long', max_digits=10, decimal_places=0, blank=True, null=True) # Field name made lowercase.
@@ -70,7 +70,7 @@ class Sensor(models.Model):
         return 'Sensor ' + 'repr self.sensor_id'
         
 class MeasurementType(models.Model):
-    measurementTypeID = models.IntegerField(db_column='MeasurementTypeID', primary_key=True) # Field name made lowercase.
+    measurementTypeID = models.AutoField(db_column='MeasurementTypeID', primary_key=True) # Field name made lowercase.
     unit = models.CharField(db_column='Unit', max_length=45, blank=True) # Field name made lowercase.
     scalar = models.IntegerField(db_column='Scalar', blank=True, null=True) # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=45, blank=True) # Field name made lowercase.
@@ -81,7 +81,7 @@ class MeasurementType(models.Model):
         return self.name
 
 class Measurement(models.Model):
-    measurement_id = models.IntegerField(db_column='Measurement_ID', primary_key=True) # Field name made lowercase.
+    measurement_id = models.AutoField(db_column='Measurement_ID', primary_key=True) # Field name made lowercase.
     timestamp = models.DateTimeField(db_column='Timestamp') # Field name made lowercase.
     sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID') # Field name made lowercase.
     measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type') # Field name made lowercase.

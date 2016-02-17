@@ -10,7 +10,7 @@ class IndexView(generic.ListView):
     
     def get_queryset(self):
         return
-        
+
 def companyView(request): # This will become a form handler class to handle login
     company_list = Company.objects.all()
     context = {'company_list': company_list}

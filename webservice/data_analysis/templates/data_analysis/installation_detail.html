@@ -16,7 +16,7 @@
         <tbody>
             {% for gateway in installation.gateway_set.all %}
                 <tr>
-                    <td><a href="{% url 'data_analysis:gateway_detail' installation.company.pk installation.pk gateway.pk %}">Gateway {{ gateway.pk }}</a></td>
+                    <td><a href="{{ gateway.get_absolute_url }}">Gateway {{ gateway.pk }}</a></td>
 
                     <td>{{ gateway.installation }}</td>
 

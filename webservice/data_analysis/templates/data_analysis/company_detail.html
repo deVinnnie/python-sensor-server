@@ -22,7 +22,7 @@
                
                     <td>{{ installation.company }}</td>
                 
-                    <td><a href="{% url 'data_analysis:installation_detail' company.pk installation.pk %}">{{ installation.name }}</a></td>
+                    <td><a href="{{ installation.get_absolute_url }}">{{ installation.name }}</a></td>
                
                     <td>{{ installation.storage_is_on_remote }}</td>
                

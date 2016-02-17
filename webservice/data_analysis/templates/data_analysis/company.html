@@ -18,7 +18,7 @@
                     <tr>
                         <td>{{ company.pk }}</td>
                    
-                        <td><a href="{% url 'data_analysis:company_detail' company.pk %}">{{ company.name }}</a></td>
+                        <td><a href="{{ company.get_absolute_url }}">{{ company.name }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

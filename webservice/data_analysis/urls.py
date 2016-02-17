@@ -14,7 +14,7 @@ urlpatterns = patterns('',
         view = views.companyView,
         name = 'companies'
     ),
-    
+
     url (
         regex = r'^companies/(?P<pk>\d+)/installations$',
         view = views.CompanyDetailView.as_view(),
@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     ),
     
     url (
-        regex = r'^companies/(?P<company_id>\d+)/installations/(?P<pk>\d+)/gateways$',
+        regex = r'^companies/(?P<company_pk>\d+)/installations/(?P<pk>\d+)/gateways$',
         view = views.InstallationDetailView.as_view(),
         name = 'installation_detail'
     ),
