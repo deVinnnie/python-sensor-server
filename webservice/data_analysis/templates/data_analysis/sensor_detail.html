@@ -4,18 +4,9 @@
 
 {% block title %}Measurements{% endblock %}
 
-{% block nav_buttons %}
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-{% endblock %}
-
-{% block nav_pages %}
-<li class="active"><a href="#">Home</a></li>
-<li><a href="#">Page 1</a></li>
-<li><a href="#">Page 2</a></li>
-<li><a href="#">Page 3</a></li>
-{% endblock %}
+{% block page_1 %}<li class="active"><a href="#">Page 1</a></li>{% endblock %}
+{% block page_2 %}<li><a href="#">Page 2</a></li>{% endblock %}
+{% block page_3 %}<li><a href="#">Page 3</a></li>{% endblock %}
 
 {% block content %}
 <h1 style="margin-top: 50px;">Sensor {{ sensor.pk }}</h1>
