@@ -1,0 +1,15 @@
+{% load staticfiles %}
+
+<html>
+    <body>
+        <h1>Installation {{ name }}</h1>
+        <p>Id {{ installation_id }}</p>
+        <ul>
+            {% for g in gateways %}
+            <li>
+                <a href="./gateways/{{ g }}">{{ g }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

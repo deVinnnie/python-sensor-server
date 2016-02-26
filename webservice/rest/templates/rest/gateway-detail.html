@@ -1,0 +1,13 @@
+{% load staticfiles %}
+
+<html>
+    <body>
+        <h1>Gateway {{ gateway_id }}</h1>
+        <p>{{ name }}</p>
+        {% for g in gateways %}
+        <li>
+            <a href="./gateways/{{ g     }}">{{ g }}</a>
+        </li>
+        {% endfor %}
+    </body>
+</html>

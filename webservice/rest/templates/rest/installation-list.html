@@ -1,0 +1,13 @@
+{% load staticfiles %}
+<html>
+    <body>
+        <h1>Installations</h1>
+        <ul>
+            {% for i in results %}
+            <li>
+                <a href="/rest/companies/{{ i }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

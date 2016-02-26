@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'data_analysis',
+    'rest_framework', 
+    'rest',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,13 +61,17 @@ WSGI_APPLICATION = 'webservice.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'mysql.connector.django',
+    #     'NAME': 'Test_environment',
+    #     'USER': 'root',
+    #     'PASSWORD': 'root',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '3306',
+    # }, 
     'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'Test_environment',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -87,3 +93,18 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Django REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework_xml.renderers.XMLRenderer',
+        'rest_framework_yaml.renderers.YAMLRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+
+    ),
+    'PAGE_SIZE': 10
+}
