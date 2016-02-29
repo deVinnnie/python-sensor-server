@@ -88,3 +88,43 @@ class InstallationTest(APITestCase):
         installation = Installation.objects.get(pk=installation_id)
         self.assertEqual(installation.name , 'Super Expensive ACME Installation')
         self.assertEqual(installation.company.company_id, self.company_id)
+
+
+class GatewayTest(APITestCase):
+    def setUp(self):
+        # Create a dummy company and installation for use in further tests.
+        url = '/rest/companies/'
+        data = {"name" : "ACME Industries", "installations":[]}
+        response = self.client.post(url, data, format='json')
+        self.company_id = response.data['company_id']
+
+        # Create a new installation within company
+        url = '/rest/companies/{}/installations/'.format(self.company_id)
+        data = {"name" : "Very Expensive ACME Installation", "gateways" : []}
+        response = self.client.post(url, data, format='json')
+        self.installation_id = response.data['installation_id']
+
+    def test_create_gateway(self):
+        url = '/rest/companies/{}/installations/{}/gateways/'.format(self.company_id, self.installation_id)
+        data = {"ip_address": "192.168.1.2", "sensors" : [], "config" : [] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Gateway.objects.count(), 1)
+        installation = Installation.objects.get(pk=self.installation_id)
+        self.assertEqual(installation.gateways.count(), 1) # Make sure the gateway is a child of the Installation.
+
+    def test_update_gateway_ip(self):
+        url = '/rest/companies/{}/installations/{}/gateways/'.format(self.company_id, self.installation_id)
+        data = {"ip_address": "192.168.1.2", "sensors" : [], "config" : [] }
+        response = self.client.post(url, data, format='json')
+
+        gateway_id = response.data['gateway_id']
+
+        url = '/rest/companies/{}/installations/{}/gateways/{}/'.format(self.company_id, self.installation_id, gateway_id)
+        data = { "ip_address": "192.168.1.3" }
+        response = self.client.patch(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        gateway = Gateway.objects.get(pk=gateway_id)
+        self.assertEqual(gateway.ip_address, '192.168.1.3')

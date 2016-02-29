@@ -28,6 +28,7 @@ class GatewaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Gateway
         fields = ('gateway_id', 'ip_address', 'sensors', 'installation', 'config')
+        read_only_fields = ('gateway_id',)
 
 
 class GatewayConfigurationSerializer(serializers.ModelSerializer):

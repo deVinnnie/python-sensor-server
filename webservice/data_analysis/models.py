@@ -33,8 +33,9 @@ class Installation(models.Model):
     def __str__(self):
         return self.name
 
+
 class Gateway(models.Model):
-    gateway_id = models.IntegerField(db_column='Gateway_ID', primary_key=True) # Field name made lowercase.
+    gateway_id = models.AutoField(db_column='Gateway_ID', primary_key=True) # Field name made lowercase.
     installation = models.ForeignKey('Installation', db_column='Installation_ID', blank=True, null=True, related_name="gateways") # Field name made lowercase.
     ip_address = models.CharField(db_column='IP-address', max_length=45, blank=True) # Field name made lowercase. Field renamed to remove unsuitable characters.
     class Meta:
