@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, url
 
+from django.conf import settings
+
 from data_analysis import views
 
 urlpatterns = patterns('',
@@ -39,3 +41,10 @@ urlpatterns = patterns('',
         name = 'sensor_detail'
     )
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns(
+        'django.views.static',
+        (r'media/(?P<path>.*)',
+        'serve',
+        {'document_root': settings.MEDIA_ROOT}), )

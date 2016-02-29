@@ -28,7 +28,7 @@ class Gateway(models.Model):
         managed = True
         db_table = 'Gateway'
     def __str__(self):
-        return 'Gateway ' + 'repr self.gateway_id'
+        return 'Gateway ' +  repr(self.gateway_id)
 
 class GatewayConfiguration(models.Model):
     gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='config') # Field name made lowercase.
@@ -62,7 +62,7 @@ class Sensor(models.Model):
         managed = True
         db_table = 'Sensor'
     def __str__(self):
-        return 'Sensor ' + 'repr self.sensor_id'
+        return 'Sensor ' + repr(self.sensor_id)
 
     def measurement_types(self):
         #print(self.measurements.values('measurement_type'))
