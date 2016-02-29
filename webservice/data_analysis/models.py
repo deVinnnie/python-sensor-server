@@ -8,6 +8,7 @@
 # Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
 # into your database.
 from __future__ import unicode_literals
+from django.template.loader import render_to_string
 
 from django.db import models
 
@@ -55,6 +56,14 @@ class Sensor(models.Model):
     class Meta:
         managed = True
         db_table = 'Sensor'
+
+    def enrollment_chart(self):
+        lu = { 'categories' : [ 'Fall 2008', 'Spring 2009','Fall 2009', 'Spring 2010', 'Fall 2010', 'Spring 2011'], 'undergrad' : [18, 22, 30, 34, 40, 47], 'grad' : [1, 2, 4, 4, 5, 7], 'employee' : [2, 3, 0, 1, 1, 2] }
+        lu['total_enrolled'] = [sum(a) for a in zip(lu['undergrad'], lu['grad'],lu['employee'])]
+        return render_to_string('admin/data_analysis/sensor/enrollment_chart.html', lu )
+
+    enrollment_chart.allow_tags = True
+
     def __str__(self):
         return 'Sensor ' + repr(self.sensor_id)
 
@@ -100,15 +109,6 @@ class Measurement(models.Model):
     def __str__(self):
         return '{:%Y-%m-%d %H:%M:%S}'.format(self.timestamp)
 
-class Permission(models.Model):
-    permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.
-    entity = models.CharField(db_column='Entity', max_length=45) # Field name made lowercase.
-    identifier = models.CharField(db_column='Identifier', max_length=45) # Field name made lowercase.
-    action = models.CharField(db_column='Action', max_length=45) # Field name made lowercase.
-    class Meta:
-        managed = False
-        db_table = 'Permission'
-
 class RemoteDatabase(models.Model):
     remote_database_id = models.IntegerField(db_column='Remote_Database_ID', primary_key=True) # Field name made lowercase.
     url = models.CharField(db_column='URL', max_length=300, blank=True) # Field name made lowercase.
@@ -120,14 +120,23 @@ class RemoteDatabase(models.Model):
 
 
 class SensorConfiguration(models.Model):
-    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='config') # Field name made lowercase.
+    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='config', primary_key=True) # Field name made lowercase.
     attribute = models.CharField(max_length=45, primary_key=True)
     value = models.CharField(db_column='Value', max_length=200, blank=True) # Field name made lowercase.
     class Meta:
         managed = True
         db_table = 'Sensor_Configuration'
         
-        
+
+# class Permission(models.Model):
+#     permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.
+#     entity = models.CharField(db_column='Entity', max_length=45) # Field name made lowercase.
+#     identifier = models.CharField(db_column='Identifier', max_length=45) # Field name made lowercase.
+#     action = models.CharField(db_column='Action', max_length=45) # Field name made lowercase.
+#     class Meta:
+#         managed = False
+#         db_table = 'Permission'
+
 # 
 # class Role(models.Model):
 #     role_id = models.IntegerField(db_column='Role_ID', primary_key=True) # Field name made lowercase.

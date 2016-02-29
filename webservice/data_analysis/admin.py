@@ -1,6 +1,6 @@
 from django.contrib import admin
 from data_analysis.models import (Company, Gateway, GatewayConfiguration, Installation,
-Measurement, MeasurementType, Sensor,)
+Measurement, MeasurementType, Sensor,SensorConfiguration)
 
 class InstallationInline(admin.TabularInline):
     model = Installation
@@ -45,9 +45,11 @@ class MeasurementInline(admin.TabularInline):
     extra = 0
 
 class SensorAdmin(admin.ModelAdmin):
+    readonly_fields = ('enrollment_chart',)
     fieldsets = [
         (None,              {'fields': []}),
         ('Info',            {'fields': ['sensor_id'],'classes': ['collapse']}),
+        ('Test chart',      {'fields': ['enrollment_chart',]}),
     ]
     inlines = [MeasurementInline]
     search_fields = ['sensor_id']
@@ -59,3 +61,4 @@ admin.site.register(Installation, InstallationAdmin)
 admin.site.register(Measurement)
 admin.site.register(MeasurementType)
 admin.site.register(Sensor, SensorAdmin)
+admin.site.register(SensorConfiguration)
