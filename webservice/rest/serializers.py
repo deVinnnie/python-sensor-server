@@ -37,13 +37,13 @@ class GatewayConfigurationSerializer(serializers.ModelSerializer):
 
 
 class SensorSerializer(serializers.ModelSerializer):
-    measurements = serializers.PrimaryKeyRelatedField(many=True, queryset=Measurement.objects.all())
+    #measurements = serializers.PrimaryKeyRelatedField(many=True, queryset=Measurement.objects.all())
     config = serializers.PrimaryKeyRelatedField(many=True,queryset=SensorConfiguration.objects.all())
     measurement_types = serializers.ListField(read_only=True)
 
     class Meta:
         model = Sensor
-        fields = ('sensor_id', 'name', 'gateway_id', 'measurements', 'config', 'measurement_types')
+        fields = ('sensor_id', 'name', 'gateway_id', 'measurement_types', 'config')
         read_only_fields = ('sensor_id')
 
 
