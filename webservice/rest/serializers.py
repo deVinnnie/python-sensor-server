@@ -7,7 +7,7 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = ('company_id', 'name', 'installations')
-
+        read_only_fields = ('company_id',)
 
 class InstallationSerializer(serializers.ModelSerializer):
     gateways = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())

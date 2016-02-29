@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 class Company(models.Model):
-    company_id = models.IntegerField(db_column='Company_ID', primary_key=True) # Field name made lowercase.
+    company_id = models.AutoField(db_column='Company_ID', primary_key=True)
     name = models.CharField(db_column='Name', max_length=45, blank=True) # Field name made lowercase.
     class Meta:
         managed = True
