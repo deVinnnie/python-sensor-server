@@ -1,12 +1,13 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls admin_static admin_modify %}
+{% load staticfiles %}
 
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
 {{ media }}
 <!-- start: two new lines for highcharts -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>
-<script src="{{ MEDIA_URL }}highcharts/js/highcharts.js" type="text/javascript"></script>
+<script src="{% static 'data_analysis/highcharts/js/highcharts.js' %}" type="text/javascript"></script>
 <!-- end: two new lines for highcharts -->
 {% endblock %}
 
