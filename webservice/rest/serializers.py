@@ -14,7 +14,10 @@ class InstallationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Installation
-        fields = ('installation_id', 'name', 'gateways')
+        #fields = ('installation_id', 'name', 'gateways', )
+        #fields = '__all__'
+        exclude = ('storage_on_remote', 'remote_database_id')
+        read_only_fields = ('installation_id',)
 
 
 class GatewaySerializer(serializers.ModelSerializer):

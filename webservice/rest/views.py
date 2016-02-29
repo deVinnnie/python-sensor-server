@@ -83,6 +83,10 @@ class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         serializer = InstallationSerializer(queryset)
         return Response(serializer.data)
 
+    def create(self, request, companies_pk=None, pk=None, format=None, *args, **kwargs):
+        request.data['company'] = companies_pk
+        return super(InstallationViewSet, self).create(request, *args, **kwargs)
+
 
 class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
