@@ -23,7 +23,6 @@ class InstallationSerializer(serializers.ModelSerializer):
 class GatewaySerializer(serializers.ModelSerializer):
     sensors = serializers.PrimaryKeyRelatedField(many=True, queryset=Sensor.objects.all())
     config = serializers.PrimaryKeyRelatedField(many=True, queryset=GatewayConfiguration.objects.all())
-    #sensors = serializers.HyperlinkedRelatedField(many=True, view_name='sensor-detail', read_only=True)
 
     class Meta:
         model = Gateway
@@ -40,12 +39,12 @@ class GatewayConfigurationSerializer(serializers.ModelSerializer):
 class SensorSerializer(serializers.ModelSerializer):
     measurements = serializers.PrimaryKeyRelatedField(many=True, queryset=Measurement.objects.all())
     config = serializers.PrimaryKeyRelatedField(many=True,queryset=SensorConfiguration.objects.all())
-    measurement_types = serializers.ListField()
-
+    measurement_types = serializers.ListField(read_only=True)
 
     class Meta:
         model = Sensor
         fields = ('sensor_id', 'name', 'gateway_id', 'measurements', 'config', 'measurement_types')
+        read_only_fields = ('sensor_id')
 
 
 class SensorConfigurationSerializer(serializers.ModelSerializer):

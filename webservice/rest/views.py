@@ -149,6 +149,10 @@ class SensorViewSet(viewsets.ModelViewSet):
         serializer = SensorSerializer(queryset)
         return Response(serializer.data)
 
+    def create(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, pk=None, format=None, *args, **kwargs):
+        request.data['gateway'] = gateway_pk
+        return super(SensorViewSet, self).create(request, *args, **kwargs)
+
 
 class MeasurementViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
