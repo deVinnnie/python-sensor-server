@@ -72,21 +72,6 @@ class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     queryset = Installation.objects.all()
     serializer_class = InstallationSerializer
 
-    def list(self, request, companies_pk=None, format=None):
-        queryset = self.queryset.filter(company_id=companies_pk)
-
-        serializer = InstallationSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, companies_pk=None, pk=None, format=None):
-        queryset = get_object_or_404(self.queryset, installation_id=pk)
-        serializer = InstallationSerializer(queryset)
-        return Response(serializer.data)
-
-    def create(self, request, companies_pk=None, pk=None, format=None, *args, **kwargs):
-        request.data['company'] = companies_pk
-        return super(InstallationViewSet, self).create(request, *args, **kwargs)
-
 
 class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
@@ -95,22 +80,6 @@ class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Gateway.objects.all()
     serializer_class = GatewaySerializer
-
-    def list(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, format=None):
-        queryset = self.queryset.filter(installation_id=installation_pk)
-        if installation_pk == None:
-            queryset = self.queryset
-        serializer = GatewaySerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, companies_pk=None, installation_pk=None, pk=None, format=None):
-        queryset = get_object_or_404(self.queryset, gateway_id=pk)
-        serializer = GatewaySerializer(queryset)
-        return Response(serializer.data)
-
-    def create(self, request, companies_pk=None, installation_pk=None, pk=None, format=None, *args, **kwargs):
-        request.data['installation'] = installation_pk
-        return super(GatewayViewSet, self).create(request, *args, **kwargs)
 
 
 class GatewayConfigurationViewSet(viewsets.ModelViewSet):
@@ -121,12 +90,12 @@ class GatewayConfigurationViewSet(viewsets.ModelViewSet):
     queryset = GatewayConfiguration.objects.all()
     serializer_class = GatewayConfigurationSerializer
 
-    def list(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, format=None):
+    def list(self, request, gateway_pk=None, format=None):
         queryset = self.queryset.filter(gateway=gateway_pk)
         serializer = GatewayConfigurationSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, pk=None, format=None):
+    def retrieve(self, request, gateway_pk=None, pk=None, format=None):
         queryset = get_object_or_404(self.queryset, gateway_id=pk)
         serializer = GatewayConfigurationSerializer(queryset)
         return Response(serializer.data)
@@ -182,13 +151,12 @@ class MeasurementViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     serializer_class = MeasurementSerializer
     renderer_classes = HTMLGenericViewSet.renderer_classes
 
+    # def list(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, sensor_pk=None, format=None):
+    #     queryset = self.queryset.filter(sensor_id=sensor_pk)
+    #     serializer = MeasurementSerializer(queryset, many=True)
+    #     return Response( {'measurements': serializer.data}, format) #, template_name = 'measurements.html')
 
-    def list(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, sensor_pk=None, format=None):
-        queryset = self.queryset.filter(sensor_id=sensor_pk)
-        serializer = MeasurementSerializer(queryset, many=True)
-        return Response( {'measurements': serializer.data}) #, template_name = 'measurements.html')
-
-    def retrieve(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, sensor_pk=None, pk=None, format=None):
+    def retrieve(self, request, gateway_pk=None, sensor_pk=None, pk=None, format=None):
         queryset = get_object_or_404(self.queryset, sensor_id=sensor_pk, measurement_id=pk)
         serializer = MeasurementSerializer(queryset)
         return Response(serializer.data)
@@ -255,6 +223,14 @@ class SensorConfigurationViewSet(viewsets.ModelViewSet):
         queryset = get_object_or_404(self.queryset, gateway_id=pk)
         serializer = GatewayConfigurationSerializer(queryset)
         return Response(serializer.data)
+
+
+class MeasurementTypeViewSet(viewsets.ModelViewSet):
+    """
+    /measurement-type
+    """
+    queryset=MeasurementType.objects.all()
+    serializer_class = MeasurementTypeSerializer
 
 
 #

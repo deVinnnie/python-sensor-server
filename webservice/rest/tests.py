@@ -48,10 +48,10 @@ class CompanyTest(APITestCase):
 class InstallationTest(APITestCase):
     def setUp(self):
         # Create a dummy company for use in further tests.
-        url = '/rest/companies/'
-        data = {"name" : "ACME Industries", "installations":[]}
-        response = self.client.post(url, data, format='json')
-        self.company_id = response.data['company_id']
+        company = Company.objects.create(name="ACME Industries")
+        company.save()
+        self.company_id = company.company_id
+        self.company = company
 
     def test_create_installation(self):
         """
@@ -59,8 +59,12 @@ class InstallationTest(APITestCase):
         """
 
         # Create a new installation within company
-        url = '/rest/companies/{}/installations/'.format(self.company_id)
-        data = {"name" : "Very Expensive ACME Installation", "gateways" : []}
+        url = '/rest/installations/'
+        data = {
+            "name" : "Very Expensive ACME Installation",
+            "gateways" : [],
+            "company" : self.company_id
+        }
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -75,106 +79,75 @@ class InstallationTest(APITestCase):
         Ensure we can update the installation name.
         """
         # Create a new installation within company
-        url = '/rest/companies/{}/installations/'.format(self.company_id)
-        data = {"name" : "Very Expensive ACME Installation", "gateways" : []}
-        response = self.client.post(url, data, format='json')
-        installation_id = response.data['installation_id']
+        installation = self.company.installations.create(name="Very Expensive ACME Installation")
+        installation_id = installation.installation_id
 
-        url = '/rest/companies/{}/installations/{}/'.format(self.company_id, installation_id)
+        url = '/rest/installations/{}/'.format(installation_id)
         data = {"name" : "Super Expensive ACME Installation"}
-
         response = self.client.patch(url, data, format='json')
 
-        installation = Installation.objects.get(pk=installation_id)
+        installation  = Installation.objects.get(pk=installation_id) # Refresh instance
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(installation.name , 'Super Expensive ACME Installation')
         self.assertEqual(installation.company.company_id, self.company_id)
 
 
 class GatewayTest(APITestCase):
     def setUp(self):
-        # Create a dummy company and installation for use in further tests.
-        url = '/rest/companies/'
-        data = {"name" : "ACME Industries", "installations":[]}
-        response = self.client.post(url, data, format='json')
-        self.company_id = response.data['company_id']
+        # Create a dummy company.
+        self.company = Company.objects.create(name="ACME Industries")
+        self.company.save()
 
         # Create a new installation within company
-        url = '/rest/companies/{}/installations/'.format(self.company_id)
-        data = {"name" : "Very Expensive ACME Installation", "gateways" : []}
-        response = self.client.post(url, data, format='json')
-        self.installation_id = response.data['installation_id']
+        self.installation = self.company.installations.create(name="Very Expensive ACME Installation")
+
+    def test_get_non_existant_gateway_returns_404(self):
+        id = 4 # ID of a non existant gateway
+        url = 'rest/gateways/{}/'.format(id)
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_create_gateway(self):
-        url = '/rest/companies/{}/installations/{}/gateways/'.format(self.company_id, self.installation_id)
-        data = {"ip_address": "192.168.1.2", "sensors" : [], "config" : [] }
+        url = '/rest/gateways/'
+        data = {
+            "ip_address" : "192.168.1.2",
+            "sensors" : [],
+            "config" : [],
+            "installation" : self.installation.installation_id
+        }
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Gateway.objects.count(), 1)
-        installation = Installation.objects.get(pk=self.installation_id)
+        installation = Installation.objects.get(pk=self.installation.installation_id)
         self.assertEqual(installation.gateways.count(), 1) # Make sure the gateway is a child of the Installation.
 
     def test_update_gateway_ip(self):
-        url = '/rest/companies/{}/installations/{}/gateways/'.format(self.company_id, self.installation_id)
-        data = {"ip_address": "192.168.1.2", "sensors" : [], "config" : [] }
-        response = self.client.post(url, data, format='json')
+        gateway = self.installation.gateways.create(ip_address="192.168.1.2")
 
-        gateway_id = response.data['gateway_id']
-
-        url = '/rest/companies/{}/installations/{}/gateways/{}/'.format(self.company_id, self.installation_id, gateway_id)
+        url = '/rest/gateways/{}/'.format(gateway.gateway_id)
         data = { "ip_address": "192.168.1.3" }
         response = self.client.patch(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        gateway = Gateway.objects.get(pk=gateway_id)
+        gateway = Gateway.objects.get(pk=gateway.gateway_id)
         self.assertEqual(gateway.ip_address, '192.168.1.3')
 
 
 class SensorTest(APITestCase):
     def setUp(self):
-        # Create a dummy company and installation with gateway for use in further tests.
-        url = '/rest/companies/'
-        data = {"name" : "ACME Industries", "installations":[]}
-        response = self.client.post(url, data, format='json')
-        self.company_id = response.data['company_id']
+        # Create a dummy company.
+        self.company = Company.objects.create(name="ACME Industries")
+        self.company.save()
 
-        # Create a new installation within company
-        url = '/rest/companies/{}/installations/'.format(self.company_id)
-        data = {"name" : "Very Expensive ACME Installation", "gateways" : []}
-        response = self.client.post(url, data, format='json')
-        self.installation_id = response.data['installation_id']
+        # Create a new installation within the company.
+        self.installation = self.company.installations.create(name="Very Expensive ACME Installation")
 
-        # Create new gateway
-        url = '/rest/companies/{}/installations/{}/gateways/'.format(self.company_id, self.installation_id)
-        data = {"ip_address": "192.168.1.2", "sensors" : [], "config" : [] }
-        response = self.client.post(url, data, format='json')
-        self.gateway_id = response.data['gateway_id']
+        # Create a new gateway within the installation.
+        self.gateway = self.installation.gateways.create(ip_address='192.168.1.2')
 
     def test_create_sensor(self):
-        """
-        Posting to companies/$3/installations/$2/gateways/$1/sensors/
-        {
-            "name": "Awesome Sensor Node",
-            "measurements": [],
-            "config": []
-        }
-        creates a new sensor node in gateway $1
-        """
-        url = '/rest/companies/{}/installations/{}/gateways/{}/sensors/'.format(self.company_id, self.installation_id, self.gateway_id)
-        data = {
-            "name": "Awesome Sensor Node",
-            "measurements": [],
-            "config": []
-        }
-        response = self.client.post(url, data, format='json')
-
-        gateway = Gateway.objects.get(pk=self.gateway_id)
-
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Sensor.objects.count(), 1)
-        self.assertEqual(gateway.sensors.count(), 1)
-
-    def test_create_sensor_via_short_url(self):
         """
         Posting to /gateways/$1/sensors/
         {
@@ -184,7 +157,7 @@ class SensorTest(APITestCase):
         }
         creates a new sensor node in gateway $1
         """
-        url = '/rest/gateways/{}/sensors/'.format(self.gateway_id)
+        url = '/rest/gateways/{}/sensors/'.format(self.gateway.gateway_id)
         data = {
             "name": "Awesome Sensor Node",
             "measurements": [],
@@ -192,29 +165,22 @@ class SensorTest(APITestCase):
         }
         response = self.client.post(url, data, format='json')
 
-        gateway = Gateway.objects.get(pk=self.gateway_id)
+        gateway = Gateway.objects.get(pk=self.gateway.gateway_id)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Sensor.objects.count(), 1)
         self.assertEqual(gateway.sensors.count(), 1)
 
     def test_update_sensor(self):
-        url = '/rest/companies/{}/installations/{}/gateways/{}/sensors/'.format(self.company_id, self.installation_id, self.gateway_id)
-        data = {
-            "name": "Awesome Sensor Node",
-            "measurements": [],
-            "config": []
-        }
-        response = self.client.post(url, data, format='json')
-        sensor_id = response.data['sensor_id']
+        sensor = self.gateway.sensors.create(name="Awesome Sensor Node")
 
-        url = '/rest/companies/{}/installations/{}/gateways/{}/sensors/{}/'.format(self.company_id, self.installation_id,
-                                                                                    self.gateway_id, sensor_id)
+        url = '/rest/gateways/{}/sensors/{}/'.format(self.gateway.gateway_id, sensor.sensor_id)
         data = {
             "name": "Super Awesome Sensor Node",
         }
         response = self.client.patch(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Sensor.objects.get(pk=sensor_id).name, 'Super Awesome Sensor Node')
+        sensor = Sensor.objects.get(pk=sensor.sensor_id)
 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(sensor.name, 'Super Awesome Sensor Node')

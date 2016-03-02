@@ -72,3 +72,9 @@ class LiteMeasurementSerializer(serializers.ModelSerializer):
         model = Measurement
         fields = ('timestamp', 'value')
 
+
+class MeasurementTypeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MeasurementType
+        fields = ('measurementTypeID', 'name', 'unit', 'scalar')

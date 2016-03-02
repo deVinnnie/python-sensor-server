@@ -4,9 +4,9 @@
     <body>
         <h1>Gateway {{ gateway_id }}</h1>
         <p>{{ name }}</p>
-        {% for g in gateways %}
+        {% for s in sensors %}
         <li>
-            <a href="./gateways/{{ g     }}">{{ g }}</a>
+            <a href="/rest/gateways/{{ gateway_id }}/sensors/{{ s }}">Sensor {{ s }}</a>
         </li>
         {% endfor %}
     </body>

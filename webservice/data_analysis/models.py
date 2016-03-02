@@ -83,10 +83,10 @@ class GatewayConfiguration(models.Model):
 
 
 class MeasurementType(models.Model):
-    measurementTypeID = models.IntegerField(db_column='MeasurementTypeID', primary_key=True) # Field name made lowercase.
-    unit = models.CharField(db_column='Unit', max_length=45, blank=True) # Field name made lowercase.
-    scalar = models.IntegerField(db_column='Scalar', blank=True, null=True) # Field name made lowercase.
-    name = models.CharField(db_column='Name', max_length=45, blank=True) # Field name made lowercase.
+    measurementTypeID = models.IntegerField(db_column='MeasurementTypeID', primary_key=True)
+    unit = models.CharField(db_column='Unit', max_length=45, blank=True)
+    scalar = models.IntegerField(db_column='Scalar', blank=True, null=True)
+    name = models.CharField(db_column='Name', max_length=45, blank=True)
     class Meta:
         managed = True
         db_table = 'MeasurementType'

@@ -4,9 +4,9 @@
     <body>
         <h1>Gateway</h1>
         <ul>
-            {% for c in results %}
+            {% for g in results %}
             <li>
-                <a href="/rest/companies/{{ c.company_id }}">{{ c.name }}</a>
+                <a href="/rest/gateways/{{ g.gateway_id }}">Gateway {{ g.gateway_id }}</a>
             </li>
             {% endfor %}
         </ul>
