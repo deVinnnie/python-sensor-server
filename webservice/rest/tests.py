@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from data_analysis.models import *
+import datetime
+from decimal import *
 
 # Ensure that a migrations file is present. The test will create a new database.
 # Without the correct migrations the db tables won't be created.
@@ -184,3 +186,84 @@ class SensorTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(sensor.name, 'Super Awesome Sensor Node')
+
+
+class MeasurementTest(APITestCase):
+    def setUp(self):
+        # Create a dummy company.
+        self.company = Company.objects.create(name="ACME Industries")
+        self.company.save()
+
+        # Create a new installation within the company.
+        self.installation = self.company.installations.create(name="Very Expensive ACME Installation")
+
+        # Create a new gateway within the installation.
+        self.gateway = self.installation.gateways.create(ip_address='192.168.1.2')
+
+        self.sensor1 = self.gateway.sensors.create(name="Sensor Node")
+        self.sensor2 = self.gateway.sensors.create(name="Sensor Node")
+        self.sensor3 = self.gateway.sensors.create(name="Sensor Node")
+
+        MeasurementType.objects.create(measurementTypeID=1, unit="F", scalar=1, name="Awesome Measurement")
+
+    def test_create_single_measurement(self):
+        url = '/rest/gateways/{}/sensors/{}/measurements/'.format(self.gateway.gateway_id, self.sensor1.sensor_id)
+
+        data = { "measurements" : [
+                    {   "timestamp" : "2015-01-01T00:00:00",
+                        "sensor_id" : self.sensor1.sensor_id,
+                        "measurement_type" : 1,
+                        "value" : 12.3
+                    }
+        ]}
+
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Measurement.objects.count(), 1)
+        self.assertEqual(Sensor.objects.get(pk=self.sensor1.sensor_id).measurements.count(), 1)
+
+        m = Measurement.objects.get()
+        self.assertEqual(m.timestamp, datetime.datetime(2015,1,1,0,0))
+        self.assertEqual(m.measurement_type, MeasurementType.objects.get(pk=1))
+        self.assertEqual(m.value, 12.3)
+
+    def test_create_multiple_measurement(self):
+        url = '/rest/gateways/{}/sensors/{}/measurements/'.format(self.gateway.gateway_id, self.sensor1.sensor_id)
+
+        data = { "measurements" : [
+                    {   "timestamp" : "2015-01-01T00:00:00",
+                        "sensor_id" : self.sensor1.sensor_id,
+                        "measurement_type" : 1,
+                        "value" : 12.3
+                    },
+                    {   "timestamp" : "2015-01-01T01:00:00",
+                        "sensor_id" : self.sensor1.sensor_id,
+                        "measurement_type" : 1,
+                        "value" : 12.5
+                    },
+                    {   "timestamp" : "2015-01-01T02:00:00",
+                        "sensor_id" : self.sensor1.sensor_id,
+                        "measurement_type" : 1,
+                        "value" : 11.4
+                    }
+        ]}
+
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Measurement.objects.count(), 3)
+
+    def test_delete_measurement_gives_error(self):
+        """
+        Measurements can only be added, not deleted.
+        """
+        m = Measurement.objects.create(timestamp="2015-01-01T00:00:00",
+                                    sensor_id=self.sensor1,
+                                    measurement_type = MeasurementType.objects.get(pk=1),
+                                    value = 12.3)
+        url = '/rest/gateways/{}/sensors/{}/measurements/{}/'.format(self.gateway.gateway_id, self.sensor1.sensor_id, m.measurement_id)
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+

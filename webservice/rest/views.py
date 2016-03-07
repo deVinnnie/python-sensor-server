@@ -123,7 +123,12 @@ class SensorViewSet(viewsets.ModelViewSet):
         return super(SensorViewSet, self).create(request, *args, **kwargs)
 
 
-class MeasurementViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
+class MeasurementViewSet(
+                        mixins.CreateModelMixin,
+                        mixins.ListModelMixin,
+                        mixins.RetrieveModelMixin,
+                        viewsets.GenericViewSet,
+                        HTMLGenericViewSet):
     """
     /gateways/$1/sensors/$2/measurements/
 

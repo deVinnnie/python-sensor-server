@@ -99,7 +99,7 @@ class Measurement(models.Model):
     timestamp = models.DateTimeField(db_column='Timestamp') # Field name made lowercase.
     sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements') # Field name made lowercase.
     measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type') # Field name made lowercase.
-    value = models.DecimalField(db_column='Value', max_digits=10, decimal_places=5, blank=True, null=True) # Field name made lowercase.
+    value = models.FloatField(db_column='Value', blank=True, null=True) # Field name made lowercase.
 
     class Meta:
         managed = True
