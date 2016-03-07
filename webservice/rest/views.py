@@ -89,11 +89,19 @@ class GatewayConfigurationViewSet(viewsets.ModelViewSet):
     """
     /gateways/$1/config
     """
-    renderer_classes = HTMLGenericViewSet.renderer_classes
+    renderer_classes = (RawConfigJSONRenderer,) + HTMLGenericViewSet.renderer_classes
     queryset = GatewayConfiguration.objects.all()
     serializer_class = GatewayConfigurationSerializer
 
     def list(self, request, gateway_pk=None, format=None):
+        """
+        Returns data in following format:
+        {
+            "interval" : "12",
+            "data-scheme" : "xsd:dfsfdf",
+            ....
+        }
+        """
         queryset = self.queryset.filter(gateway=gateway_pk)
         serializer = GatewayConfigurationSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -243,13 +251,14 @@ class SensorConfigurationViewSet(viewsets.ModelViewSet):
     """
     queryset = SensorConfiguration.objects.all()
     serializer_class = SensorConfigurationSerializer
+    renderer_classes = (RawConfigJSONRenderer,) + HTMLGenericViewSet.renderer_classes
 
-    def list(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, sensor_pk=None, format=None):
+    def list(self, request, gateway_pk=None, sensor_pk=None, format=None):
         queryset = self.queryset.filter(sensor=sensor_pk)
         serializer = GatewayConfigurationSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, pk=None, format=None):
+    def retrieve(self, request, gateway_pk=None, pk=None, format=None):
         queryset = get_object_or_404(self.queryset, gateway_id=pk)
         serializer = GatewayConfigurationSerializer(queryset)
         return Response(serializer.data)

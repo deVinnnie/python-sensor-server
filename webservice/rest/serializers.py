@@ -33,11 +33,10 @@ class GatewaySerializer(serializers.ModelSerializer):
 class GatewayConfigurationSerializer(serializers.ModelSerializer):
     class Meta:
         model = GatewayConfiguration
-        fields = ('gateway', 'attribute', 'value')
+        fields = ('attribute', 'value')
 
 
 class SensorSerializer(serializers.ModelSerializer):
-    #measurements = serializers.PrimaryKeyRelatedField(many=True, queryset=Measurement.objects.all())
     config = serializers.PrimaryKeyRelatedField(many=True,queryset=SensorConfiguration.objects.all())
     measurement_types = serializers.ListField(read_only=True)
 
@@ -50,7 +49,7 @@ class SensorSerializer(serializers.ModelSerializer):
 class SensorConfigurationSerializer(serializers.ModelSerializer):
     class Meta:
         model = SensorConfiguration
-        fields = ('sensor', 'attribute', 'value')
+        fields = ('attribute', 'value')
 
 
 class MeasurementSerializer(serializers.ModelSerializer):
