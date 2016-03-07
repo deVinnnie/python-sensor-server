@@ -12,6 +12,7 @@ from rest_framework.reverse import reverse
 from rest_framework import renderers
 from rest_framework import viewsets
 from rest_framework import views
+from datetime import datetime
 
 @api_view(('GET',))
 def api_root(request, format=None):
@@ -150,16 +151,34 @@ class MeasurementViewSet(
         }
         ]
     }
-
     """
     queryset = Measurement.objects.all()
     serializer_class = MeasurementSerializer
     renderer_classes = HTMLGenericViewSet.renderer_classes
 
-    # def list(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, sensor_pk=None, format=None):
-    #     queryset = self.queryset.filter(sensor_id=sensor_pk)
-    #     serializer = MeasurementSerializer(queryset, many=True)
-    #     return Response( {'measurements': serializer.data}, format) #, template_name = 'measurements.html')
+    def list(self, request, gateway_pk=None, sensor_pk=None, format=None):
+        """
+        GET Request Filtering:
+        /gateways/$1/sensors/$2/measurements?start=2015-01-01&end=2015-02-01
+        Returns only measurement from sensor with ID $2 which have a timestamp that is in the range start -> end.
+        """
+        queryset = self.queryset.filter(sensor_id=sensor_pk)
+
+        startTimestamp = self.request.query_params.get('start', None)
+        startDate = datetime.strptime(startTimestamp, "%Y-%m-%d")
+
+        endTimestamp = self.request.query_params.get('end', None)
+        endDate = datetime.strptime(endTimestamp, "%Y-%m-%d")
+
+        if startDate is not None:
+            queryset = queryset.filter(timestamp__gte=startDate)
+
+        if endDate is not None:
+            queryset = queryset.filter(timestamp__lte=endDate)
+
+        serializer = MeasurementSerializer(queryset, many=True)
+        return Response( {'measurements': serializer.data})
+
 
     def retrieve(self, request, gateway_pk=None, sensor_pk=None, pk=None, format=None):
         queryset = get_object_or_404(self.queryset, sensor_id=sensor_pk, measurement_id=pk)

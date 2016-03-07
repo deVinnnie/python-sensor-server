@@ -267,3 +267,41 @@ class MeasurementTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
+    def test_range_selection_returns_correct_measurements(self):
+        """
+        Ensure that the start and end parameters in a GET request return only measurements within the range start date to end date.
+        """
+        Measurement.objects.create(
+                                    timestamp="2015-01-01T00:00:00",
+                                    sensor_id=self.sensor1,
+                                    measurement_type = MeasurementType.objects.get(pk=1),
+                                    value = 12.3)
+        Measurement.objects.create(
+                                    timestamp="2015-05-09T00:00:00",
+                                    sensor_id=self.sensor1,
+                                    measurement_type = MeasurementType.objects.get(pk=1),
+                                    value = 12.3)
+        Measurement.objects.create(
+                                    timestamp="2016-02-04T00:00:00",
+                                    sensor_id=self.sensor1,
+                                    measurement_type = MeasurementType.objects.get(pk=1),
+                                    value = 12.3)
+        Measurement.objects.create(
+                                    timestamp="2016-03-04T00:00:00",
+                                    sensor_id=self.sensor1,
+                                    measurement_type = MeasurementType.objects.get(pk=1),
+                                    value = 12.3)
+
+        base_url = '/rest/gateways/{}/sensors/{}/measurements.json'.format(self.gateway.gateway_id, self.sensor1.sensor_id)
+
+        url = base_url + '?start=2015-02-01&end=2016-02-20'
+        response = self.client.get(url)
+        self.assertEqual(2, len(response.data['measurements'])) #Two measurements expected
+
+        url = base_url + '?start=2015-01-01&end=2017-01-01'
+        response = self.client.get(url)
+        self.assertEqual(4, len(response.data['measurements'])) #Four measurements expected
+
+        url = base_url + '?start=2015-01-02&end=2015-12-30'
+        response = self.client.get(url)
+        self.assertEqual(1, len(response.data['measurements']))
