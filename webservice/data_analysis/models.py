@@ -12,6 +12,8 @@ from django.template.loader import render_to_string
 
 from django.db import models
 
+from django.db.models import Count
+
 class Company(models.Model):
     company_id = models.AutoField(db_column='Company_ID', primary_key=True)
     name = models.CharField(db_column='Name', max_length=45, blank=True) # Field name made lowercase.
@@ -68,8 +70,12 @@ class Sensor(models.Model):
         return 'Sensor ' + repr(self.sensor_id)
 
     def measurement_types(self):
-        #print(self.measurements.values('measurement_type'))
-        return (0,1,2)
+        set = Measurement.objects.values('measurement_type').annotate(c=Count('measurement_type')).values('measurement_type')
+        resultSet = []
+        for m in set:
+            resultSet.append(m['measurement_type'])
+
+        return resultSet
 
 class GatewayConfiguration(models.Model):
     gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='config') # Field name made lowercase.
