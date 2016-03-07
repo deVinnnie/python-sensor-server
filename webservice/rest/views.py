@@ -14,6 +14,8 @@ from rest_framework import viewsets
 from rest_framework import views
 from datetime import datetime
 
+from .custom_renderers import *
+
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
@@ -154,7 +156,7 @@ class MeasurementViewSet(
     """
     queryset = Measurement.objects.all()
     serializer_class = MeasurementSerializer
-    renderer_classes = HTMLGenericViewSet.renderer_classes
+    renderer_classes = (RawMeasurementJSONRenderer,) + HTMLGenericViewSet.renderer_classes
 
     def list(self, request, gateway_pk=None, sensor_pk=None, format=None):
         """
