@@ -159,10 +159,14 @@ class MeasurementViewSet(
     def list(self, request, gateway_pk=None, sensor_pk=None, format=None):
         """
         GET Request Filtering:
-        /gateways/$1/sensors/$2/measurements?start=2015-01-01&end=2015-02-01
+        /gateways/$1/sensors/$2/measurements?start=2015-01-01&end=2015-02-01&type=0
         Returns only measurement from sensor with ID $2 which have a timestamp that is in the range start -> end.
+        type= measurement type
         """
+        type = self.request.query_params.get('type', 0)
+
         queryset = self.queryset.filter(sensor_id=sensor_pk)
+        queryset = queryset.filter(measurement_type=type)
 
         startTimestamp = self.request.query_params.get('start', None)
         startDate = datetime.strptime(startTimestamp, "%Y-%m-%d")
