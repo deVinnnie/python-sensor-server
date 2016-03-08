@@ -39,7 +39,7 @@ class RawMeasurementJSONRenderer(renderers.BaseRenderer):
          }
         """
 
-        ret = "{ measurements:\n [\n"
+        ret = '{ "measurements": ['
         for d in data['measurements']:
             ret+= '{{"{}", {} }},'.format(d['timestamp'], d['value'])
             ret+="\n"
