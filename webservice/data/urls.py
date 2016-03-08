@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 
 from django.conf import settings
 
-from data_analysis import views
+from data import views
 
 urlpatterns = patterns('',
     url (

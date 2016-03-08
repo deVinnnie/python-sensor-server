@@ -1,6 +1,6 @@
 from django.contrib import admin
-from data_analysis.models import (Company, Gateway, GatewayConfiguration, Installation,
-Measurement, MeasurementType, Sensor, SensorConfiguration, )
+from data.models import (Company, Gateway, Installation,
+Measurement, MeasurementType, Sensor, )
 
 class InstallationInline(admin.TabularInline):
     model = Installation
@@ -56,12 +56,10 @@ class SensorAdmin(admin.ModelAdmin):
     ]
     inlines = [MeasurementInline]
     search_fields = ['sensor_id']
-    
+
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Gateway, GatewayAdmin)
-admin.site.register(GatewayConfiguration)
 admin.site.register(Installation, InstallationAdmin)
 admin.site.register(Measurement)
 admin.site.register(MeasurementType)
 admin.site.register(Sensor, SensorAdmin)
-admin.site.register(SensorConfiguration)

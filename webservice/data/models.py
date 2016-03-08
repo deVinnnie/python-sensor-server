@@ -24,7 +24,7 @@ class Company(models.Model):
         db_table = 'Company'
 
     def get_absolute_url(self):
-        return reverse('data_analysis:company_detail', args=[str(self.company_id)])
+        return reverse('data:company_detail', args=[str(self.company_id)])
 
     def __str__(self):
         return self.name
@@ -42,7 +42,7 @@ class Installation(models.Model):
         db_table = 'Installation'
 
     def get_absolute_url(self):
-        return reverse('data_analysis:installation_detail',
+        return reverse('data:installation_detail',
                        args=[str(self.company.company_id), str(self.installation_id)])
 
     def __str__(self):
@@ -61,7 +61,7 @@ class Gateway(models.Model):
         db_table = 'Gateway'
 
     def get_absolute_url(self):
-        return reverse('data_analysis:gateway_detail',
+        return reverse('data:gateway_detail',
                        args=[str(self.installation.company.company_id), str(self.installation.installation_id),
                              str(self.gateway_id)])
 
@@ -85,12 +85,12 @@ class Sensor(models.Model):
         db_table = 'Sensor'
 
     def get_absolute_url(self):
-        return reverse('data_analysis:sensor_detail', args=[str(self.gateway.installation.company.company_id),
+        return reverse('data:sensor_detail', args=[str(self.gateway.installation.company.company_id),
                                                             str(self.gateway.installation.installation_id),
                                                             str(self.gateway.gateway_id), str(self.sensor_id)])
 
     def measurement_chart(self):
-        return render_to_string('admin/data_analysis/sensor/measurement_chart.html')
+        return render_to_string('admin/data/sensor/measurement_chart.html')
 
     measurement_chart.allow_tags = True
 
@@ -104,20 +104,6 @@ class Sensor(models.Model):
             resultSet.append(m['measurement_type'])
 
         return resultSet
-
-class GatewayConfiguration(models.Model):
-    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='config')  # Field name made lowercase.
-    attribute = models.CharField(db_column='Attribute', max_length=45)  # Field name made lowercase.
-    value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = True
-        db_table = 'Gateway_Configuration'
-        unique_together = ('gateway', 'attribute')
-
-    def __str__(self):
-        return self.gateway
-
 
 class MeasurementType(models.Model):
     measurementTypeID = models.IntegerField(db_column='MeasurementTypeID', primary_key=True)
@@ -161,20 +147,6 @@ class RemoteDatabase(models.Model):
     class Meta:
         managed = True
         db_table = 'Remote_Database'
-
-
-class SensorConfiguration(models.Model):
-    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='config')  # Field name made lowercase.
-    attribute = models.CharField(db_column='Attribute', max_length=45)
-    value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = True
-        db_table = 'Sensor_Configuration'
-        unique_together = ('sensor', 'attribute')
-
-    def __str__(self):
-        return self.sensor
 
 # class Permission(models.Model):
 #     permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.

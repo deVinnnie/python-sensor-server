@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from data_analysis.models import *
+from data.models import *
+from configuration.models import *
 
 class CompanySerializer(serializers.ModelSerializer):
     installations = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
