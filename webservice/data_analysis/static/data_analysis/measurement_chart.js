@@ -32,7 +32,8 @@ var line = d3.svg.line()
         return y(d.value);
     });
 
-var url = '/rest/companies/2/installations/4/gateways/8/sensors/16/measurements.json';
+//var url = '/rest/companies/2/installations/4/gateways/8/sensors/16/measurements.json';
+var url = '/rest/gateways/8/sensors/16/measurements.json?type=0&start=2015-01-01&end=2020-01-01';
 
 d3.json(url, function(error, incoming_data) {
     if (error) throw error;
