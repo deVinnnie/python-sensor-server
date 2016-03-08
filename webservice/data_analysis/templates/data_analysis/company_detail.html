@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for installation in company.installation_set.all %}
+            {% for installation in company.installations.all %}
                 <tr>
                     <td>{{ installation.pk }}</td>
                

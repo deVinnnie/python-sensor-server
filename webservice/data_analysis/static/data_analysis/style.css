@@ -10,12 +10,36 @@
     width: 100%;
 }
 
-.axis path {
+.axis path, .axis line {
     fill: none;
-    stroke: #777;
+    stroke: #000;
     shape-rendering: crispEdges;
 }
-.axis text {
-    font-family: Lato;
-    font-size: 13px;
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+body { font: 13px sans-serif; }
+
+rect { fill: #fff; }
+
+.axis { font-size: 1.5em; }
+
+.chart {
+        background-color: #F7F2C5;
+        width: 960px;
+        height: 500px;
+}
+
+.overlay {
+  fill: #EEEEEE;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: none;
+  stroke: steelblue;
 }

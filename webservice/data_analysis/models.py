@@ -10,16 +10,22 @@
 from __future__ import unicode_literals
 from django.template.loader import render_to_string
 
-from django.db import models
+from django.core.urlresolvers import reverse
 
+from django.db import models
 from django.db.models import Count
 
 class Company(models.Model):
     company_id = models.AutoField(db_column='Company_ID', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=45, blank=True) # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=45, blank=True)  # Field name made lowercase.
+
     class Meta:
         managed = True
         db_table = 'Company'
+
+    def get_absolute_url(self):
+        return reverse('data_analysis:company_detail', args=[str(self.company_id)])
+
     def __str__(self):
         return self.name
 
@@ -30,41 +36,63 @@ class Installation(models.Model):
     name = models.CharField(db_column='Name', max_length=45, blank=True)
     storage_on_remote = models.IntegerField(db_column='Storage_On_Remote', blank=True, default=0)
     remote_database_id = models.IntegerField(db_column='Remote_Database_ID', blank=True, null=True)
+
     class Meta:
         managed = True
         db_table = 'Installation'
+
+    def get_absolute_url(self):
+        return reverse('data_analysis:installation_detail',
+                       args=[str(self.company.company_id), str(self.installation_id)])
+
     def __str__(self):
         return self.name
 
 
 class Gateway(models.Model):
-    gateway_id = models.AutoField(db_column='Gateway_ID', primary_key=True) # Field name made lowercase.
-    installation = models.ForeignKey('Installation', db_column='Installation_ID', blank=True, null=True, related_name="gateways") # Field name made lowercase.
-    ip_address = models.CharField(db_column='IP-address', max_length=45, blank=True) # Field name made lowercase. Field renamed to remove unsuitable characters.
+    gateway_id = models.AutoField(db_column='Gateway_ID', primary_key=True)  # Field name made lowercase.
+    installation = models.ForeignKey(Installation, db_column='Installation_ID', blank=True, null=True,
+                                     related_name="gateways")  # Field name made lowercase.
+    ip_address = models.CharField(db_column='IP-address', max_length=45,
+                                  blank=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+
     class Meta:
         managed = True
         db_table = 'Gateway'
+
+    def get_absolute_url(self):
+        return reverse('data_analysis:gateway_detail',
+                       args=[str(self.installation.company.company_id), str(self.installation.installation_id),
+                             str(self.gateway_id)])
+
     def __str__(self):
-        return 'Gateway ' +  repr(self.gateway_id)
+        return 'Gateway ' + repr(self.gateway_id)
 
 
 class Sensor(models.Model):
-    sensor_id = models.AutoField(db_column='Sensor_ID', primary_key=True) # Field name made lowercase.
-    gateway_id = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='sensors', default="1") # Field name made lowercase.
-    name = models.CharField(db_column='Name', max_length=45, blank=True, default='Sensor Node') # Field name made lowercase.
-    position_long = models.DecimalField(db_column='Position_Long', max_digits=10, decimal_places=0, blank=True, null=True) # Field name made lowercase.
-    position_lat = models.DecimalField(db_column='Position_Lat', max_digits=10, decimal_places=0, blank=True, null=True) # Field name made lowercase.
+    sensor_id = models.AutoField(db_column='Sensor_ID', primary_key=True)  # Field name made lowercase.
+    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='sensors',
+                                default="1")  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=45, blank=True,
+                            default='Sensor Node')  # Field name made lowercase.
+    position_long = models.DecimalField(db_column='Position_Long', max_digits=10, decimal_places=0, blank=True,
+                                        null=True)  # Field name made lowercase.
+    position_lat = models.DecimalField(db_column='Position_Lat', max_digits=10, decimal_places=0, blank=True,
+                                       null=True)  # Field name made lowercase.
 
     class Meta:
         managed = True
         db_table = 'Sensor'
 
-    def enrollment_chart(self):
-        lu = { 'categories' : [ 'Fall 2008', 'Spring 2009','Fall 2009', 'Spring 2010', 'Fall 2010', 'Spring 2011'], 'undergrad' : [18, 22, 30, 34, 40, 47], 'grad' : [1, 2, 4, 4, 5, 7], 'employee' : [2, 3, 0, 1, 1, 2] }
-        lu['total_enrolled'] = [sum(a) for a in zip(lu['undergrad'], lu['grad'],lu['employee'])]
-        return render_to_string('admin/data_analysis/sensor/enrollment_chart.html', lu )
+    def get_absolute_url(self):
+        return reverse('data_analysis:sensor_detail', args=[str(self.gateway.installation.company.company_id),
+                                                            str(self.gateway.installation.installation_id),
+                                                            str(self.gateway.gateway_id), str(self.sensor_id)])
 
-    enrollment_chart.allow_tags = True
+    def measurement_chart(self):
+        return render_to_string('admin/data_analysis/sensor/measurement_chart.html')
+
+    measurement_chart.allow_tags = True
 
     def __str__(self):
         return 'Sensor ' + repr(self.sensor_id)
@@ -78,12 +106,15 @@ class Sensor(models.Model):
         return resultSet
 
 class GatewayConfiguration(models.Model):
-    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='config') # Field name made lowercase.
-    attribute = models.CharField(db_column='Attribute', max_length=45, primary_key=True) # Field name made lowercase.
-    value = models.CharField(db_column='Value', max_length=200, blank=True) # Field name made lowercase.
+    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='config')  # Field name made lowercase.
+    attribute = models.CharField(db_column='Attribute', max_length=45)  # Field name made lowercase.
+    value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
+
     class Meta:
         managed = True
         db_table = 'Gateway_Configuration'
+        unique_together = ('gateway', 'attribute')
+
     def __str__(self):
         return self.gateway
 
@@ -93,9 +124,11 @@ class MeasurementType(models.Model):
     unit = models.CharField(db_column='Unit', max_length=45, blank=True)
     scalar = models.IntegerField(db_column='Scalar', blank=True, null=True)
     name = models.CharField(db_column='Name', max_length=45, blank=True)
+
     class Meta:
         managed = True
         db_table = 'MeasurementType'
+
     def __str__(self):
         return self.name
 
@@ -110,29 +143,38 @@ class Measurement(models.Model):
     class Meta:
         managed = True
         db_table = 'Measurement'
+
     def total_value(self):
         return self.value * self.measurement_type.scalar
+
     def __str__(self):
         return '{:%Y-%m-%d %H:%M:%S}'.format(self.timestamp)
 
+
 class RemoteDatabase(models.Model):
-    remote_database_id = models.IntegerField(db_column='Remote_Database_ID', primary_key=True) # Field name made lowercase.
-    url = models.CharField(db_column='URL', max_length=300, blank=True) # Field name made lowercase.
-    username = models.CharField(db_column='Username', max_length=45, blank=True) # Field name made lowercase.
-    password = models.CharField(db_column='Password', max_length=45, blank=True) # Field name made lowercase.
+    remote_database_id = models.IntegerField(db_column='Remote_Database_ID',
+                                             primary_key=True)  # Field name made lowercase.
+    url = models.CharField(db_column='URL', max_length=300, blank=True)  # Field name made lowercase.
+    username = models.CharField(db_column='Username', max_length=45, blank=True)  # Field name made lowercase.
+    password = models.CharField(db_column='Password', max_length=45, blank=True)  # Field name made lowercase.
+
     class Meta:
         managed = True
         db_table = 'Remote_Database'
 
 
 class SensorConfiguration(models.Model):
-    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='config', primary_key=True) # Field name made lowercase.
-    attribute = models.CharField(max_length=45, primary_key=True)
-    value = models.CharField(db_column='Value', max_length=200, blank=True) # Field name made lowercase.
+    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='config')  # Field name made lowercase.
+    attribute = models.CharField(db_column='Attribute', max_length=45)
+    value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
+
     class Meta:
         managed = True
         db_table = 'Sensor_Configuration'
-        
+        unique_together = ('sensor', 'attribute')
+
+    def __str__(self):
+        return self.sensor
 
 # class Permission(models.Model):
 #     permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.

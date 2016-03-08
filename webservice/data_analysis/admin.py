@@ -1,12 +1,13 @@
 from django.contrib import admin
 from data_analysis.models import (Company, Gateway, GatewayConfiguration, Installation,
-Measurement, MeasurementType, Sensor,SensorConfiguration)
+Measurement, MeasurementType, Sensor, SensorConfiguration, )
 
 class InstallationInline(admin.TabularInline):
     model = Installation
     extra = 1
 
 class CompanyAdmin(admin.ModelAdmin):
+    readonly_fields = ('company_id', )
     fieldsets = [
         (None,              {'fields': ['name']}),
         ('Info',            {'fields': ['company_id'], 'classes': ['collapse']}),
@@ -20,6 +21,7 @@ class GatewayInline(admin.TabularInline):
     extra = 1
 
 class InstallationAdmin(admin.ModelAdmin):
+    readonly_fields = ('installation_id', )
     fieldsets = [
         (None,              {'fields': ['name']}),
         ('Info',            {'fields': ['installation_id'], 'classes': ['collapse']}),
@@ -33,6 +35,7 @@ class SensorInline(admin.TabularInline):
     extra = 1
 
 class GatewayAdmin(admin.ModelAdmin):
+    readonly_fields = ('gateway_id', )
     fieldsets = [
         (None,              {'fields': []}),
         ('Info',            {'fields': ['gateway_id'], 'classes': ['collapse']}),
@@ -45,11 +48,11 @@ class MeasurementInline(admin.TabularInline):
     extra = 0
 
 class SensorAdmin(admin.ModelAdmin):
-    readonly_fields = ('enrollment_chart',)
+    readonly_fields = ('measurement_chart', 'sensor_id', )
     fieldsets = [
         (None,              {'fields': []}),
-        ('Info',            {'fields': ['sensor_id'],'classes': ['collapse']}),
-        ('Test chart',      {'fields': ['enrollment_chart',]}),
+        ('Info',            {'fields': ['sensor_id'], 'classes': ['collapse']}),
+        ('Measurements',      {'fields': ['measurement_chart',]}),
     ]
     inlines = [MeasurementInline]
     search_fields = ['sensor_id']

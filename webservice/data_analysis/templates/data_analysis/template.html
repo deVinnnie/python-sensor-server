@@ -11,7 +11,7 @@
         <title>{% block title %}Bootstrap 101 Template{% endblock %}</title>
 
         <!-- Bootstrap -->
-        <link href="{% static 'data_analysis/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'data_analysis/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="{% static 'data_analysis/style.css' %}" />
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </nav>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     {% block content %}
@@ -55,7 +55,7 @@
             </div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="{% static 'data_analysis/jquery.js' %}" type="text/javascript"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{% static 'data_analysis/bootstrap-3.3.6-dist/js/bootstrap.min.js' %}"></script>
     </body>

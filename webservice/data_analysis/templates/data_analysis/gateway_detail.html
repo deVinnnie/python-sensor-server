@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for sensor in gateway.sensor_set.all %}
+            {% for sensor in gateway.sensors.all %}
                 <tr>
                     <td><a href="{{ sensor.get_absolute_url }}">Sensor {{ sensor.pk }}</a></td>
                

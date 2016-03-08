@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for gateway in installation.gateway_set.all %}
+            {% for gateway in installation.gateways.all %}
                 <tr>
                     <td><a href="{{ gateway.get_absolute_url }}">Gateway {{ gateway.pk }}</a></td>
 
