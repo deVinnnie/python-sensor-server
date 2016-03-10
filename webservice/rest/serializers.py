@@ -43,7 +43,7 @@ class SensorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sensor
-        fields = ('sensor_id', 'name', 'gateway_id', 'measurement_types', 'config')
+        fields = ('sensor_id', 'name', 'gateway', 'measurement_types', 'config')
         read_only_fields = ('sensor_id')
 
 
