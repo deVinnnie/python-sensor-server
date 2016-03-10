@@ -40,10 +40,18 @@ class RawMeasurementJSONRenderer(renderers.BaseRenderer):
         """
 
         ret = '{ "measurements": ['
+        responseData = { "measurements" : [] }
         for d in data['measurements']:
-            ret+= '["{}", {} ],'.format(d['timestamp'], d['value'])
+            responseData["measurements"].append([d['timestamp'], d['value']])
             ret+="\n"
         ret += "]}"
+
+
+        ret = json.dumps(
+            responseData, cls=self.encoder_class,
+            ensure_ascii=self.ensure_ascii,
+            separators=separators
+        )
 
         # On python 2.x json.dumps() returns bytestrings if ensure_ascii=True,
         # but if ensure_ascii=False, the return type is underspecified,

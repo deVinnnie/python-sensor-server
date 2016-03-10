@@ -33,7 +33,7 @@ var line = d3.svg.line()
     });
 
 //var url = '/rest/companies/2/installations/4/gateways/8/sensors/16/measurements.json';
-var url = '/rest/gateways/8/sensors/16/measurements.json?type=0&start=2015-01-01&end=2020-01-01';
+var url = '/rest/gateways/1/sensors/1/measurements.json?type=0&start=2015-01-01&end=2020-01-01';
 
 d3.json(url, function(error, incoming_data) {
     if (error) throw error;
@@ -41,8 +41,8 @@ d3.json(url, function(error, incoming_data) {
     var data = incoming_data.measurements;
 
     data.forEach(function(d) {
-        d.timestamp = parseDate(d.timestamp);
-        d.value = +d.value;
+        d.timestamp = parseDate(d[0]);
+        d.value = +d[1];
     });
 
     data.sort(function(a, b) {
