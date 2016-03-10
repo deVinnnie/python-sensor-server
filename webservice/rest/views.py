@@ -178,10 +178,10 @@ class MeasurementViewSet(
         queryset = self.queryset.filter(sensor_id=sensor_pk)
         queryset = queryset.filter(measurement_type=type)
 
-        startTimestamp = self.request.query_params.get('start', None)
+        startTimestamp = self.request.query_params.get('start', "2000-01-01")
         startDate = datetime.strptime(startTimestamp, "%Y-%m-%d")
 
-        endTimestamp = self.request.query_params.get('end', None)
+        endTimestamp = self.request.query_params.get('end', "2020-01-01")
         endDate = datetime.strptime(endTimestamp, "%Y-%m-%d")
 
         if startDate is not None:
