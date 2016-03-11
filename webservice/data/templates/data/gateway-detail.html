@@ -4,26 +4,57 @@
 
 {% block content %}
 <h1 style="margin-top: 50px;">Gateway {{ gateway_id }}</h1>
-<div class="table-responsive">
-    <table class="table-striped">
-        <thead>
-            <tr>
-                <th>Sensor_ID</th>
-                <th>Name</th>
-                <th>Position_Long</th>
-                <th>Position_Lat</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for sensor in sensors %}
-                <tr>
-                    <td><a href="{{ sensor.get_absolute_url }}">Sensor {{ sensor.sensor_id }}</a></td>
-                    <td>{{ sensor.name }}</td>
-                    <td>{{ sensor.position_long }}</td>
-                    <td>{{ sensor.position_lat }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Measurements Table -->
+        <div class="table-responsive">
+            <table class="table-striped">
+                <thead>
+                    <tr>
+                        {% for sensor in sensors %}
+                            <th>Sensor {{ sensor.sensor_id }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!-- Fetch measurement data via AJAX request.-->
+                    {% for sensor in sensors %}
+                            <td>1</td>
+                    {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <!-- Meta data -->
+        <div>
+            <!-- API Key -->
+        </div>
+
+        <div>
+            <!-- Map -->
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Sensors</h2>
+
+        <!-- Tab for each sensor -->
+        {% for sensor in sensors %}
+            <h3>Sensor {{ sensor.sensor_id }}</h3>
+        {% endfor %}
+
+        <!-- Detailed view of selected sensor -->
+        <div>
+
+
+        </div>
+    </div>
 </div>
 {% endblock %}
