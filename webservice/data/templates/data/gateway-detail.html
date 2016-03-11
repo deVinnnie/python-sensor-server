@@ -5,10 +5,24 @@
 {% block content %}
 <h1 style="margin-top: 50px;">Gateway {{ gateway_id }}</h1>
 
+<style>
+    #measurements {
+        max-height:300px;
+        overflow-y:auto;
+        overflow-x:scroll;
+    }
+
+
+</style>
+
+
 <div class="row">
     <div class="col-md-6">
         <!-- Measurements Table -->
-        <div class="table-responsive">
+        <div class="row" id="measurements">
+        </div>
+
+       <!-- <div class="table-responsive">
             <table class="table-striped">
                 <thead>
                     <tr>
@@ -19,14 +33,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <!-- Fetch measurement data via AJAX request.-->
+                        &lt;!&ndash; Fetch measurement data via AJAX request.&ndash;&gt;
                     {% for sensor in sensors %}
                             <td>1.64578</td>
                     {% endfor %}
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div>-->
     </div>
 
     <div class="col-md-6">
@@ -104,11 +118,36 @@
 </div>
 
 
-
 <script>
+    base_url = "/rest/gateways/{{ gateway_id }}/sensors/"
+    sensors = [
+    {% for sensor in sensors %}
+        "{{ sensor.sensor_id }}",
+    {% endfor %}
+    ];
 
+    sensors.forEach(function(s) {
+        console.log(s);
+        $.getJSON(base_url + s + "/measurements.json?type=0&start=2016-03-04", function(data) {
+            sensor_id = 1;
+            var items = [];
+            $.each( data.measurements, function(index, value) {
+                console.log(value[1])
+                items.push( "<li>" + value[1] + "</li>" );
+            });
 
-
-
+            $("#measurements").append(
+                        $("<div/>", { class : "col-md-2"}).append(
+                                                                $("<p/>", {
+                                                                    text : "Sensor " + s
+                                                                    }))
+                                                          .append(
+                                                                $("<ul/>").append(
+                                                                        items.join("")
+                                                                )
+                                                          )
+            );
+        });
+    });
 </script>
 {% endblock %}
