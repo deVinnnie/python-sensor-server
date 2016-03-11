@@ -71,7 +71,8 @@
 
         <div>
             <!-- Map -->
-             <img src="{% static 'data/images/u1.png' %}" class="img-responsive" >
+             <!--<img src="{% static 'data/images/u1.png' %}" class="img-responsive" >-->
+            <div id="googleMap" style="width:500px;height:380px;"></div>
         </div>
 
         <div>
@@ -148,7 +149,6 @@
             </div>
             <div class="row">
             <!-- Detailed view of selected sensor -->
-                <div>
                     <h2>Configuration</h2>
                     <button>Edit</button>
                     <div class="table-responsive">
@@ -175,7 +175,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h2>Location</h2>
-                        <img src="{% static 'data/images/u1.png' %}" class="img-responsive" >
+                        <!--<img src="{% static 'data/images/u1.png' %}" class="img-responsive" >-->
+                        <div id="googleMap2" style="width:500px;height:380px;"></div>
                     </div>
                     <br>
                     <br>
@@ -250,5 +251,28 @@
             );
         });
     });
+</script>
+
+<script>
+function initialize() {
+  var mapProp = {
+    center:new google.maps.LatLng(50.8748576, 4.7055737),
+    zoom:18,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<script>
+function initialize() {
+  var mapProp = {
+    center:new google.maps.LatLng(50.8748576, 4.7055737),
+    zoom:18,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  var map=new google.maps.Map(document.getElementById("googleMap2"),mapProp);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 {% endblock %}

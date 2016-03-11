@@ -22,7 +22,10 @@
     stroke-width: 1.5px;
 }
 
-body { font: 13px sans-serif; }
+body {
+font: 13px sans-serif;
+margin-bottom: 20px;
+}
 
 rect { fill: #fff; }
 
