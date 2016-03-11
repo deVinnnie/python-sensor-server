@@ -71,9 +71,29 @@
         <h2>Sensors</h2>
 
         <!-- Tab for each sensor -->
-        {% for sensor in sensors %}
+        <!--{% for sensor in sensors %}
             <h3>Sensor {{ sensor.sensor_id }}</h3>
-        {% endfor %}
+        {% endfor %}-->
+        <div class="tabbable tabs-left">
+            <div class="row">
+                <div class="col-md-2">
+                    <ul class="nav nav-pills nav-stacked">
+                        {% for sensor in sensors %}
+                            <li><a href="#tab{{ sensor.sensor_id }}" data-toggle="tab">Sensor {{ sensor.sensor_id }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-10">
+                    <div class="tab-content">
+                        {% for sensor in sensors %}
+                            <div class="tab-pane" id="tab{{ sensor.sensor_id }}">
+                                <h3>Here come the measurements for Sensor {{ sensor.sensor_id }}</h3>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Detailed view of selected sensor -->
         <div>
