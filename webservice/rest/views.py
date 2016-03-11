@@ -38,7 +38,7 @@ class HTMLGenericViewSet():
     def get_template_names(self):
         meta = self.get_queryset().model._meta
         #app = meta.app_label
-        app = 'rest'
+        app = 'data'
         name = meta.object_name.lower()
 
         templates = {
