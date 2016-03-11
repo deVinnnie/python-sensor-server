@@ -38,6 +38,31 @@
         <div>
             <!-- Map -->
         </div>
+
+        <div>
+            <!-- Config -->
+            <h2>Configuration</h2>
+            <button>Edit</button>
+            <div class="table-responsive">
+                <table class="table-striped">
+                    <thead>
+                        <tr>
+                            <th>Attribute</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for conf in config %}
+                        <tr>
+                            <td>{{ conf.attribute }}</td>
+                            <td>{{ conf.value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
 </div>
 
