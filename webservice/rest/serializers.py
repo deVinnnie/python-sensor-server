@@ -21,8 +21,21 @@ class InstallationSerializer(serializers.ModelSerializer):
         read_only_fields = ('installation_id',)
 
 
+class SensorSerializer(serializers.ModelSerializer):
+    config = serializers.PrimaryKeyRelatedField(many=True,queryset=SensorConfiguration.objects.all())
+    #measurement_types = serializers.ListField(read_only=True)
+
+    class Meta:
+        model = Sensor
+        fields = ('sensor_id', 'name', 'gateway',
+                  #'measurement_types',
+                  'config')
+        read_only_fields = ('sensor_id')
+
+
 class GatewaySerializer(serializers.ModelSerializer):
-    sensors = serializers.PrimaryKeyRelatedField(many=True, queryset=Sensor.objects.all())
+    sensors = SensorSerializer(many=True, read_only=True)
+    #sensors = serializers.PrimaryKeyRelatedField(many=True, queryset=Sensor.objects.all())
     config = serializers.PrimaryKeyRelatedField(many=True, queryset=GatewayConfiguration.objects.all())
 
     class Meta:
@@ -37,14 +50,7 @@ class GatewayConfigurationSerializer(serializers.ModelSerializer):
         fields = ('attribute', 'value')
 
 
-class SensorSerializer(serializers.ModelSerializer):
-    config = serializers.PrimaryKeyRelatedField(many=True,queryset=SensorConfiguration.objects.all())
-    measurement_types = serializers.ListField(read_only=True)
 
-    class Meta:
-        model = Sensor
-        fields = ('sensor_id', 'name', 'gateway', 'measurement_types', 'config')
-        read_only_fields = ('sensor_id')
 
 
 class SensorConfigurationSerializer(serializers.ModelSerializer):
