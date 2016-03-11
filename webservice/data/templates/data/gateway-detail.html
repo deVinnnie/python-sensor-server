@@ -4,8 +4,8 @@
 
 {% block title %}Sensors{% endblock %}
 
-{% block bread_1 %}<li><a href="#">Company</a></li>{% endblock %}
-{% block bread_active %}<li class="active">Gateway</li>{% endblock %}
+{% block bread_1 %}<li><a href="/rest/companies/">Companies</a></li>{% endblock %}
+{% block bread_active %}<li class="active">Gateway {{ gateway_id }}</li>{% endblock %}
 
 {% block content %}
 <h1 style="margin-top: 120px;">Gateway {{ gateway_id }}</h1>
