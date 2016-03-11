@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load rest_framework %}
 
 <html>
     <body>
@@ -9,5 +10,12 @@
             <a href="/rest/gateways/{{ gateway_id }}/sensors/{{ s }}">Sensor {{ s }}</a>
         </li>
         {% endfor %}
+
+
+
+        {% csrf_token %}
+        {% render_form serializer %}
+            <input type="submit" value="Save">
+        </form>
     </body>
 </html>
