@@ -157,12 +157,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for conf in config %}
+                            {% for sensor in sensors %}
+                                {% for conf in sensor.config %}
                                 <tr>
                                     <td>{{ conf.attribute }}</td>
                                     <td>{{ conf.value }}</td>
                                 </tr>
                                 {% endfor %}
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
