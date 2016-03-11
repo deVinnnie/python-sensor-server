@@ -18,6 +18,24 @@
 
 <div class="row">
     <div class="col-md-6">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#type-tab1" data-toggle="tab">Capacitance</a></li>
+                <li><a href="#type-tab2" data-toggle="tab">Temperature</a></li>
+                <li><a href="#type-tab3" data-toggle="tab">Humidity</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="type-tab1">
+                    <p>Capacitance measurements</p>
+                </div>
+                <div class="tab-pane" id="type-tab2">
+                    <p>Temperature measurements</p>
+                </div>
+                <div class="tab-pane" id="type-tab3">
+                    <p>Humidity measurements</p>
+                </div>
+            </div>
+        </div>
         <!-- Measurements Table -->
         <div class="row" id="measurements">
         </div>
@@ -85,26 +103,40 @@
         <h2>Sensors</h2>
 
         <!-- Tab for each sensor -->
-        <!--{% for sensor in sensors %}
-            <h3>Sensor {{ sensor.sensor_id }}</h3>
-        {% endfor %}-->
         <div class="tabbable tabs-left">
             <div class="row">
                 <div class="col-md-2">
                     <ul class="nav nav-pills nav-stacked">
                         {% for sensor in sensors %}
-                            <li><a href="#tab{{ sensor.sensor_id }}" data-toggle="tab">Sensor {{ sensor.sensor_id }}</a></li>
+                            <li><a href="#sensor-tab{{ sensor.sensor_id }}" data-toggle="tab">Sensor {{ sensor.sensor_id }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div class="col-md-10">
                     <div class="tab-content">
+                         <div class="tabbable">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#type-tab4" data-toggle="tab">Capacitance</a></li>
+                                        <li><a href="#type-tab5" data-toggle="tab">Temperature</a></li>
+                                        <li><a href="#type-tab6" data-toggle="tab">Humidity</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="type-tab4">
+                                            <p>Capacitance measurements</p>
+                                        </div>
+                                        <div class="tab-pane" id="type-tab5">
+                                            <p>Temperature measurements</p>
+                                        </div>
+                                        <div class="tab-pane" id="type-tab6">
+                                            <p>Humidity measurements</p>
+                                        </div>
+                                    </div>
+                                </div>
                         {% for sensor in sensors %}
-                            <div class="tab-pane" id="tab{{ sensor.sensor_id }}">
-                                <h3>Here come the measurements for Sensor {{ sensor.sensor_id }}</h3>
+                            <div class="tab-pane" id="sensor-tab{{ sensor.sensor_id }}">
+                               <h3>Here come the measurements for Sensor {{ sensor.sensor_id }}</h3>
                             </div>
                         {% endfor %}
-                    </div>
                 </div>
             </div>
         </div>
