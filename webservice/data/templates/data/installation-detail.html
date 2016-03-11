@@ -27,4 +27,12 @@
         </tbody>
     </table>
 </div>
+
+
+<form action="/rest/gateways/" method="POST">
+    {% csrf_token %}
+    <input type="text" name="ip_address" placeholder="IP"/>
+    <input type="hidden" name="installation" value="{{ installation_id}}"/>
+    <input type="submit" value="Save">
+</form>
 {% endblock %}

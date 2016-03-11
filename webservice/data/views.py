@@ -29,7 +29,7 @@ class CompanyDetailView(generic.DetailView):
 
 class InstallationDetailView(generic.DetailView):
     model = Installation
-    template_name = 'data/installation_detail.html'
+    template_name = 'data/installation-detail.html'
 
 
 class GatewayDetailView(generic.DetailView):
