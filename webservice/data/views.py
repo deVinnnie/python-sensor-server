@@ -24,7 +24,7 @@ def companyView(request):  # This will become a form handler class to handle log
 
 class CompanyDetailView(generic.DetailView):
     model = Company
-    template_name = 'data/company_detail.html'
+    template_name = 'data/company-detail.html'
 
 
 class InstallationDetailView(generic.DetailView):

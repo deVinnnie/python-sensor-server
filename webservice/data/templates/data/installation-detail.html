@@ -3,7 +3,7 @@
 {% block title %}Gateways{% endblock %}
 
 {% block content %}
-<h1 style="margin-top: 50px;">{{ installation.name }}</h1>
+<h1>{{ installation.name }}</h1>
 <div class="table-responsive">
     <table class="table-striped">
         <thead>
@@ -14,14 +14,11 @@
             </tr>
         </thead>
         <tbody>
-            {% for gateway in installation.gateways.all %}
+            {% for gateway in gateways %}
                 <tr>
-                    <td><a href="{{ gateway.get_absolute_url }}">Gateway {{ gateway.pk }}</a></td>
-
+                    <td><a href="{{ gateway.get_absolute_url }}">Gateway {{ gateway }}</a></td>
                     <td>{{ gateway.installation }}</td>
-
                     <td>{{ gateway.ip_address }}</td>
-
                 </tr>
             {% endfor %}
         </tbody>
@@ -29,10 +26,17 @@
 </div>
 
 
-<form action="/rest/gateways/" method="POST">
+<form action="/rest/gateways.html/" method="POST">
     {% csrf_token %}
     <input type="text" name="ip_address" placeholder="IP"/>
     <input type="hidden" name="installation" value="{{ installation_id}}"/>
     <input type="submit" value="Save">
 </form>
+
+<script src="https://raw.githubusercontent.com/tomchristie/ajax-form/master/ajax-form.js" type="text/javascript"></script>
+    <script>
+    $(document).ready(function() {
+        $('form').ajaxForm();
+    });
+    </script>
 {% endblock %}

@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.decorators import api_view
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import renderers
@@ -45,11 +46,18 @@ class HTMLGenericViewSet():
             'list': ["%s/%s-list.html" % (app, name), "list.html"],
             'retrieve': ["%s/%s-detail.html" % (app, name), "detail.html"],
 
-            'add': ["%s/%s-create.html" % (app, name), "create.html"],
+            #'create': ["%s/%s-created.html" % (app, name), "created.html"],
+            'create': ["%s/%s-detail .html" % (app, name), "created.html"], #Redirect?
             'edit': ["%s/%s-update.html" % (app, name), "update.html"],
             'delete': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
+
+            'new' : ["%s/%s-new.html" % (app, name), "new.html"],
+
         }
 
+
+        print("D")
+        print(self.action)
         if self.action in templates.keys():
             selected_templates = templates[self.action]
         else:
@@ -65,6 +73,17 @@ class CompanyViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+
+    @list_route(methods=['get'])
+    def new(self, request):
+        return Response()
+
+
+    @detail_route(methods=['get'])
+    def new_installation(self, request, pk=None):
+        company = self.queryset.get(pk=pk)
+
+        return Response(template_name='data/company_new_installation.html')
 
 
 class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
@@ -83,6 +102,7 @@ class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Gateway.objects.all()
     serializer_class = GatewaySerializer
+
 
 
 class GatewayConfigurationViewSet(viewsets.ModelViewSet):

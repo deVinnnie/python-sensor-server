@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<p>Hello World</p>
-</body>
-</html>
+{% extends "data/template.html" %}
+
+{% block title %}Companies{% endblock %}
+
+{% block content %}
+<h1>Companies</h1>
+
+<a href="{% url 'company-new' %}">Add Company</a>
+<ul>
+    {% for c in results %}
+    <li>
+        <a href="{% url 'company-detail' c.company_id %}">{{ c.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

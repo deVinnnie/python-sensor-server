@@ -3,29 +3,25 @@
 {% block title %}Installations{% endblock %}
 
 {% block content %}
-<h1 style="margin-top: 50px;">{{ company.name }}</h1>
+<h1>{{ name }}</h1>
+
+<a href="{% url 'company-new-installation' company_id %}">Add Installation</a>
 <div class="table-responsive">
     <table class="table-striped">
         <thead>
             <tr>
                 <th>Installation_ID</th>
-                <th>Company_ID</th>
                 <th>Name</th>
                 <th>Storage_On_Remote</th>
                 <th>Remote_Database_ID</th>
             </tr>
         </thead>
         <tbody>
-            {% for installation in company.installations.all %}
+            {% for installation in installations %}
                 <tr>
-                    <td>{{ installation.pk }}</td>
-               
-                    <td>{{ installation.company }}</td>
-                
-                    <td><a href="{{ installation.get_absolute_url }}">{{ installation.name }}</a></td>
-               
+                    <td>{{ installation }}</td>
+                    <td><a href="{% url 'installation-detail' installation %}">{{ installation.name }}</a></td>
                     <td>{{ installation.storage_is_on_remote }}</td>
-               
                     <td>{{ installation.remote_database_id }}</td>
                 </tr>
             {% endfor %}

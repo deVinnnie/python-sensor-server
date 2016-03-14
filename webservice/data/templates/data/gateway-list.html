@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<p>Hello World</p>
-</body>
-</html>
+{% extends "data/template.html" %}
+
+{% block title %}Gateways{% endblock %}
+
+{% block content %}
+<h1>Gateway</h1>
+<ul>
+    {% for g in results %}
+    <li>
+        <a href="/rest/gateways/{{ g.gateway_id }}">Gateway {{ g.gateway_id }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

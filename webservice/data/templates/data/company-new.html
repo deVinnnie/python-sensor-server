@@ -1,0 +1,13 @@
+{% extends "data/template.html" %}
+
+{% block title %}New Company{% endblock %}
+
+{% block content %}
+<h1>Create a new Company</h1>
+
+<form action="/rest/companies/" method="POST">
+    {% csrf_token %}
+    <input type="text" placeholder="ACME Inc" name="name"/>
+    <input type="submit" value="Submit"/>
+</form>
+{% endblock %}
