@@ -83,3 +83,10 @@ class MeasurementTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeasurementType
         fields = ('measurementTypeID', 'name', 'unit', 'scalar')
+
+
+class AlertSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Alert
+        fields = '__all__'

@@ -39,6 +39,12 @@ urlpatterns = patterns('',
         regex = r'^companies/(?P<company_pk>\d+)/installations/(?P<installation_pk>\d+)/gateways/(?P<gateway_pk>\d+)/sensors/(?P<pk>\d+)/measurements$',
         view = views.SensorDetailView.as_view(),
         name = 'sensor_detail'
+    ),
+
+    url (
+        regex = r'^alerts$',
+        view = views.alerts,
+        name = 'alerts'
     )
 )
 

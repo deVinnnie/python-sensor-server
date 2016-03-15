@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.views import generic
 
-from data.models import Company, Installation, Gateway, Sensor
+from data.models import Company, Installation, Gateway, Sensor, Alert
 
 
 class IndexView(generic.ListView):
@@ -40,3 +40,18 @@ class GatewayDetailView(generic.DetailView):
 class SensorDetailView(generic.DetailView):
     model = Sensor
     template_name = 'data/sensor_detail.html'
+
+
+def alerts(request):
+    """
+    Determine Alerts
+    """
+    set = Sensor.objects.all()
+    for s in set:
+        dangers = s.measurements.filter(value__gte=10)
+        for m in dangers:
+            print(m.value)
+            Alert.objects.create(text="Alert", url="Help", company=Company.objects.get(pk=1))
+
+
+    return HttpResponse("Hello, world. You're at the polls index.")

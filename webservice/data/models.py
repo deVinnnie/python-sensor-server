@@ -188,6 +188,12 @@ class GatewayConfiguration(models.Model):
         return self.gateway
 
 
+class Alert(models.Model):
+    id = models.AutoField(primary_key=True)
+    text = models.CharField(max_length=500)
+    url = models.URLField()
+    company = models.ForeignKey(Company, related_name='alerts')
+    archived = models.BooleanField(default=False)
 
 # class Permission(models.Model):
 #     permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.
