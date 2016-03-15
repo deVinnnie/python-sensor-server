@@ -3,6 +3,28 @@
 {% block title %}Companies{% endblock %}
 
 {% block content %}
+
+
+<h1>Alerts</h1>
+<div class="row">
+    <div class="col-md-10">
+        <h2>ACME Inc. <span class="badge">2</span></h2>
+        <div class="alert alert-warning" role="alert">
+            Company 1 Alert
+        </div>
+        <div class="alert alert-danger" role="alert">
+            Company 1 Alert
+        </div>
+
+
+        <h2>Duck Industries <span class="badge">1</span></h2>
+        <div class="alert alert-danger" role="alert">
+            Company 2 Critical.
+        </div>
+    </div>
+</div>
+
+
 <h1>Companies</h1>
 
 <a href="{% url 'company-new' %}">Add Company</a>
