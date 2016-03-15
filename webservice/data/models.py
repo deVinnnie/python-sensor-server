@@ -36,7 +36,7 @@ class Installation(models.Model):
     installation_id = models.AutoField(db_column='Installation_ID', primary_key=True)
     company = models.ForeignKey(Company, db_column='Company_ID', related_name='installations')
     name = models.CharField(db_column='Name', max_length=45, blank=True)
-    storage_on_remote = models.IntegerField(db_column='Storage_On_Remote', blank=True, default=0)
+    storage_on_remote = models.BooleanField(db_column='Storage_On_Remote', default=False)
     remote_database_id = models.IntegerField(db_column='Remote_Database_ID', blank=True, null=True)
     active = models.BooleanField(default=True)
 
