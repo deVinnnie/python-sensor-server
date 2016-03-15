@@ -3,7 +3,7 @@
 {% block title %}Installation{% endblock %}
 
 {% block content %}
-<h1>{{ name }}</h1>
+<h1>{{ name }} ({{ installation_id }})</h1>
 
 <a href="{% url 'installation-add-gateway' installation_id %}">Add Gateway</a>
 
@@ -12,16 +12,14 @@
         <thead>
             <tr>
                 <th>Gateway_ID</th>
-                <th>Installation_ID</th>
-                <th>IP-address</th>
+                <th>API-key</th>
             </tr>
         </thead>
         <tbody>
             {% for gateway in gateways %}
                 <tr>
-                    <td><a href="{{ gateway.get_absolute_url }}">Gateway {{ gateway }}</a></td>
-                    <td>{{ gateway.installation }}</td>
-                    <td>{{ gateway.ip_address }}</td>
+                    <td><a href="{% url 'gateway-detail' gateway %}">Gateway {{ gateway }}</a></td>
+                    <td>AA32 </td>
                 </tr>
             {% endfor %}
         </tbody>

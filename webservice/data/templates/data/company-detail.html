@@ -22,17 +22,13 @@
             <tr>
                 <th>Installation_ID</th>
                 <th>Name</th>
-                <th>Storage_On_Remote</th>
-                <th>Remote_Database_ID</th>
             </tr>
         </thead>
         <tbody>
             {% for installation in installations %}
                 <tr>
-                    <td>{{ installation }}</td>
-                    <td><a href="{% url 'installation-detail' installation %}">{{ installation.name }}</a></td>
-                    <td>{{ installation.storage_is_on_remote }}</td>
-                    <td>{{ installation.remote_database_id }}</td>
+                    <td>{{ installation.installation_id }}</td>
+                    <td><a href="{% url 'installation-detail' installation.installation_id %}">{{ installation.name }}</a></td>
                 </tr>
             {% endfor %}
         </tbody>

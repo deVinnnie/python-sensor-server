@@ -7,17 +7,6 @@ class AlertSerializer(serializers.ModelSerializer):
         model = Alert
         fields = '__all__'
 
-class CompanySerializer(serializers.ModelSerializer):
-    installations = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
-
-    alerts = AlertSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Company
-        fields = ('company_id', 'name', 'installations', 'active', 'alerts')
-        read_only_fields = ('company_id',)
-
-
 class InstallationSerializer(serializers.ModelSerializer):
     gateways = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
 
@@ -27,6 +16,17 @@ class InstallationSerializer(serializers.ModelSerializer):
         #fields = '__all__'
         exclude = ('storage_on_remote', 'remote_database_id')
         read_only_fields = ('installation_id',)
+
+class CompanySerializer(serializers.ModelSerializer):
+    #installations = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
+    installations = InstallationSerializer(many=True, read_only=True)
+
+    alerts = AlertSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Company
+        fields = ('company_id', 'name', 'installations', 'active', 'alerts')
+        read_only_fields = ('company_id',)
 
 
 class SensorConfigurationSerializer(serializers.ModelSerializer):
