@@ -161,6 +161,7 @@ class SensorConfiguration(models.Model):
     sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='config')  # Field name made lowercase.
     attribute = models.CharField(db_column='Attribute', max_length=45)
     value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
+    confirmed = models.BooleanField(default=False)
 
     class Meta:
         managed = True
@@ -176,6 +177,7 @@ class GatewayConfiguration(models.Model):
     gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='config')  # Field name made lowercase.
     attribute = models.CharField(db_column='Attribute', max_length=45)  # Field name made lowercase.
     value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
+    confirmed = models.BooleanField(default=False)
 
     class Meta:
         managed = True
