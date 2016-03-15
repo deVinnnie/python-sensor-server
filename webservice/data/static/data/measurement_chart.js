@@ -58,8 +58,10 @@ function drawGraph(data) {
     SimpleGraph = function(elemid, options) {
         var self = this;
         this.chart = document.getElementById(elemid);
-        this.cx = this.chart.clientWidth;
-        this.cy = this.chart.clientHeight;
+        //this.cx = this.chart.clientWidth; // To be responsive
+        //this.cy = this.chart.clientHeight;
+        this.cx = 960;
+        this.cy = 500;
         this.options = options || {};
         this.options.xmax = options.xmax || 30;
         this.options.xmin = options.xmin || 0;
