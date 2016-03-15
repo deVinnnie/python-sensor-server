@@ -1,13 +1,12 @@
 from rest_framework import serializers
 from data.models import *
-from configuration.models import *
 
 class CompanySerializer(serializers.ModelSerializer):
     installations = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
 
     class Meta:
         model = Company
-        fields = ('company_id', 'name', 'installations')
+        fields = ('company_id', 'name', 'installations', 'active')
         read_only_fields = ('company_id',)
 
 

@@ -14,10 +14,12 @@ from django.core.urlresolvers import reverse
 
 from django.db import models
 from django.db.models import Count
+from .fields import UUIDField
 
 class Company(models.Model):
     company_id = models.AutoField(db_column='Company_ID', primary_key=True)
     name = models.CharField(db_column='Name', max_length=45, blank=True)  # Field name made lowercase.
+    active = models.BooleanField(default=True)
 
     class Meta:
         managed = True
@@ -36,6 +38,7 @@ class Installation(models.Model):
     name = models.CharField(db_column='Name', max_length=45, blank=True)
     storage_on_remote = models.IntegerField(db_column='Storage_On_Remote', blank=True, default=0)
     remote_database_id = models.IntegerField(db_column='Remote_Database_ID', blank=True, null=True)
+    active = models.BooleanField(default=True)
 
     class Meta:
         managed = True
@@ -53,8 +56,11 @@ class Gateway(models.Model):
     gateway_id = models.AutoField(db_column='Gateway_ID', primary_key=True)  # Field name made lowercase.
     installation = models.ForeignKey(Installation, db_column='Installation_ID', blank=True, null=True,
                                      related_name="gateways")  # Field name made lowercase.
-    ip_address = models.CharField(db_column='IP-address', max_length=45,
-                                  blank=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    #ip_address = models.CharField(db_column='IP-address', max_length=45,
+    #                              blank=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    active = models.BooleanField(default=True)
+
+    api_key = UUIDField()#auto=True)
 
     class Meta:
         managed = True
@@ -105,6 +111,7 @@ class Sensor(models.Model):
 
         return resultSet
 
+
 class MeasurementType(models.Model):
     measurementTypeID = models.IntegerField(db_column='MeasurementTypeID', primary_key=True)
     unit = models.CharField(db_column='Unit', max_length=45, blank=True)
@@ -147,6 +154,38 @@ class RemoteDatabase(models.Model):
     class Meta:
         managed = True
         db_table = 'Remote_Database'
+
+
+class SensorConfiguration(models.Model):
+    id = models.AutoField(db_column='id', primary_key=True)
+    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='config')  # Field name made lowercase.
+    attribute = models.CharField(db_column='Attribute', max_length=45)
+    value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = True
+        db_table = 'Sensor_Configuration'
+        unique_together = ('sensor', 'attribute')
+
+    def __str__(self):
+        return self.sensor
+
+
+class GatewayConfiguration(models.Model):
+    id = models.AutoField(db_column='id', primary_key=True)
+    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='config')  # Field name made lowercase.
+    attribute = models.CharField(db_column='Attribute', max_length=45)  # Field name made lowercase.
+    value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = True
+        db_table = 'Gateway_Configuration'
+        unique_together = ('gateway', 'attribute')
+
+    def __str__(self):
+        return self.gateway
+
+
 
 # class Permission(models.Model):
 #     permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.

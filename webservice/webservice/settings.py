@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'data',
     'rest_framework', 
     'rest',
-    'configuration',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -4,8 +4,18 @@
 
 {% block content %}
 <h1>{{ name }}</h1>
+{% if not active %}
+    <p>[Deactivated]</p>
+{% endif %}
 
 <a href="{% url 'company-new-installation' company_id %}">Add Installation</a>
+
+{% if active %}
+<a href="{% url 'company-deactivate' company_id %}">Deactivate</a>
+{% else %}
+<a href="{% url 'company-activate' company_id %}">Activate</a>
+{% endif %}
+
 <div class="table-responsive">
     <table class="table-striped">
         <thead>

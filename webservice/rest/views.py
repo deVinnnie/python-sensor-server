@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import status
 from rest_framework.response import Response
 from data.models import *
@@ -83,6 +83,20 @@ class CompanyViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         company = get_object_or_404(self.queryset, pk=pk)
         serializer = CompanySerializer(company)
         return Response(serializer.data,template_name='data/company_new_installation.html')
+
+    @detail_route(methods=['get'])
+    def deactivate(self, request, pk=None):
+        company = get_object_or_404(self.queryset, pk=pk)
+        company.active = False
+        company.save()
+        return redirect('company-detail', pk)
+
+    @detail_route(methods=['get'])
+    def activate(self, request, pk=None):
+        company = get_object_or_404(self.queryset, pk=pk)
+        company.active = True
+        company.save()
+        return redirect('company-detail', pk)
 
 
 class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
