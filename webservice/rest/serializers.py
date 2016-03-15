@@ -1,12 +1,20 @@
 from rest_framework import serializers
 from data.models import *
 
+class AlertSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Alert
+        fields = '__all__'
+
 class CompanySerializer(serializers.ModelSerializer):
     installations = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
 
+    alerts = AlertSerializer(many=True, read_only=True)
+
     class Meta:
         model = Company
-        fields = ('company_id', 'name', 'installations', 'active')
+        fields = ('company_id', 'name', 'installations', 'active', 'alerts')
         read_only_fields = ('company_id',)
 
 
@@ -85,8 +93,3 @@ class MeasurementTypeSerializer(serializers.ModelSerializer):
         fields = ('measurementTypeID', 'name', 'unit', 'scalar')
 
 
-class AlertSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Alert
-        fields = '__all__'
