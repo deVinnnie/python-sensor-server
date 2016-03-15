@@ -33,7 +33,7 @@ var line = d3.svg.line()
     });
 
 //var url = '/rest/companies/2/installations/4/gateways/8/sensors/16/measurements.json';
-var url = '/rest/gateways/1/sensors/1/measurements.json?type=0&start=2015-01-01&end=2020-01-01';
+//var url = '/rest/gateways/1/sensors/1/measurements.json?type=0&start=2015-01-01&end=2020-01-01';
 
 d3.json(url, function(error, incoming_data) {
     if (error) throw error;
@@ -307,7 +307,7 @@ function drawGraph(data) {
     };
 
     var len = data.length;
-    graph = new SimpleGraph("measurement_chart", {
+    graph = new SimpleGraph(chart_id, {
         "xmax": data[len-1].timestamp, "xmin": data[0].timestamp,
         "ymax": data[len-1].value, "ymin": data[0].value,
         "title": "Capacity measurements",

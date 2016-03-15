@@ -29,6 +29,8 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="type-tab1">
                     <p>Capacitance measurements</p>
+                    <!-- Measurements Table -->
+                    <div class="row" id="measurements"></div>
                 </div>
                 <div class="tab-pane" id="type-tab2">
                     <p>Temperature measurements</p>
@@ -37,9 +39,6 @@
                     <p>Humidity measurements</p>
                 </div>
             </div>
-        </div>
-        <!-- Measurements Table -->
-        <div class="row" id="measurements">
         </div>
 
        <!-- <div class="table-responsive">
@@ -120,106 +119,127 @@
         </div>
         <div class="col-md-10">
             <div class="row">
-                <h2>Measurements</h2>
                 <div class="tab-content">
-                     <div class="tabbable">
+                     <!--<div class="tabbable">-->
+                         <!--<ul class="nav nav-tabs">-->
+                             <!--<li class="active"><a href="#type-tab4" data-toggle="tab">Capacitance</a></li>-->
+                             <!--<li><a href="#type-tab5" data-toggle="tab">Temperature</a></li>-->
+                             <!--<li><a href="#type-tab6" data-toggle="tab">Humidity</a></li>-->
+                         <!--</ul>-->
+                         <!--<div class="tab-content">-->
+                             <!--<div class="tab-pane active" id="type-tab4">-->
+                                 <!--<p>Capacitance measurements</p>-->
+                             <!--</div>-->
+                             <!--<div class="tab-pane" id="type-tab5">-->
+                                 <!--<p>Temperature measurements</p>-->
+                             <!--</div>-->
+                             <!--<div class="tab-pane" id="type-tab6">-->
+                                 <!--<p>Humidity measurements</p>-->
+                             <!--</div>-->
+                         <!--</div>-->
+                    <!--</div>-->
+                    {% for sensor in sensors %}
+                        <div class="tab-pane" id="sensor-tab{{ sensor.sensor_id }}">
+                            <div class="tabbable">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#type-tab4" data-toggle="tab">Capacitance</a></li>
-                                    <li><a href="#type-tab5" data-toggle="tab">Temperature</a></li>
-                                    <li><a href="#type-tab6" data-toggle="tab">Humidity</a></li>
+                                    <li class="active"><a href="#type-tab1-{{ sensor.sensor_id }}" data-toggle="tab">Capacitance</a></li>
+                                    <li><a href="#type-tab2-{{ sensor.sensor_id }}" data-toggle="tab">Temperature</a></li>
+                                    <li><a href="#type-tab3-{{ sensor.sensor_id }}" data-toggle="tab">Humidity</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="type-tab4">
-                                        <p>Capacitance measurements</p>
+                                    <div class="tab-pane active" id="type-tab1-{{ sensor.sensor_id }}">
+                                        <h2>Measurements</h2>
+                                        <!--<p>Capacitance measurements</p>-->
+                                        <!--<h3>Here will come the measurements for Sensor {{ sensor.sensor_id }}</h3>-->
+                                        <script type="text/javascript">
+                                            var url = '/rest/gateways/{{ gateway_id }}/sensors/{{ sensor.sensor_id }}/measurements.json?type=0&start=2015-01-01&end=2020-01-01';
+                                            var chart_id = 'measurement_chart-{{ sensor.sensor_id }}'
+                                        </script>
+                                        <script type="text/javascript" src="{% static 'data/measurement_chart.js' %}"></script>
+                                        <div id="measurement_chart-{{ sensor.sensor_id }}" class="chart"></div>
                                     </div>
-                                    <div class="tab-pane" id="type-tab5">
+                                    <div class="tab-pane" id="type-tab2-{{ sensor.sensor_id }}">
                                         <p>Temperature measurements</p>
                                     </div>
-                                    <div class="tab-pane" id="type-tab6">
+                                    <div class="tab-pane" id="type-tab3-{{ sensor.sensor_id }}">
                                         <p>Humidity measurements</p>
                                     </div>
                                 </div>
                             </div>
-                    {% for sensor in sensors %}
-                        <div class="tab-pane" id="sensor-tab{{ sensor.sensor_id }}">
-                           <h3>Here will come the measurements for Sensor {{ sensor.sensor_id }}</h3>
-                            <div id="measurement_chart" class="chart"></div>
+                            <div class="row">
+                            <!-- Detailed view of selected sensor -->
+                                <h2>Configuration</h2>
+                                <button>Edit</button>
+                                <div class="table-responsive">
+                                    <table class="table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for sensor in sensors %}
+                                            {% for conf in sensor.config %}
+                                            <tr>
+                                                <td>{{ conf.attribute }}</td>
+                                                <td>{{ conf.value }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h2>Location</h2>
+                                    <!--<img src="{% static 'data/images/u1.png' %}" class="img-responsive" >-->
+                                    <div id="googleMap2" style="width:450px;height:380px;"></div>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h4>Longitude</h4>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>04</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>04</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>04</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h4>Latitude</h4>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>51</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>0</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p>13</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     {% endfor %}
-                </div>
-            </div>
-            <div class="row">
-            <!-- Detailed view of selected sensor -->
-                    <h2>Configuration</h2>
-                    <button>Edit</button>
-                    <div class="table-responsive">
-                        <table class="table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Attribute</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% for sensor in sensors %}
-                                {% for conf in sensor.config %}
-                                <tr>
-                                    <td>{{ conf.attribute }}</td>
-                                    <td>{{ conf.value }}</td>
-                                </tr>
-                                {% endfor %}
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h2>Location</h2>
-                        <!--<img src="{% static 'data/images/u1.png' %}" class="img-responsive" >-->
-                        <div id="googleMap2" style="width:450px;height:380px;"></div>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h4>Longitude</h4>
-                            </div>
-                            <div class="col-md-3">
-                                <p>04</p>
-                            </div>
-                            <div class="col-md-3">
-                                <p>04</p>
-                            </div>
-                            <div class="col-md-3">
-                                <p>04</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h4>Latitude</h4>
-                            </div>
-                            <div class="col-md-3">
-                                <p>51</p>
-                            </div>
-                            <div class="col-md-3">
-                                <p>0</p>
-                            </div>
-                            <div class="col-md-3">
-                                <p>13</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <script>
     base_url = "/rest/gateways/{{ gateway_id }}/sensors/"
@@ -265,6 +285,7 @@ function initialize() {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
+
 <script>
 function initialize() {
   var mapProp = {
@@ -276,5 +297,4 @@ function initialize() {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<script type="text/javascript" src="{% static 'data/measurement_chart.js' %}"></script>
 {% endblock %}
