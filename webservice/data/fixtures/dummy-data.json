@@ -1,0 +1,112 @@
+[
+  {
+    "model": "data.company",
+    "pk": 1,
+    "fields": {
+      "name": "ACME Inc."
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 2,
+    "fields": {
+      "name": "Duck Industries"
+    }
+  },
+  {
+    "model": "data.installation",
+    "pk": 1,
+    "fields": {
+      "company": 1,
+      "name": "Very Expensive ACME Installation",
+      "storage_on_remote": false,
+      "active": true
+    }
+  },
+  {
+    "model": "data.installation",
+    "pk": 2,
+    "fields": {
+      "company": 1,
+      "name": "New Roadrunner Facility",
+      "storage_on_remote": false,
+      "active": true
+    }
+  },
+  {
+    "model": "data.installation",
+    "pk": 3,
+    "fields": {
+      "company": 2,
+      "name": "Money Printing Factory",
+      "storage_on_remote": false,
+      "active": true
+    }
+  },
+  {
+    "model": "data.gateway",
+    "pk": 1,
+    "fields": {
+      "installation": 1,
+      "active": true,
+      "api_key": "0eb7c8ce-f5c8-4205-a2fd-420184fbae3c"
+    }
+  },
+  {
+    "model": "data.gateway",
+    "pk": 2,
+    "fields": {
+      "installation": 1,
+      "active": true,
+      "api_key": "0eb8c8ce-f5c8-4205-a2fd-420184fbae3c"
+    }
+  },
+  {
+    "model": "data.gateway",
+    "pk": 3,
+    "fields": {
+      "installation": 1,
+      "active": true,
+      "api_key": "0eb9c8ce-f5c8-4205-a2fd-420184fbae3c"
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 1,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.01,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 2,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.02,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 3,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.03,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.measurementtype",
+    "pk": 0,
+    "fields": {
+      "unit": "Newton",
+      "scalar": 1,
+      "name": "Force Measurement"
+    }
+  }
+]
