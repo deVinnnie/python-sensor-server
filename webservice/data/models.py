@@ -56,8 +56,6 @@ class Gateway(models.Model):
     gateway_id = models.AutoField(db_column='Gateway_ID', primary_key=True)  # Field name made lowercase.
     installation = models.ForeignKey(Installation, db_column='Installation_ID', blank=True, null=True,
                                      related_name="gateways")  # Field name made lowercase.
-    ip_address = models.CharField(db_column='IP-address', max_length=45,
-                                  blank=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     active = models.BooleanField(default=True)
 
     api_key = UUIDField()#auto=True)
