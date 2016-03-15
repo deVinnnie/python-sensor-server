@@ -1,9 +1,12 @@
 {% extends "data/template.html" %}
 
-{% block title %}Gateways{% endblock %}
+{% block title %}Installation{% endblock %}
 
 {% block content %}
-<h1>{{ installation.name }}</h1>
+<h1>{{ name }}</h1>
+
+<a href="{% url 'installation-add-gateway' installation_id %}">Add Gateway</a>
+
 <div class="table-responsive">
     <table class="table-striped">
         <thead>

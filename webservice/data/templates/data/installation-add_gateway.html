@@ -1,0 +1,16 @@
+{% extends "data/template.html" %}
+
+{% block title %}Add Gateway{% endblock %}
+
+{% block content %}
+<h1>Add Gateway to {{ name }}</h1>
+
+<!-- TODO Templates / Duplicate or Copy -->
+
+<form action="/rest/gateways/" method="POST">
+    {% csrf_token %}
+    <input type="text" name="ip_address" placeholder="IP"/>
+    <input type="hidden" name="installation" value="{{ installation_id}}"/>
+    <input type="submit" value="Save">
+</form>
+{% endblock %}

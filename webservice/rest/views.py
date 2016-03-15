@@ -93,6 +93,12 @@ class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     queryset = Installation.objects.all()
     serializer_class = InstallationSerializer
 
+    @detail_route(methods=['get'])
+    def add_gateway(self, request, pk=None):
+        installation = get_object_or_404(self.queryset, pk=pk)
+        serializer = InstallationSerializer(installation)
+        return Response(serializer.data,template_name='data/installation-add_gateway.html')
+
 
 class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
