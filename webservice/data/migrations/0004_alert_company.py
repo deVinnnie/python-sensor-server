@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='alert',
             name='company',
-            field=models.ForeignKey(default=0, related_name='alerts', to='data.Company'),
+            field=models.ForeignKey(default=1, related_name='alerts', to='data.Company'),
             preserve_default=False,
         ),
     ]
