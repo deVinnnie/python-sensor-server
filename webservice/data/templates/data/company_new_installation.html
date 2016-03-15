@@ -1,21 +1,22 @@
 {% extends "data/template.html" %}
 
-{% block title %}Gateways{% endblock %}
+{% block title %}Create New Installation{% endblock %}
 
 {% block content %}
-<h1>Create New Installation for Company {{ company_id}}</h1>
+<h1>Create New Installation for {{ name }}</h1>
 
 <form action="/rest/installations/" method="POST">
     {% csrf_token %}
-    <input type="text" name="ip_address" placeholder="IP"/>
+    <input type="text" name="name" placeholder="Name"/>
+
     <input type="hidden" name="company" value="{{ company_id}}"/>
     <input type="submit" value="Save">
 </form>
 
-<script src="https://raw.githubusercontent.com/tomchristie/ajax-form/master/ajax-form.js" type="text/javascript"></script>
+<!--<script src="https://raw.githubusercontent.com/tomchristie/ajax-form/master/ajax-form.js" type="text/javascript"></script>
     <script>
     $(document).ready(function() {
         $('form').ajaxForm();
     });
-    </script>
+    </script>-->
 {% endblock %}

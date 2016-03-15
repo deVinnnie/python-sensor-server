@@ -47,7 +47,7 @@ class HTMLGenericViewSet():
             'retrieve': ["%s/%s-detail.html" % (app, name), "detail.html"],
 
             #'create': ["%s/%s-created.html" % (app, name), "created.html"],
-            'create': ["%s/%s-detail .html" % (app, name), "created.html"], #Redirect?
+            'create': ["%s/%s-detail.html" % (app, name), "created.html"], #Redirect?
             'edit': ["%s/%s-update.html" % (app, name), "update.html"],
             'delete': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
 
@@ -78,12 +78,11 @@ class CompanyViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     def new(self, request):
         return Response()
 
-
     @detail_route(methods=['get'])
     def new_installation(self, request, pk=None):
-        company = self.queryset.get(pk=pk)
-
-        return Response(template_name='data/company_new_installation.html')
+        company = get_object_or_404(self.queryset, pk=pk)
+        serializer = CompanySerializer(company)
+        return Response(serializer.data,template_name='data/company_new_installation.html')
 
 
 class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
