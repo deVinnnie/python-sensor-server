@@ -15,7 +15,8 @@ if __name__ == '__main__':
     server = cherrypy._cpserver.Server()
 
     # Configure the server object
-    server.socket_host = "0.0.0.0"
+    server.socket_host = "127.0.0.1" # Only accept connection from localhost (nginx).
+                                     # Don't accept connections from the outisde.
     server.socket_port = 8080
     server.thread_pool = 30
 
