@@ -109,17 +109,23 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                             <h4 class="modal-title custom_align" id="Heading">Edit gateway configuration</h4>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input id="updateRow1" class="form-control " type="text" placeholder="Test">
+                        <form action="/rest/gateways/{{ gateway_id }}/" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input id="updateRow1" class="form-control " type="text" placeholder="Test">
+                                </div>
+                                <div class="form-group">
+                                    <input id="updateRow2" class="form-control " type="text" placeholder="1">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input id="updateRow2" class="form-control " type="text" placeholder="1">
+                            <div class="modal-footer ">
+                                <div class="form-group">
+                                    <!--<input id="updateRow2" class="form-control " type="text" placeholder="1">-->
+                                    <button onclick="updateFunc()" type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer ">
-                            <button onclick="updateFunc()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
-                        </div>
+                        </form>
                     </div>
                     <!-- /.modal-content -->
                 </div>
