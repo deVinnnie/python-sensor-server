@@ -1,5 +1,5 @@
 
-var margin = {
+/*var margin = {
         top: 20,
         right: 50,
         bottom: 30,
@@ -52,9 +52,17 @@ d3.json(url, function(error, incoming_data) {
 
     drawGraph(data);
 
-});
+});*/
 
-function drawGraph(data) {
+function drawGraph(data, chart_id) {
+    bisectDate = d3.bisector(function(d) {
+        return d.timestamp;
+    }).left,
+    formatValue = d3.format(",.2f"),
+    formatUnit = function(d) {
+        return formatValue(d) + "pF";
+    };
+
     SimpleGraph = function(elemid, options) {
         var self = this;
         this.chart = document.getElementById(elemid);
@@ -75,13 +83,34 @@ function drawGraph(data) {
             "left": this.options.ylabel ? 70 : 45
         };
 
+        var margin = {
+            top: 20,
+            right: 50,
+            bottom: 30,
+            left: 50
+        };
+
         this.size = {
             "width": this.cx - this.padding.left - this.padding.right,
             "height": this.cy - this.padding.top - this.padding.bottom
         };
-        this.x = x;
-        this.y = y;
-        this.line = line;
+
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+        this.x = x = d3.time.scale()
+                    .range([0, width])
+                    .nice();
+        this.y = y = d3.scale.linear()
+                    .range([height, 0])
+                    .nice();
+        this.line = d3.svg.line()
+                    .x(function(d) {
+                        return x(d.timestamp);
+                    })
+                    .y(function(d) {
+                        return y(d.value);
+                    });
 
         this.x.domain([data[0].timestamp, data[data.length - 1].timestamp]);
         this.y.domain(d3.extent(data, function(d) {
@@ -93,7 +122,6 @@ function drawGraph(data) {
             .attr("height", this.cy)
             .append("g")
             .attr("transform", "translate(" + this.padding.left + "," + this.padding.top + ")");
-
 
 
         this.plot = this.vis.append("rect")
@@ -307,9 +335,10 @@ function drawGraph(data) {
     };
 
     var len = data.length;
+    console.log(data)
     graph = new SimpleGraph(chart_id, {
-        "xmax": data[len-1].timestamp, "xmin": data[0].timestamp,
-        "ymax": data[len-1].value, "ymin": data[0].value,
+        "xmax": data[len-1][0], "xmin": data[0][0],
+        "ymax": data[len-1][1], "ymin": data[0][1],
         "title": "Capacity measurements",
         "xlabel": "Time",
         "ylabel": "Value"
