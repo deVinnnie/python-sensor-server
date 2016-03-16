@@ -1,3 +1,4 @@
+
 var margin = {
         top: 20,
         right: 50,
@@ -52,7 +53,6 @@ d3.json(url, function(error, incoming_data) {
     drawGraph(data);
 
 });
-
 
 function drawGraph(data) {
     SimpleGraph = function(elemid, options) {

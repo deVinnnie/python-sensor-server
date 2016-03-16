@@ -154,11 +154,11 @@
                                         <div class="tab-pane active" id="type-tab1-{{ sensor.sensor_id }}">
                                             <!--<p>Capacitance measurements</p>-->
                                             <!--<h3>Here will come the measurements for Sensor {{ sensor.sensor_id }}</h3>-->
-                                            <script type="text/javascript">
-                                                var url = '/rest/gateways/{{ gateway_id }}/sensors/{{ sensor.sensor_id }}/measurements.json?type=0&start=2015-01-01&end=2020-01-01'
-                                                var chart_id = 'measurement_chart-{{ sensor.sensor_id }}';
-                                            </script>
-                                            <script type="text/javascript" src="{% static 'data/measurement_chart.js' %}"></script>
+                                            <!--<script type="text/javascript">-->
+                                                <!--var url = '/rest/gateways/{{ gateway_id }}/sensors/{{ sensor.sensor_id }}/measurements.json?type=0&start=2015-01-01&end=2020-01-01'-->
+                                                <!--var chart_id = 'measurement_chart-{{ sensor.sensor_id }}';-->
+                                            <!--</script>-->
+                                            <!--<script type="text/javascript" src="{% static 'data/measurement_chart.js' %}"></script>-->
                                             <div id="measurement_chart-{{ sensor.sensor_id }}" class="chart"></div>
                                         </div>
                                         <div class="tab-pane" id="type-tab2-{{ sensor.sensor_id }}">
@@ -304,4 +304,75 @@ function initialize() {
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
+<script>
+$(document).ready(function(){
+    $(".nav-pills a").click(function(){
+        $(this).tab('show');
+    });
+    $('.nav-pills a').on('shown.bs.tab', function(event){
+        var pillName = $(event.target).text(); // Sensor x
+        var id = pillName.slice(-1); // x
+        console.log(pillName);
+        console.log(id);
+        var url = '/rest/gateways/{{ gateway_id }}/sensors/' + id + '/measurements.json?type=0&start=2015-01-01&end=2020-01-01';
+        var chart_id = 'measurement_chart-' + id;
+        console.log(url);
+        console.log(chart_id);
+        var NewScript=document.createElement('script');
+        NewScript.src="{% static 'data/measurement_chart.js' %}";
+        document.body.appendChild(NewScript);
+        /*var margin = {
+                top: 20,
+                right: 50,
+                bottom: 30,
+                left: 50
+            },
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse,
+            bisectDate = d3.bisector(function(d) {
+                return d.timestamp;
+            }).left,
+            formatValue = d3.format(",.2f"),
+            formatUnit = function(d) {
+                return formatValue(d) + "pF";
+            };
+
+        var x = d3.time.scale()
+            .range([0, width])
+            .nice();
+
+        var y = d3.scale.linear()
+            .range([height, 0])
+            .nice();
+
+        var line = d3.svg.line()
+            .x(function(d) {
+                return x(d.timestamp);
+            })
+            .y(function(d) {
+                return y(d.value);
+            });
+
+        d3.json(url, function(error, incoming_data) {
+            if (error) throw error;
+
+            var data = incoming_data.measurements;
+
+            data.forEach(function(d) {
+                d.timestamp = parseDate(d[0]);
+                d.value = +d[1];
+            });
+
+            data.sort(function(a, b) {
+                return a.timestamp - b.timestamp;
+            });
+
+            drawGraph(data);
+
+        });*/
+    });
+});
+</script>
 {% endblock %}
