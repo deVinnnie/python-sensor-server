@@ -79,13 +79,14 @@
         <div>
             <!-- Config -->
             <h2>Configuration</h2>
-            <button>Edit</button>
+            <!--<button>Edit</button>-->
             <div class="table-responsive">
                 <table class="table-striped">
                     <thead>
                         <tr>
                             <th>Attribute</th>
                             <th>Value</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,10 +94,36 @@
                         <tr>
                             <td>{{ conf.attribute }}</td>
                             <td>{{ conf.value }}</td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editGatewayConf" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            <p id="demo"></p>
+
+            <div class="modal fade" id="editGatewayConf" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                            <h4 class="modal-title custom_align" id="Heading">Edit gateway configuration</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input id="updateRow1" class="form-control " type="text" placeholder="Test">
+                            </div>
+                            <div class="form-group">
+                                <input id="updateRow2" class="form-control " type="text" placeholder="1">
+                            </div>
+                        </div>
+                        <div class="modal-footer ">
+                            <button onclick="updateFunc()" type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
             </div>
 
         </div>
@@ -183,14 +210,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {% for sensor in sensors %}
                                             {% for conf in sensor.config %}
                                             <tr>
                                                 <td>{{ conf.attribute }}</td>
                                                 <td>{{ conf.value }}</td>
                                             </tr>
                                             {% endfor %}
-                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
@@ -244,6 +269,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    function updateFunc() {
+        document.getElementById("demo").innerHTML = "Hello world";
+    }
+</script>
 
 <script>
     base_url = "/rest/gateways/{{ gateway_id }}/sensors/"
