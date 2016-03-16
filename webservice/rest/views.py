@@ -1,8 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from rest_framework import status
+from rest_framework import status, permissions, views, renderers, viewsets
 from rest_framework.response import Response
-from data.models import *
-from rest.serializers import *
 from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework import generics
@@ -10,9 +8,8 @@ from rest_framework.decorators import api_view
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework import renderers
-from rest_framework import viewsets
-from rest_framework import views
+from data.models import *
+from rest.serializers import *
 from datetime import datetime
 
 from .custom_renderers import *
@@ -73,6 +70,7 @@ class CompanyViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     @list_route(methods=['get'])
     def new(self, request):

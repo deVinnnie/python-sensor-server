@@ -1,0 +1,107 @@
+{% load admin_static %}{% load firstof from future %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
+
+    <!-- Bootstrap -->
+    <link href="{% static 'data/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'data/style.css' %}" />
+{% block extrastyle %}{% endblock %}
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
+{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
+<script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "{% filter escapejs %}{% now "Z" %}{% endfilter %}";</script>
+{% block extrahead %}{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+</head>
+{% load i18n %}
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+
+<!-- Container -->
+<div id="container">
+    {% if not is_popup %}
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <!-- hamburger menu -->
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Home</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    {% block page_1 %}<li><a href="/admin/">User management</a></li>{% endblock %}
+                    {% block page_2 %}<li><a href="#">Meassurement types</a></li>{% endblock %}
+                    {% block page_3 %}<li><a href="#">My account</a></li>{% endblock %}
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href=""><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
+                    <li><a href="{% url 'admin:logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            </div>
+            <ol class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                {% block bread_1 %}<li><a href="#">Library</a></li>{% endblock %}
+                {% block bread_active %}<li class="active">Data</li>{% endblock %}
+            </ol>
+        </div>
+    </nav>
+    {% endif %}
+
+
+    <!-- END Header -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% block breadcrumbs %}
+                <div class="breadcrumbs">
+                    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+                    {% if title %} &rsaquo; {{ title }}{% endif %}
+                </div>
+                {% endblock %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {% block messages %}
+                    {% if messages %}
+                    <ul class="messagelist">{% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+                    {% endfor %}</ul>
+                    {% endif %}
+                {% endblock messages %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Content -->
+                <div id="content" class="{% block coltype %}colM{% endblock %}">
+                    {% block pretitle %}{% endblock %}
+                    {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+                    {% block content %}
+                    {% block object-tools %}{% endblock %}
+                    {{ content }}
+                    {% endblock %}
+                    {% block sidebar %}{% endblock %}
+                    <br class="clear" />
+                </div>
+                <!-- END Content -->
+            </div>
+        </div>
+    </div>
+
+    {% block footer %}<div id="footer"></div>{% endblock %}
+
+</div>
+<!-- END Container -->
+
+</body>
+</html>
