@@ -43,8 +43,8 @@ class HTMLGenericViewSet():
             'list': ["%s/%s-list.html" % (app, name), "list.html"],
             'retrieve': ["%s/%s-detail.html" % (app, name), "detail.html"],
 
-            #'create': ["%s/%s-created.html" % (app, name), "created.html"],
-            'create': ["%s/%s-detail.html" % (app, name), "created.html"], #Redirect?
+            'create': ["%s/%s-created.html" % (app, name), "created.html"],
+            #'create': ["%s/%s-detail.html" % (app, name), "created.html"], #Redirect?
             'edit': ["%s/%s-update.html" % (app, name), "update.html"],
             'delete': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
 

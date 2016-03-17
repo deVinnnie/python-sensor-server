@@ -3,13 +3,19 @@
 {% block title %}Add Gateway{% endblock %}
 
 {% block content %}
-<h1>Add Gateway to {{ name }}</h1>df
+
+<h1>Add Gateway to {{ name }}</h1>
 
 <!-- TODO Templates / Duplicate or Copy -->
 
 <form action="/rest/gateways/" method="POST">
     {% csrf_token %}
-    <input type="text" name="ip_address" placeholder="IP"/>
+
+    <input type="text" name="api_key" placeholder="API"/>
+
+    <!--<label for="n_sensors">Number of Sensors</label>
+    <input type="number" name="n_sensors" placeholder="Number of Sensors"/>-->
+
     <input type="hidden" name="installation" value="{{ installation_id}}"/>
     <input type="submit" value="Save">
 </form>

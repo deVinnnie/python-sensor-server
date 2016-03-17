@@ -1,0 +1,52 @@
+{% extends "data/template.html" %}
+
+{% block title %}Add Gateway{% endblock %}
+
+{% block content %}
+<h1>Gateway {{ gateway_id }}</h1>
+<div class="alert alert-success" role="alert">
+    <p>Well Done. You created a gateway.</p>
+    <p>Would you like to edit its configuration?</p>
+    <a href="{% url 'gateway-detail' gateway_id %}">Skip</a>
+</div>
+
+<h2>Use a Template</h2>
+<form>
+    <select>
+        <option>Basic Configuration</option>
+        <option>ACME Configuration</option>
+    </select>
+
+    <input type="hidden" name="gateway" value="{{ gateway_id}}"/>
+    <input type="submit" value="Save">
+</form>
+
+
+<h2>Manual Entry</h2>
+
+<form action="/rest/gateways/{{ gateway_id }}/config/" method="POST">
+    {% csrf_token %}
+
+    <!-- TODO Custom Parser -->
+
+    <div class="row">
+        <input type="text" name="key" placeholder="Key"/>
+        <input type="text" name="value" placeholder="Value"/>
+    </div>
+
+    <div class="row">
+        <input type="text" name="key" placeholder="Key"/>
+        <input type="text" name="value" placeholder="Value"/>
+    </div>
+
+    <div class="row">
+        <input type="text" name="key" placeholder="Key"/>
+        <input type="text" name="value" placeholder="Value"/>
+    </div>
+    <!--<label for="n_sensors">Number of Sensors</label>
+    <input type="number" name="n_sensors" placeholder="Number of Sensors"/>-->
+
+    <input type="hidden" name="gateway" value="{{ gateway_id}}"/>
+    <input type="submit" value="Save">
+</form>
+{% endblock %}
