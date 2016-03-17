@@ -109,20 +109,22 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                             <h4 class="modal-title custom_align" id="Heading">Edit gateway configuration</h4>
                         </div>
-                        <form action="/rest/gateways/{{ gateway_id }}/" method="POST">
+                        <form action="/rest/gateways/" role="form" method="POST">
                             {% csrf_token %}
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <input id="updateRow1" class="form-control " type="text" placeholder="Test">
+                                    <label for="attribute">Attribute:</label>
+                                    <input name="attribute" id="attribute" class="form-control" type="text" placeholder="Test">
                                 </div>
                                 <div class="form-group">
-                                    <input id="updateRow2" class="form-control " type="text" placeholder="1">
+                                    <label for="value">Value:</label>
+                                    <input name="value" id="value" class="form-control" type="text" placeholder="1">
                                 </div>
                             </div>
                             <div class="modal-footer ">
                                 <div class="form-group">
                                     <!--<input id="updateRow2" class="form-control " type="text" placeholder="1">-->
-                                    <button onclick="updateFunc()" type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                                    <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
                                 </div>
                             </div>
                         </form>
