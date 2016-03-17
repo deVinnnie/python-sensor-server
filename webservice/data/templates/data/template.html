@@ -42,7 +42,7 @@
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
                         {% block page_1 %}<li><a href="/admin/">User management</a></li>{% endblock %}
-                        {% block page_2 %}<li><a href="#">Meassurement types</a></li>{% endblock %}
+                        {% block page_2 %}<li><a href="{% url 'measurementtype-list' %}">Meassurement types</a></li>{% endblock %}
                         {% block page_3 %}<li><a href="#">My account</a></li>{% endblock %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

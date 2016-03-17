@@ -1,0 +1,17 @@
+{% extends "data/template.html" %}
+
+{% block title %}Measurement Types{% endblock %}
+
+
+
+{%block content%}
+<h1>Measurement Types</h1>
+<ul>
+{% for mt in results %}
+    <li>
+        <a href="{% url 'measurementtype-detail' mt.measurementTypeID %}">{{ mt.name }}</a>
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

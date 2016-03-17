@@ -311,12 +311,13 @@ class SensorConfigurationViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class MeasurementTypeViewSet(viewsets.ModelViewSet):
+class MeasurementTypeViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
     /measurement-type
     """
     queryset=MeasurementType.objects.all()
     serializer_class = MeasurementTypeSerializer
+    renderer_classes = HTMLGenericViewSet.renderer_classes
 
 
 #

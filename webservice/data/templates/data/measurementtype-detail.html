@@ -1,0 +1,28 @@
+{% extends "data/template.html" %}
+
+{% block title %}Measurement Types{% endblock %}
+
+
+
+{%block content%}
+<h1>{{ name }}</h1>
+
+<form action="/rest/measurement-types/{{ measurementTypeID }}/" method="POST">
+    <label>Name</label>
+    <input type="text" name="name" value="{{ name }}"/>
+
+    <br/>
+
+    <label>Scalar</label>
+    <input type="number" name="scalar" value="{{ scalar }}"/>
+
+    <br/>
+
+    <label>Unit</label>
+    <input type="text" name="unit" value="{{ unit }}"/>
+
+    <br/>
+
+    <input type="submit" value="Save">
+</form>
+{% endblock %}
