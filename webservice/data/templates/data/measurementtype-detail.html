@@ -1,13 +1,13 @@
 {% extends "data/template.html" %}
 
+{% load staticfiles %}
+
 {% block title %}Measurement Types{% endblock %}
 
-
-
-{%block content%}
+{% block content %}
 <h1>{{ name }}</h1>
 
-<form action="/rest/measurement-types/{{ measurementTypeID }}/" method="POST">
+<form action="/rest/measurement-types/{{ measurementTypeID }}/" method="PUT">
     <label>Name</label>
     <input type="text" name="name" value="{{ name }}"/>
 
