@@ -280,13 +280,13 @@
         </div>
     </div>
 </div>
-
+{% endblock %}
 <!--<script>
     function updateFunc() {
         document.getElementById("demo").innerHTML = "Hello world";
     }
 </script>-->
-
+{% block scripts %}
 <script>
     base_url = "/rest/gateways/{{ gateway_id }}/sensors/"
     sensors = [
