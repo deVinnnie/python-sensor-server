@@ -104,9 +104,36 @@
     "model": "data.measurementtype",
     "pk": 0,
     "fields": {
-      "unit": "Newton",
+      "unit": "pF",
       "scalar": 1,
-      "name": "Force Measurement"
+      "name": "Capacitance Measurement"
+    }
+  },
+  {
+    "model": "data.measurementtype",
+    "pk": 1,
+    "fields": {
+      "unit": "°C",
+      "scalar": 1,
+      "name": "Temperature Measurement Type 1"
+    }
+  },
+  {
+    "model": "data.measurementtype",
+    "pk": 2,
+    "fields": {
+      "unit": "°C",
+      "scalar": 1,
+      "name": "Temperature Measurement Type 2"
+    }
+  },
+  {
+    "model": "data.measurementtype",
+    "pk": 3,
+    "fields": {
+      "unit": "Hgmm",
+      "scalar": 1,
+      "name": "Humidity"
     }
   }
 ]
