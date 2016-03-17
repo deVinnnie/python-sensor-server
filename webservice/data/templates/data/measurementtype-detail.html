@@ -8,6 +8,9 @@
 <h1>{{ name }}</h1>
 
 <form action="/rest/measurement-types/{{ measurementTypeID }}/" method="PUT">
+    {% csrf_token %}
+    <!--<input type="hidden" name="measurementTypeID" value="{{ measurementTypeID }}"/>-->
+
     <label>Name</label>
     <input type="text" name="name" value="{{ name }}"/>
 
