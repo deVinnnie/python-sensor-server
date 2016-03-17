@@ -78,9 +78,14 @@ class CompanyViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
 
     @detail_route(methods=['get'])
     def new_installation(self, request, pk=None):
+        """
+        Loads data/company_new_installation.html which contains a form to add a new installation.
+        This form does a POST request to /rest/installations/ to add the installation.
+        """
         company = get_object_or_404(self.queryset, pk=pk)
         serializer = CompanySerializer(company)
         return Response(serializer.data,template_name='data/company_new_installation.html')
+
 
     @detail_route(methods=['get'])
     def deactivate(self, request, pk=None):
@@ -99,7 +104,12 @@ class CompanyViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
 
 class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
-    /installations
+    /installations/
+
+    To create a new Installation: POST JSON or Form data to /rest/installations/
+    This method is not explicitly defined, but is provided by the ModelViewSet class.
+    A POST request will be handled by the list method (defined in ModelViewSet, the super class).
+    See http://www.django-rest-framework.org/api-guide/viewsets/
     """
     renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Installation.objects.all()
