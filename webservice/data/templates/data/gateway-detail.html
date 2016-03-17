@@ -94,7 +94,8 @@
                         <tr>
                             <td>{{ conf.attribute }}</td>
                             <td>{{ conf.value }}</td>
-                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#editGatewayConf" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Edit">
+                                <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'gateway-edit' gateway_id %}"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -102,7 +103,7 @@
             </div>
             <p id="demo"></p>
 
-            <div class="modal fade" id="editGatewayConf" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <!--<div class="modal fade" id="editGatewayConf" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -123,16 +124,16 @@
                             </div>
                             <div class="modal-footer ">
                                 <div class="form-group">
-                                    <!--<input id="updateRow2" class="form-control " type="text" placeholder="1">-->
+                                    &lt;!&ndash;<input id="updateRow2" class="form-control " type="text" placeholder="1">&ndash;&gt;
                                     <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
+                    &lt;!&ndash; /.modal-content &ndash;&gt;
                 </div>
-                <!-- /.modal-dialog -->
-            </div>
+                &lt;!&ndash; /.modal-dialog &ndash;&gt;
+            </div>-->
 
         </div>
     </div>
@@ -280,11 +281,11 @@
     </div>
 </div>
 
-<script>
+<!--<script>
     function updateFunc() {
         document.getElementById("demo").innerHTML = "Hello world";
     }
-</script>
+</script>-->
 
 <script>
     base_url = "/rest/gateways/{{ gateway_id }}/sensors/"

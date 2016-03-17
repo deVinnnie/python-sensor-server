@@ -49,9 +49,10 @@ class SensorSerializer(serializers.ModelSerializer):
 
 
 class GatewayConfigurationSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = GatewayConfiguration
-        fields = ('attribute', 'value')
+        fields = ('gateway', 'attribute', 'value')
 
 
 class GatewaySerializer(serializers.ModelSerializer):
@@ -62,7 +63,8 @@ class GatewaySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Gateway
-        fields = ('gateway_id', 'sensors', 'installation', 'config', 'api_key')
+        # fields = ('gateway_id', 'sensors', 'installation', 'config', 'api_key')
+        fields = ('gateway_id', 'sensors', 'installation', 'config')
         read_only_fields = ('gateway_id',)
 
 

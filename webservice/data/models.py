@@ -15,6 +15,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Count
 from .fields import UUIDField
+import uuid
 
 class Company(models.Model):
     company_id = models.AutoField(db_column='Company_ID', primary_key=True)
@@ -58,7 +59,7 @@ class Gateway(models.Model):
                                      related_name="gateways")  # Field name made lowercase.
     active = models.BooleanField(default=True)
 
-    api_key = UUIDField()#auto=True)
+    #api_key = UUIDField(default=uuid.uuid4, editable=False)#auto=True)
 
     class Meta:
         managed = True

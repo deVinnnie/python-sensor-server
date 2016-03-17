@@ -130,6 +130,16 @@ class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     queryset = Gateway.objects.all()
     serializer_class = GatewaySerializer
 
+    # http://stackoverflow.com/questions/21412324/django-rest-framework-always-inserts-never-updates
+    @detail_route(methods=['get'])
+    def edit(self, request, pk):
+        gateway = get_object_or_404(self.queryset, pk=pk)
+        serializer = GatewaySerializer(gateway, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/gateway-update.html')
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GatewayConfigurationViewSet(viewsets.ModelViewSet):
