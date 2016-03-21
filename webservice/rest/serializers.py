@@ -52,14 +52,15 @@ class GatewayConfigurationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GatewayConfiguration
-        fields = ('gateway', 'attribute', 'value')
+        fields = ('id', 'gateway', 'attribute', 'value')
+        read_only_fields = ('id',)
 
 
 class GatewaySerializer(serializers.ModelSerializer):
     sensors = SensorSerializer(many=True, read_only=True)
     #sensors = serializers.PrimaryKeyRelatedField(many=True, queryset=Sensor.objects.all())
     #config = serializers.PrimaryKeyRelatedField(many=True, queryset=GatewayConfiguration.objects.all())
-    config = GatewayConfigurationSerializer(many=True, read_only=True)
+    config = GatewayConfigurationSerializer(many=True, read_only=False)
 
     class Meta:
         model = Gateway

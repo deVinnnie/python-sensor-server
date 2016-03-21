@@ -130,23 +130,13 @@ class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     queryset = Gateway.objects.all()
     serializer_class = GatewaySerializer
 
-    # http://stackoverflow.com/questions/21412324/django-rest-framework-always-inserts-never-updates
-    @detail_route(methods=['get'])
-    def edit(self, request, pk):
-        gateway = get_object_or_404(self.queryset, pk=pk)
-        serializer = GatewaySerializer(gateway, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/gateway-update.html')
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class GatewayConfigurationViewSet(viewsets.ModelViewSet):
+class GatewayConfigurationViewSet(viewsets.ModelViewSet,HTMLGenericViewSet):
     """
     /gateways/$1/config
     """
-    renderer_classes = (RawConfigJSONRenderer,) + HTMLGenericViewSet.renderer_classes
+    #renderer_classes = (RawConfigJSONRenderer,) + HTMLGenericViewSet.renderer_classes
+    renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = GatewayConfiguration.objects.all()
     serializer_class = GatewayConfigurationSerializer
 
@@ -164,9 +154,23 @@ class GatewayConfigurationViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, gateway_pk=None, pk=None, format=None):
-        queryset = get_object_or_404(self.queryset, gateway_id=pk)
+        queryset = get_object_or_404(self.queryset, id=pk)
         serializer = GatewayConfigurationSerializer(queryset)
         return Response(serializer.data)
+
+    # http://stackoverflow.com/questions/21412324/django-rest-framework-always-inserts-never-updates
+    @detail_route(methods=['get'])
+    def edit(self, request, gateway_pk=None, pk=None,format=None):
+        gatewayConf = get_object_or_404(self.queryset, id=pk)
+        serializer = GatewayConfigurationSerializer(gatewayConf)
+
+
+
+        # if serializer.is_valid():
+        #     serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/gateway-update.html')
+        # else:
+        #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SensorViewSet(viewsets.ModelViewSet):
     """

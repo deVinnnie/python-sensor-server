@@ -1,22 +1,27 @@
 {% extends "data/template.html" %}
 
-{% block title %}New Company{% endblock %}
+{% block title %}Edit gateway{% endblock %}
 
 {% block content %}
 <h1>Update this gateway</h1>
-
-<form action="/rest/gateways/{{ gateway_id }}/config/" role="form" method="POST">
+<script>
+    console.log("gateway: {{ gateway }}");
+    console.log("config: {{ id }}");
+    console.log("value: {{ value }}");
+    console.log("attruibute: {{ attribute }}");
+</script>
+<form action="/rest/gateways/{{ gateway }}/config/{{ id }}/" role="form" method="PUT">
     {% csrf_token %}
     <div class="form-group">
-        <input type="hidden" name="gateway" value="{{ gateway_id }}">
+        <input type="hidden" name="id" value="{{ id }}">
     </div>
     <div class="form-group">
         <label for="attribute">Attribute:</label>
-        <input name="attribute" id="attribute" class="form-control" type="text" placeholder="Test">
+        <input name="attribute" id="attribute" class="form-control" type="text" value="{{ attribute }}">
     </div>
     <div class="form-group">
         <label for="value">Value:</label>
-        <input name="value" id="value" class="form-control" type="text" placeholder="1">
+        <input name="value" id="value" class="form-control" type="text" value="{{ value }}">
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
 </form>

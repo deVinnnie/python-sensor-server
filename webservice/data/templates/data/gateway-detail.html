@@ -95,7 +95,7 @@
                             <td>{{ conf.attribute }}</td>
                             <td>{{ conf.value }}</td>
                             <td><p data-placement="top" data-toggle="tooltip" title="Edit">
-                                <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'gateway-edit' gateway_id %}"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
+                                <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'gatewayconfiguration-edit' gateway_id conf.id %}"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
                         </tr>
                         {% endfor %}
                     </tbody>
