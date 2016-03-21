@@ -112,7 +112,7 @@ class Sensor(models.Model):
 
 
 class MeasurementType(models.Model):
-    measurementTypeID = models.IntegerField(db_column='MeasurementTypeID', primary_key=True)
+    measurementTypeID = models.AutoField(db_column='MeasurementTypeID', primary_key=True)
     unit = models.CharField(db_column='Unit', max_length=45, blank=True)
     scalar = models.IntegerField(db_column='Scalar', blank=True, null=True)
     name = models.CharField(db_column='Name', max_length=45, blank=True)

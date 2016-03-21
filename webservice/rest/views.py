@@ -14,13 +14,13 @@ from datetime import datetime
 
 from .custom_renderers import *
 
-@api_view(('GET',))
-def api_root(request, format=None):
-    return Response({
-        'gateways': reverse('gateway-list', request=request, format=format),
-        'sensors': reverse('sensor-list', request=request, format=format)
-    })
 
+# Note on PUT requests:
+#
+# Make sure you include an 'update' view when making a put-request.
+# Without an update view the request will return the HTTP 500 error code
+# and reload the current page (which may be what you wanted, but it's not the way to do it)
+#
 
 class HTMLGenericViewSet():
     """
@@ -46,6 +46,7 @@ class HTMLGenericViewSet():
             'create': ["%s/%s-created.html" % (app, name), "created.html"],
             #'create': ["%s/%s-detail.html" % (app, name), "created.html"], #Redirect?
             'edit': ["%s/%s-update.html" % (app, name), "update.html"],
+            'update': ["%s/%s-update.html" % (app, name), "update.html"],
             'delete': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
 
             'new' : ["%s/%s-new.html" % (app, name), "new.html"],
@@ -362,70 +363,3 @@ class MeasurementTypeViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     queryset=MeasurementType.objects.all()
     serializer_class = MeasurementTypeSerializer
     renderer_classes = HTMLGenericViewSet.renderer_classes
-
-
-#
-# class GatewayList(mixins.ListModelMixin,
-#                   mixins.CreateModelMixin,
-#                   generics.GenericAPIView):
-#     queryset = Gateway.objects.all()
-#     serializer_class = GatewaySerializer
-# 
-#     def get(self, request, *args, **kwargs):
-#         return self.list(request, *args, **kwargs)
-# 
-#     def post(self, request, *args, **kwargs):
-#         return self.create(request, *args, **kwargs)
-#         
-
-# class GatewayDetail(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-#     queryset = Gateway.objects.all()
-#     serializer_class = GatewaySerializer
-#
-#     def get(self, request, *args, **kwargs):
-#         return self.list(request, *args, **kwargs)
-#
-#     def post(self, request, *args, **kwargs):
-#         return self.create(request, *args, **kwargs)
-
-
-# class SensorList(mixins.ListModelMixin,
-#                   mixins.CreateModelMixin,
-#                   generics.GenericAPIView):
-#     queryset = Sensor.objects.all()
-#     serializer_class = SensorSerializer
-# 
-#     def get(self, request, *args, **kwargs):
-#         return self.list(request, *args, **kwargs)
-# 
-#     def post(self, request, *args, **kwargs):
-#         return self.create(request, *args, **kwargs)
-# 
-# 
-# class SensorDetail(APIView):
-#     """
-#     Retrieve, update or delete a snippet instance.
-#     """
-#     def get_object(self, pk):
-#         try:
-#             return Sensor.objects.get(pk=pk)
-#         except Sensor.DoesNotExist:
-#             raise Http404
-# 
-#     def get(self, request, pk, format=None):
-#         snippet = self.get_object(pk)
-#         serializer = SensorSerializer(snippet)
-#         return Response(serializer.data)
-# 
-#     def put(self, request, pk, format=None):
-#         snippet = self.get_object(pk)
-#         serializer = SensorSerializer(snippet, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-# 
-#     def delete(self, request, pk, format=None):
-#         snippet = self.get_object(pk)
-#         snippet.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
