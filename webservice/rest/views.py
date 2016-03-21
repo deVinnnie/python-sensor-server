@@ -130,6 +130,16 @@ class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     queryset = Gateway.objects.all()
     serializer_class = GatewaySerializer
 
+    @detail_route(methods=['get'])
+    def new_config(self, request, pk=None):
+        """
+        Loads data/company_new_installation.html which contains a form to add a new installation.
+        This form does a POST request to /rest/installations/ to add the installation.
+        """
+        gateway = get_object_or_404(self.queryset, pk=pk)
+        serializer = GatewaySerializer(gateway)
+        return Response(serializer.data,template_name='data/gateway_new_config.html')
+
 
 class GatewayConfigurationViewSet(viewsets.ModelViewSet,HTMLGenericViewSet):
     """
@@ -158,7 +168,13 @@ class GatewayConfigurationViewSet(viewsets.ModelViewSet,HTMLGenericViewSet):
         serializer = GatewayConfigurationSerializer(queryset)
         return Response(serializer.data)
 
-    # http://stackoverflow.com/questions/21412324/django-rest-framework-always-inserts-never-updates
+    @detail_route(methods=['get'])
+    def deactivate(self, request, gateway_pk=None, pk=None):
+        gatewayConf = get_object_or_404(self.queryset, id=pk)
+        gatewayConf.deleted = True
+        gatewayConf.save()
+        return redirect('gateway-detail', gateway_pk)
+
     @detail_route(methods=['get'])
     def edit(self, request, gateway_pk=None, pk=None,format=None):
         gatewayConf = get_object_or_404(self.queryset, id=pk)

@@ -60,7 +60,7 @@ class GatewaySerializer(serializers.ModelSerializer):
     sensors = SensorSerializer(many=True, read_only=True)
     #sensors = serializers.PrimaryKeyRelatedField(many=True, queryset=Sensor.objects.all())
     #config = serializers.PrimaryKeyRelatedField(many=True, queryset=GatewayConfiguration.objects.all())
-    config = GatewayConfigurationSerializer(many=True, read_only=False)
+    config = GatewayConfigurationSerializer(many=True, read_only=True)
 
     class Meta:
         model = Gateway

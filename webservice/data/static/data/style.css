@@ -46,3 +46,7 @@ rect { fill: #fff; }
   fill: none;
   stroke: steelblue;
 }
+
+tr.deleted {
+    background-color: #575757;
+}
