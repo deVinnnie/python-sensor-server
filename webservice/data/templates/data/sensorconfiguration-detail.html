@@ -1,0 +1,23 @@
+{% extends "data/template.html" %}
+
+{% block title %}Sensor Configuration{% endblock %}
+
+{% block content %}
+<h1>Edit configuration</h1>
+<form action="/rest/gateways/{{ gateway }}/sensors/{{ sensor }}/config/{{ id }}/" method="PUT">
+    <!--{% csrf_token %}-->
+
+    <input type="hidden" name="sensor" value="{{ sensor }}"/>
+
+    <label>Attribute</label>
+    <input type="text" name="attribute" value="{{ attribute }}"/>
+
+    <br/>
+
+    <label>Value</label>
+    <input type="text" name="value" value="{{ value }}"/>
+
+    <button type="submit" class="btn btn-default">Save</button>
+</form>
+
+{% endblock %}

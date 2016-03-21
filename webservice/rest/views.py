@@ -337,24 +337,18 @@ class LiteMeasurementView(views.APIView):
         return Response({"success": True})
 
 
-class SensorConfigurationViewSet(viewsets.ModelViewSet):
+class SensorConfigurationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
     /gateways/$1/sensors/$2/config
     """
     queryset = SensorConfiguration.objects.all()
     serializer_class = SensorConfigurationSerializer
-    renderer_classes = (RawConfigJSONRenderer,) + HTMLGenericViewSet.renderer_classes
+    renderer_classes = HTMLGenericViewSet.renderer_classes
 
     def list(self, request, gateway_pk=None, sensor_pk=None, format=None):
         queryset = self.queryset.filter(sensor=sensor_pk)
         serializer = GatewayConfigurationSerializer(queryset, many=True)
         return Response(serializer.data)
-
-    def retrieve(self, request, gateway_pk=None, pk=None, format=None):
-        queryset = get_object_or_404(self.queryset, gateway_id=pk)
-        serializer = GatewayConfigurationSerializer(queryset)
-        return Response(serializer.data)
-
 
 class MeasurementTypeViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """

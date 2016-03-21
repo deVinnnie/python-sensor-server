@@ -32,7 +32,7 @@ class CompanySerializer(serializers.ModelSerializer):
 class SensorConfigurationSerializer(serializers.ModelSerializer):
     class Meta:
         model = SensorConfiguration
-        fields = ('attribute', 'value')
+        fields = ('sensor', 'gateway', 'id', 'attribute', 'value')
 
 
 class SensorSerializer(serializers.ModelSerializer):
