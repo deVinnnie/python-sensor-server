@@ -7,6 +7,12 @@
 
 <a href="{% url 'installation-add-gateway' installation_id %}">Add Gateway</a>
 
+{% if active %}
+<a href="{% url 'installation-deactivate' installation_id %}">Deactivate</a>
+{% else %}
+<a href="{% url 'installation-activate' installation_id %}">Activate</a>
+{% endif %}
+
 <div class="table-responsive">
     <table class="table-striped">
         <thead>
@@ -27,17 +33,5 @@
 </div>
 
 
-<form action="/rest/gateways.html/" method="POST">
-    {% csrf_token %}
-    <input type="text" name="ip_address" placeholder="IP"/>
-    <input type="hidden" name="installation" value="{{ installation_id}}"/>
-    <input type="submit" value="Save">
-</form>
 
-<script src="https://raw.githubusercontent.com/tomchristie/ajax-form/master/ajax-form.js" type="text/javascript"></script>
-    <script>
-    $(document).ready(function() {
-        $('form').ajaxForm();
-    });
-    </script>
 {% endblock %}

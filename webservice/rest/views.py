@@ -121,6 +121,20 @@ class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         serializer = InstallationSerializer(installation)
         return Response(serializer.data,template_name='data/installation-add_gateway.html')
 
+    @detail_route(methods=['get'])
+    def deactivate(self, request, pk=None):
+        company = get_object_or_404(self.queryset, pk=pk)
+        company.active = False
+        company.save()
+        return redirect('company-detail', pk)
+
+    @detail_route(methods=['get'])
+    def activate(self, request, pk=None):
+        company = get_object_or_404(self.queryset, pk=pk)
+        company.active = True
+        company.save()
+        return redirect('company-detail', pk)
+
 
 class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
