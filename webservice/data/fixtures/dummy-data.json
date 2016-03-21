@@ -53,6 +53,15 @@
     }
   },
   {
+    "model": "data.gatewayconfiguration",
+    "pk": 1,
+    "fields" : {
+      "gateway" : 2,
+      "attribute" : "led-policy",
+      "value" : "serious"
+    }
+  },
+  {
     "model": "data.gateway",
     "pk": 2,
     "fields": {
@@ -78,6 +87,15 @@
       "name": "Default Sensor Node",
       "position_long": 4.01,
       "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensorconfiguration",
+    "pk": 1,
+    "fields": {
+      "sensor": 1,
+      "attribute": "neighbour-search-depth",
+      "value": "5"
     }
   },
   {
