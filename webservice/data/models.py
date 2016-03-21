@@ -177,6 +177,7 @@ class GatewayConfiguration(models.Model):
     attribute = models.CharField(db_column='Attribute', max_length=45)  # Field name made lowercase.
     value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
     confirmed = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
 
     class Meta:
         managed = True

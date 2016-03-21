@@ -52,7 +52,7 @@ class GatewayConfigurationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GatewayConfiguration
-        fields = ('id', 'gateway', 'attribute', 'value')
+        fields = ('id', 'gateway', 'attribute', 'value', 'confirmed', 'deleted')
         read_only_fields = ('id',)
 
 
