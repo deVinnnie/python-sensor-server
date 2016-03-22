@@ -244,7 +244,6 @@
                             <div class="row">
                             <!-- Detailed view of selected sensor -->
                                 <h2>Configuration</h2>
-                                <button>Edit</button>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
@@ -257,12 +256,22 @@
                                         </thead>
                                         <tbody>
                                             {% for conf in sensor.config %}
-                                            <tr>
-                                                <td>{{ conf.attribute }}</td>
-                                                <td>{{ conf.value }}</td>
-                                                <td><p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                    <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensorconfiguration-edit' gateway_id sensor.sensor_id conf.id %}"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
-                                            </tr>
+                                                {% if conf.deleted %}
+
+                                                    <tr class="deleted">
+                                                        <td>{{ conf.attribute }}</td>
+                                                        <td>{{ conf.value }}</td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr>
+                                                        <td>{{ conf.attribute }}</td>
+                                                        <td>{{ conf.value }}</td>
+                                                        <td><p data-placement="top" data-toggle="tooltip" title="Edit">
+                                                            <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensorconfiguration-edit' gateway_id sensor.sensor_id conf.id %}"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
+                                                        <td><p data-placement="top" data-toggle="tooltip" title="Delete">
+                                                            <a class="btn btn-danger btn-xs" data-title="Delete" href="{% url 'sensorconfiguration-deactivate' gateway_id sensor.sensor_id conf.id %}" ><span class="glyphicon glyphicon-trash"></span></a></p></td>
+                                                    </tr>
+                                                {% endif %}
                                             {% endfor %}
                                         </tbody>
                                     </table>

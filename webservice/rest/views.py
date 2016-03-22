@@ -184,7 +184,7 @@ class GatewayConfigurationViewSet(viewsets.ModelViewSet,HTMLGenericViewSet):
         return Response(serializer.data)
 
     @detail_route(methods=['get'])
-    def deactivate(self, request, gateway_pk=None, pk=None):
+    def deactivate(self, request, gateway_pk=None, pk=None, format=None):
         gatewayConf = get_object_or_404(self.queryset, id=pk)
         gatewayConf.deleted = True
         gatewayConf.save()
@@ -349,6 +349,13 @@ class SensorConfigurationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         queryset = self.queryset.filter(sensor=sensor_pk)
         serializer = SensorConfigurationSerializer(queryset, many=True)
         return Response(serializer.data)
+
+    @detail_route(methods=['get'])
+    def deactivate(self, request, gateway_pk=None, sensor_pk=None, pk=None, format=None):
+        sensorConf = get_object_or_404(self.queryset, pk=pk)
+        sensorConf.deleted = True
+        sensorConf.save()
+        return redirect('gateway-detail', gateway_pk)
 
     @detail_route(methods=['get'])
     def edit(self, request, gateway_pk=None, sensor_pk=None, pk=None,format=None):

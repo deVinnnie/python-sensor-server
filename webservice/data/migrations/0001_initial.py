@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Alert',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True)),
                 ('text', models.CharField(max_length=500)),
                 ('url', models.URLField()),
                 ('archived', models.BooleanField(default=False)),
@@ -25,8 +25,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Company',
             fields=[
-                ('company_id', models.AutoField(primary_key=True, serialize=False, db_column='Company_ID')),
-                ('name', models.CharField(max_length=45, db_column='Name', blank=True)),
+                ('company_id', models.AutoField(db_column='Company_ID', serialize=False, primary_key=True)),
+                ('name', models.CharField(db_column='Name', blank=True, max_length=45)),
                 ('active', models.BooleanField(default=True)),
             ],
             options={
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Gateway',
             fields=[
-                ('gateway_id', models.AutoField(primary_key=True, serialize=False, db_column='Gateway_ID')),
+                ('gateway_id', models.AutoField(db_column='Gateway_ID', serialize=False, primary_key=True)),
                 ('active', models.BooleanField(default=True)),
             ],
             options={
@@ -50,11 +50,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GatewayConfiguration',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, db_column='id')),
-                ('attribute', models.CharField(max_length=45, db_column='Attribute')),
-                ('value', models.CharField(max_length=200, db_column='Value', blank=True)),
+                ('id', models.AutoField(db_column='id', serialize=False, primary_key=True)),
+                ('attribute', models.CharField(db_column='Attribute', max_length=45)),
+                ('value', models.CharField(db_column='Value', blank=True, max_length=200)),
                 ('confirmed', models.BooleanField(default=False)),
-                ('gateway', models.ForeignKey(related_name='config', db_column='Gateway_ID', to='data.Gateway')),
+                ('deleted', models.BooleanField(default=False)),
+                ('gateway', models.ForeignKey(db_column='Gateway_ID', to='data.Gateway', related_name='config')),
             ],
             options={
                 'db_table': 'Gateway_Configuration',
@@ -65,12 +66,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Installation',
             fields=[
-                ('installation_id', models.AutoField(primary_key=True, serialize=False, db_column='Installation_ID')),
-                ('name', models.CharField(max_length=45, db_column='Name', blank=True)),
-                ('storage_on_remote', models.BooleanField(db_column='Storage_On_Remote', default=False)),
-                ('remote_database_id', models.IntegerField(db_column='Remote_Database_ID', blank=True, null=True)),
+                ('installation_id', models.AutoField(db_column='Installation_ID', serialize=False, primary_key=True)),
+                ('name', models.CharField(db_column='Name', blank=True, max_length=45)),
+                ('storage_on_remote', models.BooleanField(default=False, db_column='Storage_On_Remote')),
+                ('remote_database_id', models.IntegerField(null=True, db_column='Remote_Database_ID', blank=True)),
                 ('active', models.BooleanField(default=True)),
-                ('company', models.ForeignKey(related_name='installations', db_column='Company_ID', to='data.Company')),
+                ('company', models.ForeignKey(db_column='Company_ID', to='data.Company', related_name='installations')),
             ],
             options={
                 'db_table': 'Installation',
@@ -81,9 +82,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Measurement',
             fields=[
-                ('measurement_id', models.AutoField(primary_key=True, serialize=False, db_column='Measurement_ID')),
+                ('measurement_id', models.AutoField(db_column='Measurement_ID', serialize=False, primary_key=True)),
                 ('timestamp', models.DateTimeField(db_column='Timestamp')),
-                ('value', models.FloatField(db_column='Value', blank=True, null=True)),
+                ('value', models.FloatField(null=True, db_column='Value', blank=True)),
             ],
             options={
                 'db_table': 'Measurement',
@@ -94,10 +95,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MeasurementType',
             fields=[
-                ('measurementTypeID', models.IntegerField(primary_key=True, serialize=False, db_column='MeasurementTypeID')),
-                ('unit', models.CharField(max_length=45, db_column='Unit', blank=True)),
-                ('scalar', models.IntegerField(db_column='Scalar', blank=True, null=True)),
-                ('name', models.CharField(max_length=45, db_column='Name', blank=True)),
+                ('measurementTypeID', models.AutoField(db_column='MeasurementTypeID', serialize=False, primary_key=True)),
+                ('unit', models.CharField(db_column='Unit', blank=True, max_length=45)),
+                ('scalar', models.IntegerField(null=True, db_column='Scalar', blank=True)),
+                ('name', models.CharField(db_column='Name', blank=True, max_length=45)),
             ],
             options={
                 'db_table': 'MeasurementType',
@@ -108,10 +109,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RemoteDatabase',
             fields=[
-                ('remote_database_id', models.IntegerField(primary_key=True, serialize=False, db_column='Remote_Database_ID')),
-                ('url', models.CharField(max_length=300, db_column='URL', blank=True)),
-                ('username', models.CharField(max_length=45, db_column='Username', blank=True)),
-                ('password', models.CharField(max_length=45, db_column='Password', blank=True)),
+                ('remote_database_id', models.IntegerField(db_column='Remote_Database_ID', serialize=False, primary_key=True)),
+                ('url', models.CharField(db_column='URL', blank=True, max_length=300)),
+                ('username', models.CharField(db_column='Username', blank=True, max_length=45)),
+                ('password', models.CharField(db_column='Password', blank=True, max_length=45)),
             ],
             options={
                 'db_table': 'Remote_Database',
@@ -122,11 +123,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Sensor',
             fields=[
-                ('sensor_id', models.AutoField(primary_key=True, serialize=False, db_column='Sensor_ID')),
-                ('name', models.CharField(max_length=45, db_column='Name', blank=True, default='Sensor Node')),
-                ('position_long', models.DecimalField(max_digits=10, db_column='Position_Long', decimal_places=0, blank=True, null=True)),
-                ('position_lat', models.DecimalField(max_digits=10, db_column='Position_Lat', decimal_places=0, blank=True, null=True)),
-                ('gateway', models.ForeignKey(related_name='sensors', db_column='Gateway_ID', default='1', to='data.Gateway')),
+                ('sensor_id', models.AutoField(db_column='Sensor_ID', serialize=False, primary_key=True)),
+                ('name', models.CharField(default='Sensor Node', db_column='Name', blank=True, max_length=45)),
+                ('position_long', models.DecimalField(null=True, db_column='Position_Long', blank=True, decimal_places=0, max_digits=10)),
+                ('position_lat', models.DecimalField(null=True, db_column='Position_Lat', blank=True, decimal_places=0, max_digits=10)),
+                ('gateway', models.ForeignKey(db_column='Gateway_ID', related_name='sensors', default='1', to='data.Gateway')),
             ],
             options={
                 'db_table': 'Sensor',
@@ -137,11 +138,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SensorConfiguration',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, db_column='id')),
-                ('attribute', models.CharField(max_length=45, db_column='Attribute')),
-                ('value', models.CharField(max_length=200, db_column='Value', blank=True)),
+                ('id', models.AutoField(db_column='id', serialize=False, primary_key=True)),
+                ('attribute', models.CharField(db_column='Attribute', max_length=45)),
+                ('value', models.CharField(db_column='Value', blank=True, max_length=200)),
                 ('confirmed', models.BooleanField(default=False)),
-                ('sensor', models.ForeignKey(related_name='config', db_column='Sensor_ID', to='data.Sensor')),
+                ('deleted', models.BooleanField(default=False)),
+                ('sensor', models.ForeignKey(db_column='Sensor_ID', to='data.Sensor', related_name='config')),
             ],
             options={
                 'db_table': 'Sensor_Configuration',
@@ -156,13 +158,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='measurement',
             name='measurement_type',
-            field=models.ForeignKey(db_column='Measurement_Type', to='data.MeasurementType'),
+            field=models.ForeignKey(to='data.MeasurementType', db_column='Measurement_Type'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='measurement',
             name='sensor_id',
-            field=models.ForeignKey(related_name='measurements', db_column='Sensor_ID', to='data.Sensor'),
+            field=models.ForeignKey(db_column='Sensor_ID', to='data.Sensor', related_name='measurements'),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(
@@ -172,13 +174,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gateway',
             name='installation',
-            field=models.ForeignKey(related_name='gateways', db_column='Installation_ID', null=True, blank=True, to='data.Installation'),
+            field=models.ForeignKey(db_column='Installation_ID', blank=True, related_name='gateways', to='data.Installation', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='alert',
             name='company',
-            field=models.ForeignKey(related_name='alerts', to='data.Company'),
+            field=models.ForeignKey(to='data.Company', related_name='alerts'),
             preserve_default=True,
         ),
     ]
