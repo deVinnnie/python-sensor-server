@@ -170,6 +170,9 @@ class SensorConfiguration(models.Model):
     def __str__(self):
         return self.sensor
 
+    def gateway(self):
+        return self.sensor.gateway_id
+
 
 class GatewayConfiguration(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
