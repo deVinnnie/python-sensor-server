@@ -32,7 +32,7 @@ class CompanySerializer(serializers.ModelSerializer):
 class SensorConfigurationSerializer(serializers.ModelSerializer):
     class Meta:
         model = SensorConfiguration
-        fields = ('sensor', 'gateway', 'id', 'attribute', 'value', 'confirmed', 'deleted')
+        fields = ('sensor', 'gateway', 'id', 'attribute', 'value', 'confirmed')
 
 
 class SensorSerializer(serializers.ModelSerializer):
@@ -52,7 +52,7 @@ class GatewayConfigurationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GatewayConfiguration
-        fields = ('id', 'gateway', 'attribute', 'value', 'confirmed', 'deleted')
+        fields = ('id', 'gateway', 'attribute', 'value', 'confirmed')
         read_only_fields = ('id',)
 
 

@@ -50,3 +50,12 @@ rect { fill: #fff; }
 tr.deleted {
     background-color: #575757;
 }
+
+.button-form {
+    float: right;
+}
+
+.modal-footer form {
+    margin-left: 5px;
+    margin-right: 5px;
+}

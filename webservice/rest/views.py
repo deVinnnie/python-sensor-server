@@ -48,6 +48,7 @@ class HTMLGenericViewSet():
             'edit': ["%s/%s-update.html" % (app, name), "update.html"],
             'update': ["%s/%s-update.html" % (app, name), "update.html"],
             'delete': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
+            'destroy': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
 
             'new' : ["%s/%s-new.html" % (app, name), "new.html"],
 
@@ -180,15 +181,8 @@ class GatewayConfigurationViewSet(viewsets.ModelViewSet,HTMLGenericViewSet):
         return Response(serializer.data)
 
     @detail_route(methods=['get'])
-    def deactivate(self, request, gateway_pk=None, pk=None, format=None):
-        gatewayConf = get_object_or_404(self.queryset, id=pk)
-        gatewayConf.deleted = True
-        gatewayConf.save()
-        return redirect('gateway-detail', gateway_pk)
-
-    @detail_route(methods=['get'])
     def edit(self, request, gateway_pk=None, pk=None,format=None):
-        gatewayConf = get_object_or_404(self.queryset, id=pk)
+        gatewayConf = get_object_or_404(self.queryset, pk=pk)
         serializer = GatewayConfigurationSerializer(gatewayConf)
 
 
@@ -198,6 +192,11 @@ class GatewayConfigurationViewSet(viewsets.ModelViewSet,HTMLGenericViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/gateway-update.html')
         # else:
         #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # def delete(self, request, gateway_pk, pk=None, format=None):
+    #     gatewayConf = get_object_or_404(self.queryset, pk=pk)
+    #     gatewayConf.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 class SensorViewSet(viewsets.ModelViewSet):
     """
@@ -350,13 +349,6 @@ class SensorConfigurationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         queryset = self.queryset.filter(sensor=sensor_pk)
         serializer = SensorConfigurationSerializer(queryset, many=True)
         return Response(serializer.data)
-
-    @detail_route(methods=['get'])
-    def deactivate(self, request, gateway_pk=None, sensor_pk=None, pk=None, format=None):
-        sensorConf = get_object_or_404(self.queryset, pk=pk)
-        sensorConf.deleted = True
-        sensorConf.save()
-        return redirect('gateway-detail', gateway_pk)
 
     @detail_route(methods=['get'])
     def edit(self, request, gateway_pk=None, sensor_pk=None, pk=None,format=None):
