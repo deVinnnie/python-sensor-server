@@ -2,6 +2,12 @@
 
 {% block title %}Sensor Configuration{% endblock %}
 
+{% block bread %}<li><a href="{% url 'measurementtype-list' %}">Measurement types</a></li>{% endblock %}
+{% block bread_1 %}{% endblock %}
+{% block bread_active %}<li class="active">{{ name }}</li>{% endblock %}
+
+{% block page_2 %}<li class="active"><a href="{% url 'measurementtype-list' %}">Meassurement types</a></li>{% endblock %}
+
 {% block content %}
 <p>You updated the configuration! Good job.</p>
 

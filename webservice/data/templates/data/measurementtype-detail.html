@@ -8,6 +8,8 @@
 {% block bread_1 %}{% endblock %}
 {% block bread_active %}<li class="active">{{ name }}</li>{% endblock %}
 
+{% block page_2 %}<li class="active"><a href="{% url 'measurementtype-list' %}">Meassurement types</a></li>{% endblock %}
+
 {% block content %}
 <h1>{{ name }}</h1>
 
