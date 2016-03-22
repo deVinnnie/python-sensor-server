@@ -350,6 +350,13 @@ class SensorConfigurationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         serializer = SensorConfigurationSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @detail_route(methods=['get'])
+    def edit(self, request, gateway_pk=None, sensor_pk=None, pk=None,format=None):
+        sensorConf = get_object_or_404(self.queryset, pk=pk)
+        serializer = SensorConfigurationSerializer(sensorConf)
+
+        return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensorconfiguration-detail.html')
+
 class MeasurementTypeViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
     /measurement-type
