@@ -347,7 +347,7 @@ class SensorConfigurationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
 
     def list(self, request, gateway_pk=None, sensor_pk=None, format=None):
         queryset = self.queryset.filter(sensor=sensor_pk)
-        serializer = GatewayConfigurationSerializer(queryset, many=True)
+        serializer = SensorConfigurationSerializer(queryset, many=True)
         return Response(serializer.data)
 
 class MeasurementTypeViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
