@@ -2,6 +2,9 @@
 
 {% block title %}Installation{% endblock %}
 
+{% block bread_1 %}<li><a href="{% url 'installation-list' %}">Installations</a></li>{% endblock %}
+{% block bread_active %}<li class="active">Installation {{ installation_id }}</li>{% endblock %}
+
 {% block content %}
 <h1>{{ name }} ({{ installation_id }})</h1>
 

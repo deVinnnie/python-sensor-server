@@ -128,14 +128,14 @@ class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         company = get_object_or_404(self.queryset, pk=pk)
         company.active = False
         company.save()
-        return redirect('company-detail', pk)
+        return redirect('installation-detail', pk)
 
     @detail_route(methods=['get'])
     def activate(self, request, pk=None):
         company = get_object_or_404(self.queryset, pk=pk)
         company.active = True
         company.save()
-        return redirect('company-detail', pk)
+        return redirect('installation-detail', pk)
 
 
 class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):

@@ -2,6 +2,9 @@
 
 {% block title %}Sensor Configuration{% endblock %}
 
+{% block bread_1 %}<li><a href="{% url 'gateway-detail' gateway %}">Gateway {{ gateway }}</a></li>{% endblock %}
+{% block bread_active %}<li class="active">Configuration edited</li>{% endblock %}
+
 {% block content %}
 <p>You updated the configuration! Good job.</p>
 

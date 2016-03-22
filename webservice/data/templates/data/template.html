@@ -46,7 +46,7 @@
                     </ul>
                 </div>
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
+                    {% block bread %}<li><a href="{% url 'company-list' %}">Home</a></li>{% endblock %}
                     {% block bread_1 %}<li><a href="#">Library</a></li>{% endblock %}
                     {% block bread_active %}<li class="active">Data</li>{% endblock %}
                 </ol>

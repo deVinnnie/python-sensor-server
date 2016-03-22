@@ -2,6 +2,9 @@
 
 {% block title %}Add Gateway{% endblock %}
 
+{% block bread_1 %}<li><a href="{% url 'installation-add-gateway' installation %}">Add gateway</a></li>{% endblock %}
+{% block bread_active %}<li class="active">Gateway added</li>{% endblock %}
+
 {% block content %}
 <h1>Gateway {{ gateway_id }}</h1>
 <div class="alert alert-success" role="alert">

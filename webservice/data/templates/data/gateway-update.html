@@ -2,6 +2,9 @@
 
 {% block title %}Edit gateway{% endblock %}
 
+{% block bread_1 %}<li><a href="{% url 'gateway-detail' gateway %}">Gateway {{ gateway }}</a></li>{% endblock %}
+{% block bread_active %}<li class="active">Edit configuration</li>{% endblock %}
+
 {% block content %}
 <h1>Update this gateway</h1>
 <form action="/rest/gateways/{{ gateway }}/config/{{ id }}/" role="form" method="PUT">

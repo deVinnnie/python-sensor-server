@@ -2,12 +2,15 @@
 
 {% block title %}Gateways{% endblock %}
 
+{% block bread_1 %}{% endblock %}
+{% block bread_active %}<li class="active">Installations</li>{% endblock %}
+
 {% block content %}
 <h1>{{ installation.name }}</h1>
 <ul>
 {% for installation in results %}
     <li>
-        <a>Installation {{ installation.installation_id }}</a>
+        <a href="{% url 'installation-detail' installation.installation_id %}">{{ installation.name }}</a>
     </li>
 {% endfor %}
 </ul>

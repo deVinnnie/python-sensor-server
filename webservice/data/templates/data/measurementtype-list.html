@@ -2,7 +2,11 @@
 
 {% block title %}Measurement Types{% endblock %}
 
+{% block bread %}<li><a href="{% url 'measurementtype-list' %}">Measurement types</a></li>{% endblock %}
+{% block bread_1 %}{% endblock %}
+{% block bread_active %}{% endblock %}
 
+{% block page_2 %}<li class="active"><a href="{% url 'measurementtype-list' %}">Meassurement types</a></li>{% endblock %}
 
 {%block content%}
 <h1>Measurement Types</h1>

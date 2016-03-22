@@ -4,7 +4,7 @@
 
 {% block title %}Sensors{% endblock %}
 
-{% block bread_1 %}<li><a href="/rest/companies/">Companies</a></li>{% endblock %}
+{% block bread_1 %}<li><a href="{% url 'gateway-list' %}">Gateways</a></li>{% endblock %}
 {% block bread_active %}<li class="active">Gateway {{ gateway_id }}</li>{% endblock %}
 
 {% block content %}

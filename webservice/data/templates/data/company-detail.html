@@ -2,6 +2,9 @@
 
 {% block title %}Installations{% endblock %}
 
+{% block bread_1 %}{% endblock %}
+{% block bread_active %}<li class="active">Company {{ company_id }}</li>{% endblock %}
+
 {% block content %}
 <h1>{{ name }}</h1>
 {% if not active %}

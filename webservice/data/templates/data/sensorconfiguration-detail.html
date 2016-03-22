@@ -2,6 +2,9 @@
 
 {% block title %}Sensor Configuration{% endblock %}
 
+{% block bread_1 %}<li><a href="{% url 'gateway-detail' gateway %}">Sensor {{ gateway }}</a></li>{% endblock %}
+{% block bread_active %}<li class="active">Edit configuration</li>{% endblock %}
+
 {% block content %}
 <h1>Edit configuration</h1>
 <form action="/rest/gateways/{{ gateway }}/sensors/{{ sensor }}/config/{{ id }}/" role="form" method="PUT">
