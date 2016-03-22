@@ -147,10 +147,6 @@ class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
 
     @detail_route(methods=['get'])
     def new_config(self, request, pk=None):
-        """
-        Loads data/company_new_installation.html which contains a form to add a new installation.
-        This form does a POST request to /rest/installations/ to add the installation.
-        """
         gateway = get_object_or_404(self.queryset, pk=pk)
         serializer = GatewaySerializer(gateway)
         return Response(serializer.data,template_name='data/gateway_new_config.html')
@@ -225,6 +221,11 @@ class SensorViewSet(viewsets.ModelViewSet):
         request.data['gateway'] = gateway_pk
         return super(SensorViewSet, self).create(request, *args, **kwargs)
 
+    @detail_route(methods=['get'])
+    def new_config(self, request, gateway_pk=None, pk=None):
+        sensor = get_object_or_404(self.queryset, pk=pk)
+        serializer = SensorSerializer(sensor)
+        return Response(serializer.data,template_name='data/sensor_new_config.html')
 
 class MeasurementViewSet(
                         mixins.CreateModelMixin,
