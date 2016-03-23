@@ -31,16 +31,17 @@ class RawMeasurementJSONRenderer(renderers.BaseRenderer):
         separators = INDENT_SEPARATORS
 
         """"
-         {
+        {
             measurements: [
                 { "2015-01-01T00:00:00", 10.54545},
                 { "2015-02-01T00:00:00", 10.54654}
             ]
-         }
+        }
         """
 
         ret = '{ "measurements": ['
         responseData = { "measurements" : [] }
+
         for d in data['measurements']:
             responseData["measurements"].append([d['timestamp'], d['value']])
             ret+="\n"
