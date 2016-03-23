@@ -76,6 +76,8 @@ function drawGraph(data, chart_id) {
         this.options.ymax = options.ymax || 10;
         this.options.ymin = options.ymin || 0;
 
+        d3.select(this.chart).selectAll("*").remove();
+
         this.padding = {
             "top": this.options.title ? 40 : 20,
             "right": 30,
