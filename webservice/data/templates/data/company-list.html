@@ -14,7 +14,7 @@
             <h2>{{ c.name }}<span class="badge">{{ c.alerts|length }}</span></h2>
             {% for alert in c.alerts %}
             <div class="alert alert-danger" role="alert">
-                {{ alert.text }} {{ alert.url }}
+                <a href="{% url 'sensor-alert' alert.gateway alert.sensor %}">{{ alert.text }}</a>
             </div>
             {% endfor %}
         {% endfor %}

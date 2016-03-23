@@ -232,6 +232,12 @@ class SensorViewSet(viewsets.ModelViewSet):
         serializer = SensorSerializer(sensor)
         return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensor-update.html')
 
+    @detail_route(methods=['get'])
+    def alert(self, request, gateway_pk=None, pk=None, format=None):
+        sensor = get_object_or_404(self.queryset, pk=pk)
+        serializer = SensorSerializer(sensor)
+        return Response(serializer.data, template_name='data/sensor_alert.html')
+
 class MeasurementViewSet(
                         mixins.CreateModelMixin,
                         mixins.ListModelMixin,

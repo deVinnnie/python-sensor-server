@@ -1,0 +1,85 @@
+{% extends "data/template.html" %}
+
+{% load staticfiles %}
+
+{% block title %}Sensor alert{% endblock %}
+
+{% block bread_1 %}<li><a href="{% url 'gateway-detail' gateway %}">Gateway {{ gateway }}</a></li>{% endblock %}
+{% block bread_active %}<li class="active">Alert Sensor {{ sensor_id }}</li>{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Sensor {{ sensor_id }} has given an alert!</h3>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-md-12">
+                <div id="measurement_chart-{{ sensor_id }}" class="chart"></div>
+            </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'data/measurement_chart.js' %}"></script>
+
+<script>
+    var url = '/rest/gateways/{{ gateway }}/sensors/{{ sensor_id }}/measurements.json?type=0&start=2015-01-01&end=2020-01-01';
+        var chart_id = 'measurement_chart-{{ sensor_id }}';
+
+        var margin = {
+                top: 20,
+                right: 50,
+                bottom: 30,
+                left: 50
+            },
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse,
+            bisectDate = d3.bisector(function(d) {
+                return d.timestamp;
+            }).left,
+            formatValue = d3.format(",.2f"),
+            formatUnit = function(d) {
+                return formatValue(d) + "pF";
+            };
+
+        var x = d3.time.scale()
+            .range([0, width])
+            .nice();
+
+        var y = d3.scale.linear()
+            .range([height, 0])
+            .nice();
+
+        var line = d3.svg.line()
+            .x(function(d) {
+                return x(d.timestamp);
+            })
+            .y(function(d) {
+                return y(d.value);
+            });
+
+        d3.json(url, function(error, incoming_data) {
+            if (error) throw error;
+
+            var data = incoming_data.measurements;
+
+            data.forEach(function(d) {
+                d.timestamp = parseDate(d[0]);
+                d.value = +d[1];
+            });
+
+            data.sort(function(a, b) {
+                return a.timestamp - b.timestamp;
+            });
+
+            drawGraph(data, chart_id);
+
+        });
+
+</script>
+
+{% endblock %}

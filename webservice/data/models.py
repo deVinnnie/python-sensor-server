@@ -198,6 +198,8 @@ class Alert(models.Model):
     url = models.URLField()
     company = models.ForeignKey(Company, related_name='alerts')
     archived = models.BooleanField(default=False)
+    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID')
+    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID')
 
 # class Permission(models.Model):
 #     permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.
