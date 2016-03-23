@@ -120,7 +120,7 @@
   },
   {
     "model": "data.measurementtype",
-    "pk": 0,
+    "pk": 1,
     "fields": {
       "unit": "pF",
       "scalar": 1,
@@ -129,7 +129,7 @@
   },
   {
     "model": "data.measurementtype",
-    "pk": 1,
+    "pk": 2,
     "fields": {
       "unit": "°C",
       "scalar": 1,
@@ -138,7 +138,7 @@
   },
   {
     "model": "data.measurementtype",
-    "pk": 2,
+    "pk": 3,
     "fields": {
       "unit": "°C",
       "scalar": 1,
@@ -147,7 +147,7 @@
   },
   {
     "model": "data.measurementtype",
-    "pk": 3,
+    "pk": 4,
     "fields": {
       "unit": "Hgmm",
       "scalar": 1,
