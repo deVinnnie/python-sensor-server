@@ -262,7 +262,7 @@
                                             <td>{{ sensor.position_long }}</td>
                                             <td>{{ sensor.position_lat }}</td>
                                             <td><p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                <a class="btn btn-primary btn-xs" data-title="Edit" href="#"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
+                                                <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensor-edit' gateway_id sensor.sensor_id %}"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
                                         </tr>
                                         </tbody>
                                     </table>
