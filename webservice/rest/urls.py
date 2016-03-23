@@ -38,6 +38,7 @@ gateways_router.register(r'config', views.GatewayConfigurationViewSet)
 sensors_router = NestedSimpleRouter(gateways_router, r'sensors', lookup='sensor')
 sensors_router.register(r'measurements', views.MeasurementViewSet)
 sensors_router.register(r'config', views.SensorConfigurationViewSet)
+sensors_router.register('alerts', views.AlertViewSet)
 
 #lite_router = SimpleRouter()
 #lite_router.register(r'lite', views.LiteMeasurementView, 'lite')
