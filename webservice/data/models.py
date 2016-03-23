@@ -59,7 +59,7 @@ class Gateway(models.Model):
                                      related_name="gateways")  # Field name made lowercase.
     active = models.BooleanField(default=True)
 
-    #api_key = UUIDField(default=uuid.uuid4, editable=False)#auto=True)
+    api_key = UUIDField(default=uuid.uuid4, editable=False)#auto=True)
 
     class Meta:
         managed = True
