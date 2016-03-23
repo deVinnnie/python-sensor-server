@@ -22,13 +22,24 @@
 </div>
 
 <h1>Companies</h1>
-
 <a href="{% url 'company-new' %}">Add Company</a>
-<ul>
-    {% for c in results %}
-    <li>
-        <a href="{% url 'company-detail' c.company_id %}">{{ c.name }}</a>
-    </li>
-    {% endfor %}
-</ul>
+<div id="company-list">
+    <input type="text" class="fuzzy-search" placeholder="Search company name" />
+    <ul class="list">
+        {% for c in results %}
+        <li>
+            <a class="name" href="{% url 'company-detail' c.company_id %}">{{ c.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var companyList = new List('company-list', {
+            valueNames: ['name'],
+            plugins: [ ListFuzzySearch() ]
+        });
+    </script>
 {% endblock %}
