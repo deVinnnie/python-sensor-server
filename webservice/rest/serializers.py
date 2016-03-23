@@ -44,7 +44,7 @@ class SensorSerializer(serializers.ModelSerializer):
         model = Sensor
         fields = ('sensor_id', 'name', 'gateway',
                   #'measurement_types',
-                  'config')
+                  'config', 'position_long', 'position_lat')
         read_only_fields = ('sensor_id')
 
 

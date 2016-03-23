@@ -80,10 +80,12 @@ class Sensor(models.Model):
                                 default="1")  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=45, blank=True,
                             default='Sensor Node')  # Field name made lowercase.
-    position_long = models.DecimalField(db_column='Position_Long', max_digits=10, decimal_places=0, blank=True,
-                                        null=True)  # Field name made lowercase.
-    position_lat = models.DecimalField(db_column='Position_Lat', max_digits=10, decimal_places=0, blank=True,
-                                       null=True)  # Field name made lowercase.
+    # position_long = models.DecimalField(db_column='Position_Long', max_digits=10, decimal_places=0, blank=True,
+    #                                     null=True)  # Field name made lowercase.
+    # position_lat = models.DecimalField(db_column='Position_Lat', max_digits=10, decimal_places=0, blank=True,
+    #                                    null=True)  # Field name made lowercase.
+    position_long = models.FloatField(db_column='Position_Long', blank=True, null=True)
+    position_lat = models.FloatField(db_column='Position_Lat', blank=True, null=True)
 
     class Meta:
         managed = True
