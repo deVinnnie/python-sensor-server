@@ -119,9 +119,16 @@ function drawGraph(data, chart_id) {
             return d.value;
         }));
 
-        this.vis = d3.select(this.chart).append("svg")
-            .attr("width", this.cx)
-            .attr("height", this.cy)
+        this.vis = d3.select(this.chart)
+            .classed("svg-container", true) //container class to make it responsive
+            .append("svg")
+//            .attr("width", this.cx)
+//            .attr("height", this.cy)
+            //responsive SVG needs these 2 attributes and no width and height attr
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 " + this.cx + " " + this.cy)
+            //class to make it responsive
+            .classed("svg-content-responsive", true)
             .append("g")
             .attr("transform", "translate(" + this.padding.left + "," + this.padding.top + ")");
 

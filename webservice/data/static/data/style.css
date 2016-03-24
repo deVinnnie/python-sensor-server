@@ -32,9 +32,10 @@ rect { fill: #fff; }
 .axis { font-size: 1.5em; }
 
 .chart {
-        background-color: #F7F2C5;
-        width: 960px;
-        height: 500px;
+    background-color: #F7F2C5;
+    width: 100%;
+    padding-bottom: 50%; /* aspect ratio */
+    vertical-align: top;
 }
 
 .overlay {
@@ -65,4 +66,19 @@ ul
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 50%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
 }
