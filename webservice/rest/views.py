@@ -15,6 +15,7 @@ from data.models import *
 from rest.serializers import *
 from datetime import datetime
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from .permissions import IsGatewayOrAuthenticated
 from .custom_renderers import *
 
 
@@ -269,6 +270,7 @@ class MeasurementViewSet(
     queryset = Measurement.objects.all()
     serializer_class = MeasurementSerializer
     renderer_classes = (RawMeasurementJSONRenderer,) + HTMLGenericViewSet.renderer_classes
+    permission_classes = (IsGatewayOrAuthenticated,)
 
     def list(self, request, gateway_pk=None, sensor_pk=None, format=None):
         """
