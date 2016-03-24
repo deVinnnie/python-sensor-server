@@ -83,7 +83,7 @@ class MeasurementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Measurement
-        fields = ('measurement_id', 'sensor_id', 'timestamp', 'measurement_type', 'value', 'alert')#''sensor_id''
+        fields = ('measurement_id', 'sensor_id', 'timestamp', 'measurement_type', 'value', 'alert')
 
 
 class LiteMeasurementSerializer(serializers.ModelSerializer):

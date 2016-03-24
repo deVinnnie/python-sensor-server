@@ -139,7 +139,8 @@ class MeasurementType(models.Model):
 class Measurement(models.Model):
     measurement_id = models.AutoField(db_column='Measurement_ID', primary_key=True) # Field name made lowercase.
     timestamp = models.DateTimeField(db_column='Timestamp') # Field name made lowercase.
-    sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements') # Field name made lowercase.
+    #sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements') # Field name made lowercase.
+    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements') # Field name made lowercase.
     measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type') # Field name made lowercase.
     value = models.FloatField(db_column='Value', blank=True, null=True) # Field name made lowercase.
     alert = models.BooleanField(default=False) #New alert?
@@ -216,14 +217,14 @@ class Alert(models.Model):
         return self.measurement_type.name
 
 
-# class Permission(models.Model):
-#     permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.
-#     entity = models.CharField(db_column='Entity', max_length=45) # Field name made lowercase.
-#     identifier = models.CharField(db_column='Identifier', max_length=45) # Field name made lowercase.
-#     action = models.CharField(db_column='Action', max_length=45) # Field name made lowercase.
-#     class Meta:
-#         managed = False
-#         db_table = 'Permission'
+
+class Permission(models.Model):
+    permission_id = models.AutoField(db_column='Permission_ID', primary_key=True)
+    entity = models.CharField(db_column='Entity', max_length=45)
+    identifier = models.IntegerField(db_column='Identifier')
+    action = models.CharField(db_column='Action', max_length=45)
+    class Meta:
+        db_table = 'Permission'
 
 # 
 # class Role(models.Model):
