@@ -21,22 +21,26 @@
 <div class="row">
     <div class="col-md-6">
         <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#type-tab1" data-toggle="tab">Capacitance</a></li>
-                <li><a href="#type-tab2" data-toggle="tab">Temperature</a></li>
-                <li><a href="#type-tab3" data-toggle="tab">Humidity</a></li>
+            <ul class="nav nav-tabs" id="measurementDataTabs">
+                <li class="active">
+                    <a href="#type-tab1" data-toggle="tab" data-measurement-type="1">Capacitance</a>
+                </li>
+                <li>
+                    <a href="#type-tab2" data-toggle="tab" data-measurement-type="2">Temperature</a>
+                </li>
+                <li>
+                    <a href="#type-tab3" data-toggle="tab" data-measurement-type="3">Humidity</a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="type-tab1">
-                    <p>Capacitance measurements</p>
-                    <!-- Measurements Table -->
-                    <div class="row" id="measurements"></div>
+                    <div class="row" id="measurements-type-1"></div>
                 </div>
                 <div class="tab-pane" id="type-tab2">
-                    <p>Temperature measurements</p>
+                    <div class="row" id="measurements-type-2"></div>
                 </div>
                 <div class="tab-pane" id="type-tab3">
-                    <p>Humidity measurements</p>
+                    <div class="row" id="measurements-type-3"></div>
                 </div>
             </div>
         </div>
@@ -254,29 +258,39 @@
     {% endfor %}
     ];
 
-    sensors.forEach(function(s) {
-        console.log(s);
-        $.getJSON(base_url + s + "/measurements.json?type=0&start=2016-03-04", function(data) {
-            sensor_id = 1;
-            var items = [];
-            $.each( data.measurements, function(index, value) {
-                console.log(value[1])
-                items.push( "<li>" + value[1] + "</li>" );
-            });
+    function loadMeasurements(type){
+        sensors.forEach(function(s) {
+            url = base_url + s + "/measurements.json?type=" + type + "&start=2016-03-04"
+            targetId = "#measurements-type-" + type;
+            $.getJSON(url, function(data) {
+                sensor_id = 1;
+                var items = [];
+                $.each( data.measurements, function(index, value) {
+                    //console.log(value[1])
+                    items.push( "<li>" + value[1] + "</li>" );
+                });
 
-            $("#measurements").append(
-                        $("<div/>", { class : "col-md-5"}).append(
-                                                                $("<h3/>", {
-                                                                    text : "Sensor " + s
-                                                                    }))
-                                                          .append(
-                                                                $("<ul/>").append(
-                                                                        items.join("")
-                                                                )
-                                                          )
-            );
+                $(targetId).append(
+                            $("<div/>", { class : "col-md-5"}).append(
+                                                                    $("<h3/>", {
+                                                                        text : "Sensor " + s
+                                                                        }))
+                                                              .append(
+                                                                    $("<ul/>").append(
+                                                                            items.join("")
+                                                                    )
+                                                              )
+                );
+            });
         });
-    });
+    }
+
+    $('#measurementDataTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        console.log(e.target.dataset.measurementType); // newly activated tab
+        loadMeasurements(e.target.dataset.measurementType);
+    })
+
+    loadMeasurements(1); // Load first tab. Quick Hack.
 </script>
 
 <script>
