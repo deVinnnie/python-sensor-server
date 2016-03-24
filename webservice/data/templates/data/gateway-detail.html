@@ -40,26 +40,6 @@
                 </div>
             </div>
         </div>
-
-       <!-- <div class="table-responsive">
-            <table class="table-striped">
-                <thead>
-                    <tr>
-                        {% for sensor in sensors %}
-                            <th>Sensor {{ sensor.sensor_id }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        &lt;!&ndash; Fetch measurement data via AJAX request.&ndash;&gt;
-                    {% for sensor in sensors %}
-                            <td>1.64578</td>
-                    {% endfor %}
-                    </tr>
-                </tbody>
-            </table>
-        </div>-->
     </div>
 
     <div class="col-md-6">
@@ -163,24 +143,6 @@
         <div class="col-md-10">
             <div class="row">
                 <div class="tab-content">
-                     <!--<div class="tabbable">-->
-                         <!--<ul class="nav nav-tabs">-->
-                             <!--<li class="active"><a href="#type-tab4" data-toggle="tab">Capacitance</a></li>-->
-                             <!--<li><a href="#type-tab5" data-toggle="tab">Temperature</a></li>-->
-                             <!--<li><a href="#type-tab6" data-toggle="tab">Humidity</a></li>-->
-                         <!--</ul>-->
-                         <!--<div class="tab-content">-->
-                             <!--<div class="tab-pane active" id="type-tab4">-->
-                                 <!--<p>Capacitance measurements</p>-->
-                             <!--</div>-->
-                             <!--<div class="tab-pane" id="type-tab5">-->
-                                 <!--<p>Temperature measurements</p>-->
-                             <!--</div>-->
-                             <!--<div class="tab-pane" id="type-tab6">-->
-                                 <!--<p>Humidity measurements</p>-->
-                             <!--</div>-->
-                         <!--</div>-->
-                    <!--</div>-->
                     {% for sensor in sensors %}
                         <div class="tab-pane" id="sensor-tab{{ sensor.sensor_id }}">
                             <div class="row">
