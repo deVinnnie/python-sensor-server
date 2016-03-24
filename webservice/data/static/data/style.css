@@ -59,3 +59,10 @@ tr.deleted {
     margin-left: 5px;
     margin-right: 5px;
 }
+
+ul
+{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
