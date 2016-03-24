@@ -1,3 +1,6 @@
+from _ast import arg
+from _testcapi import raise_exception
+
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import status, permissions, views, renderers, viewsets
 from rest_framework.response import Response
@@ -11,7 +14,7 @@ from rest_framework.reverse import reverse
 from data.models import *
 from rest.serializers import *
 from datetime import datetime
-
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from .custom_renderers import *
 
 
@@ -22,7 +25,7 @@ from .custom_renderers import *
 # and reload the current page (which may be what you wanted, but it's not the way to do it)
 #
 
-class HTMLGenericViewSet():
+class HTMLGenericViewSet(viewsets.ModelViewSet):
     """
     Generic class implementing the get_template_names() method.
     This is used for viewsets to define explicit templates per action,
@@ -32,6 +35,8 @@ class HTMLGenericViewSet():
                         renderers.TemplateHTMLRenderer,
                         renderers.BrowsableAPIRenderer
                         )
+
+    #permission_classes = (permissions.IsAuthenticated,)
 
     def get_template_names(self):
         meta = self.get_queryset().model._meta
@@ -66,14 +71,14 @@ class HTMLGenericViewSet():
         return selected_templates
 
 
-class CompanyViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
+class CompanyViewSet(HTMLGenericViewSet):
     """
     /companies
     """
-    renderer_classes = HTMLGenericViewSet.renderer_classes
+    #renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
 
     @list_route(methods=['get'])
     def new(self, request):
@@ -105,7 +110,7 @@ class CompanyViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         return redirect('company-detail', pk)
 
 
-class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
+class InstallationViewSet(HTMLGenericViewSet):
     """
     /installations/
 
@@ -114,8 +119,8 @@ class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     A POST request will be handled by the list method (defined in ModelViewSet, the super class).
     See http://www.django-rest-framework.org/api-guide/viewsets/
     """
-    renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Installation.objects.all()
+
     serializer_class = InstallationSerializer
 
     @detail_route(methods=['get'])
@@ -139,11 +144,10 @@ class InstallationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         return redirect('installation-detail', pk)
 
 
-class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
+class GatewayViewSet(HTMLGenericViewSet):
     """
     /gateways
     """
-    renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Gateway.objects.all()
     serializer_class = GatewaySerializer
 
@@ -154,12 +158,11 @@ class GatewayViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
         return Response(serializer.data,template_name='data/gateway_new_config.html')
 
 
-class GatewayConfigurationViewSet(viewsets.ModelViewSet,HTMLGenericViewSet):
+class GatewayConfigurationViewSet(HTMLGenericViewSet):
     """
     /gateways/$1/config
     """
     #renderer_classes = (RawConfigJSONRenderer,) + HTMLGenericViewSet.renderer_classes
-    renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = GatewayConfiguration.objects.all()
     serializer_class = GatewayConfigurationSerializer
 
@@ -239,8 +242,8 @@ class MeasurementViewSet(
                         mixins.CreateModelMixin,
                         mixins.ListModelMixin,
                         mixins.RetrieveModelMixin,
-                        viewsets.GenericViewSet,
-                        HTMLGenericViewSet):
+                        viewsets.GenericViewSet
+                    ):
     """
     /gateways/$1/sensors/$2/measurements/
 
@@ -346,13 +349,12 @@ class LiteMeasurementView(views.APIView):
         return Response({"success": True})
 
 
-class SensorConfigurationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
+class SensorConfigurationViewSet(HTMLGenericViewSet):
     """
     /gateways/$1/sensors/$2/config
     """
     queryset = SensorConfiguration.objects.all()
     serializer_class = SensorConfigurationSerializer
-    renderer_classes = HTMLGenericViewSet.renderer_classes
 
     def list(self, request, gateway_pk=None, sensor_pk=None, format=None):
         queryset = self.queryset.filter(sensor=sensor_pk)
@@ -366,19 +368,17 @@ class SensorConfigurationViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
 
         return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensorconfiguration-detail.html')
 
-class MeasurementTypeViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
+class MeasurementTypeViewSet(HTMLGenericViewSet):
     """
     /measurement-type
     """
     queryset=MeasurementType.objects.all()
     serializer_class = MeasurementTypeSerializer
-    renderer_classes = HTMLGenericViewSet.renderer_classes
 
 
-class AlertViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
+class AlertViewSet(HTMLGenericViewSet):
     queryset=Alert.objects.all()
     serializer_class = AlertSerializer
-    renderer_classes = HTMLGenericViewSet.renderer_classes
 
     @detail_route(methods=['get'])
     def alert(self, request, gateway_pk=None, sensor_pk=None, pk=None, format=None):
