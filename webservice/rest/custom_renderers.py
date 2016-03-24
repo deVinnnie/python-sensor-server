@@ -9,6 +9,7 @@ from rest_framework.utils import encoders
 from rest_framework.settings import api_settings
 from django.utils import six
 
+
 class RawMeasurementJSONRenderer(renderers.BaseRenderer):
     """
     Renderer which serializes to a specific lite format for a list of Measurement objects.
@@ -38,6 +39,11 @@ class RawMeasurementJSONRenderer(renderers.BaseRenderer):
             ]
         }
         """
+
+        if not 'measurements' in data:
+            jsonRenderer = renderers.JSONRenderer()
+            ret = jsonRenderer.render(data, accepted_media_type=None, renderer_context=None)
+            return ret
 
         ret = '{ "measurements": ['
         responseData = { "measurements" : [] }
