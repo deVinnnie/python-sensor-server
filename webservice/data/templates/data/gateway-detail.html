@@ -261,9 +261,12 @@
     ];
 
     function loadMeasurements(type){
+        targetId = "#measurements-type-" + type;
+        $(targetId).empty();
+
         sensors.forEach(function(s) {
             url = base_url + s + "/measurements.json?type=" + type + "&start=2016-03-04"
-            targetId = "#measurements-type-" + type;
+
             $.getJSON(url, function(data) {
                 sensor_id = 1;
                 var items = [];
