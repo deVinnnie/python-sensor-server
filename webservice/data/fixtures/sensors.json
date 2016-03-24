@@ -1,0 +1,192 @@
+[
+  {
+    "model": "data.sensor",
+    "pk": 1,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.01,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 2,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.02,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 3,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.03,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 4,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.04,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 5,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.05,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 6,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.06,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 7,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.07,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 8,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.08,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 9,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.09,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 10,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.010,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 11,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.011,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 12,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.012,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 13,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.013,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 14,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.014,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 15,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.015,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 16,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.016,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 17,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.017,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 18,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.018,
+      "position_lat": 51.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 19,
+    "fields": {
+      "gateway": 2,
+      "name": "Default Sensor Node",
+      "position_long": 4.019,
+      "position_lat": 51.1
+    }
+  }
+]

@@ -80,45 +80,6 @@
     }
   },
   {
-    "model": "data.sensor",
-    "pk": 1,
-    "fields": {
-      "gateway": 2,
-      "name": "Default Sensor Node",
-      "position_long": 4.01,
-      "position_lat": 51.1
-    }
-  },
-  {
-    "model": "data.sensorconfiguration",
-    "pk": 1,
-    "fields": {
-      "sensor": 1,
-      "attribute": "neighbour-search-depth",
-      "value": "5"
-    }
-  },
-  {
-    "model": "data.sensor",
-    "pk": 2,
-    "fields": {
-      "gateway": 2,
-      "name": "Default Sensor Node",
-      "position_long": 4.02,
-      "position_lat": 51.1
-    }
-  },
-  {
-    "model": "data.sensor",
-    "pk": 3,
-    "fields": {
-      "gateway": 2,
-      "name": "Default Sensor Node",
-      "position_long": 4.03,
-      "position_lat": 51.1
-    }
-  },
-  {
     "model": "data.measurementtype",
     "pk": 1,
     "fields": {
