@@ -10,17 +10,13 @@
 <div class="row">
     <div class="col-md-12">
         {% for c in results %}
-            {% if c.alerts %}
-                <h2>{{ c.name }}<span class="badge">{{ c.alerts|length }}</span></h2>
+            {% if c.not_archived %}
+                <h2>{{ c.name }}<span class="badge">{{ c.not_archived|length }}</span></h2>
             {% endif %}
-            {% for alert in c.alerts %}
-                {% if alert.archived %}
-
-                {% else %}
+            {% for alert in c.not_archived %}
                     <div class="alert alert-danger" role="alert">
                         <a href="{% url 'alert-alert' alert.gateway alert.sensor alert.id %}">{{ alert.text }}</a>
                     </div>
-                {% endif %}
             {% endfor %}
         {% endfor %}
     </div>

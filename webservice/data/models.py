@@ -32,6 +32,9 @@ class Company(models.Model):
     def __str__(self):
         return self.name
 
+    def not_archived(self):
+        return self.alerts.filter(archived=False)
+
 
 class Installation(models.Model):
     installation_id = models.AutoField(db_column='Installation_ID', primary_key=True)
