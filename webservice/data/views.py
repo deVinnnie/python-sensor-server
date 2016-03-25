@@ -56,21 +56,27 @@ def alerts(request):
         dangers1 = dangers.filter(value__gte=max)
         dangers2 = dangers.filter(value__lte=min)
         for m in dangers1:
-            print(m.value)
-            company = m.sensor_id.gateway.installation.company.company_id
-            gateway = m.sensor_id.gateway.gateway_id
-            sensor = m.sensor_id.sensor_id
-            Alert.objects.create(text="Sensor " + str(sensor) + " has a measurement out of bounds!", url="", archived=0,
-                                 company=Company.objects.get(pk=company),
-                                 gateway=Gateway.objects.get(pk=gateway),
-                                 sensor=Sensor.objects.get(pk=sensor))
+            if m.alert == False:
+                print(m.value)
+                company = m.sensor_id.gateway.installation.company.company_id
+                gateway = m.sensor_id.gateway.gateway_id
+                sensor = m.sensor_id.sensor_id
+                Alert.objects.create(text="Sensor " + str(sensor) + " has a measurement out of bounds!", url="", archived=0,
+                                     company=Company.objects.get(pk=company),
+                                     gateway=Gateway.objects.get(pk=gateway),
+                                     sensor=Sensor.objects.get(pk=sensor))
+                m.alert = True
+                m.save()
 
         for m in dangers2:
-            print(m.value)
-            Alert.objects.create(text="Sensor " + str(sensor) + " has a measurement out of bounds!", url="", archived=0,
-                                 company=Company.objects.get(pk=company),
-                                 gateway=Gateway.objects.get(pk=gateway),
-                                 sensor=Sensor.objects.get(pk=sensor))
+            if m.alert == False:
+                print(m.value)
+                Alert.objects.create(text="Sensor " + str(sensor) + " has a measurement out of bounds!", url="", archived=0,
+                                     company=Company.objects.get(pk=company),
+                                     gateway=Gateway.objects.get(pk=gateway),
+                                     sensor=Sensor.objects.get(pk=sensor))
+                m.alert = True
+                m.save()
 
 
     # return HttpResponse("Hello, world. You're at the polls index.")
