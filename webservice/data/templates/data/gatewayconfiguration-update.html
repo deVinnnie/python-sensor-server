@@ -1,0 +1,13 @@
+{% extends "data/template.html" %}
+
+{% block headextra %}
+    <meta http-equiv="refresh" content="0; url={% url 'gateway-detail' 1 %}"/>
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-success" role="alert">
+    Configuration updated. Redirecting to Gateway overview.
+</div>
+
+{% endblock %}

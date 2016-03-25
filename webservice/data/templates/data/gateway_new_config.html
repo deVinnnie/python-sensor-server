@@ -11,10 +11,9 @@
 <form action="/rest/gateways/{{ gateway_id }}/config/" method="POST">
     {% csrf_token %}
     <input type="hidden" name="gateway" value="{{ gateway_id }}"/>
-    <input type="text" name="attribute" placeholder="IP-address"/>
-    <input type="text" name="value" placeholder="192.168.1.2"/>
-    <input name="confirmed" value="false" type="hidden">
-    <input name="deleted" value="false" type="hidden">
+    <input type="text" name="attribute" placeholder="Attribute"/>
+    <input type="text" name="value" placeholder="Value"/>
+    <input type="hidden" name="confirmed" value="false">
     <input type="submit" value="Save">
 </form>
 {% endblock %}
