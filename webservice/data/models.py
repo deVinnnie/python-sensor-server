@@ -121,6 +121,8 @@ class MeasurementType(models.Model):
     unit = models.CharField(db_column='Unit', max_length=45, blank=True)
     scalar = models.IntegerField(db_column='Scalar', blank=True, null=True)
     name = models.CharField(db_column='Name', max_length=45, blank=True)
+    upper_bound = models.IntegerField(default = 27)
+    lower_bound = models.IntegerField(default = 0)
 
     class Meta:
         managed = True

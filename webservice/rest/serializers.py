@@ -100,5 +100,5 @@ class MeasurementTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MeasurementType
-        fields = ('measurementTypeID', 'name', 'unit', 'scalar')
+        fields = ('measurementTypeID', 'name', 'unit', 'scalar', 'upper_bound', 'lower_bound')
         read_only_fields = ('measurementTypeID',)
