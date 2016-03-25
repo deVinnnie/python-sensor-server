@@ -8,27 +8,6 @@ class AlertSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('id', 'company', 'gateway', 'sensor')
 
-class InstallationSerializer(serializers.ModelSerializer):
-    gateways = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
-
-    class Meta:
-        model = Installation
-        #fields = ('installation_id', 'name', 'gateways', )
-        #fields = '__all__'
-        exclude = ('storage_on_remote', 'remote_database_id')
-        read_only_fields = ('installation_id',)
-
-class CompanySerializer(serializers.ModelSerializer):
-    #installations = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
-    installations = InstallationSerializer(many=True, read_only=True)
-
-    alerts = AlertSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Company
-        fields = ('company_id', 'name', 'installations', 'active', 'alerts', 'not_archived')
-        read_only_fields = ('company_id',)
-
 
 class SensorConfigurationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -72,6 +51,29 @@ class GatewaySerializer(serializers.ModelSerializer):
         # fields = ('gateway_id', 'sensors', 'installation', 'config', 'api_key')
         fields = ('gateway_id', 'sensors', 'installation', 'config', 'alerts', 'api_key')
         read_only_fields = ('gateway_id',)
+
+
+class InstallationSerializer(serializers.ModelSerializer):
+    #gateways = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
+    gateways = GatewaySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Installation
+        #fields = ('installation_id', 'name', 'gateways', )
+        #fields = '__all__'
+        exclude = ('storage_on_remote', 'remote_database_id')
+        read_only_fields = ('installation_id',)
+
+class CompanySerializer(serializers.ModelSerializer):
+    #installations = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
+    installations = InstallationSerializer(many=True, read_only=True)
+
+    alerts = AlertSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Company
+        fields = ('company_id', 'name', 'installations', 'active', 'alerts', 'not_archived')
+        read_only_fields = ('company_id',)
 
 
 class MeasurementSerializer(serializers.ModelSerializer):

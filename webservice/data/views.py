@@ -49,6 +49,7 @@ def alerts(request):
     set = Sensor.objects.all()
     for s in set:
         dangers = s.measurements.filter(value__gte=10)
+        dangers = dangers.filter(value__lte=10)
         for m in dangers:
             print(m.value)
             Alert.objects.create(text="Alert", url="Help", company=Company.objects.get(pk=1))

@@ -27,8 +27,8 @@
         <tbody>
             {% for gateway in gateways %}
                 <tr>
-                    <td><a href="{% url 'gateway-detail' gateway %}">Gateway {{ gateway }}</a></td>
-                    <td>AA32</td>
+                    <td><a href="{% url 'gateway-detail' gateway.gateway_id %}">{{ gateway.gateway_id }}</a></td>
+                    <td>{{ gateway.api_key }}</td>
                 </tr>
             {% endfor %}
         </tbody>
