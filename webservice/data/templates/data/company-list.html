@@ -6,7 +6,14 @@
 {% block bread_active %}{% endblock %}
 
 {% block content %}
-<h1>Alerts</h1>
+<div class="row">
+    <div class="col-md-2">
+        <h1>Alerts</h1>
+    </div>
+    <div class="col-md-10">
+        <a class="btn btn-primary btn-refresh" href="{% url 'data:alerts' %}">Refresh</a>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         {% for c in results %}
@@ -22,9 +29,9 @@
     </div>
 </div>
 
-<h1>Companies</h1>
 <div class="row">
     <div class="col-md-6">
+        <h1>Companies</h1>
         <a href="{% url 'company-new' %}">Add Company</a>
         <div id="company-list">
             <input type="text" class="fuzzy-search" placeholder="Search company name" />

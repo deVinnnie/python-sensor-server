@@ -46,13 +46,27 @@ def alerts(request):
     """
     Determine Alerts
     """
-    set = Sensor.objects.all()
-    for s in set:
-        dangers = s.measurements.filter(value__gte=10)
-        dangers = dangers.filter(value__lte=10)
-        for m in dangers:
-            print(m.value)
-            Alert.objects.create(text="Alert", url="Help", company=Company.objects.get(pk=1))
+    # set = Sensor.objects.all()
+    s = Sensor.objects.get(pk=1)
+    # for s in set:
+        # dangers = s.measurements.filter(value__gte=10)
+        # dangers = dangers.filter(value__lte=10)
+    min = 0
+    max = 23
+    dangers = s.measurements.filter(measurement_type__exact=1)
+    dangers1 = dangers.filter(value__gte=max)
+    dangers2 = dangers.filter(value__lte=min)
+    for m in dangers1:
+        print(m.value)
+        Alert.objects.create(text="Automatic Alert Test", url="", archived=0, company=Company.objects.get(pk=1),
+                             gateway=Gateway.objects.get(pk=1),
+                             sensor=Sensor.objects.get(pk=1))
+
+    for m in dangers2:
+        print(m.value)
+        Alert.objects.create(text="Automatic Alert Test", url="", archived=0, company=Company.objects.get(pk=1),
+                             gateway=Gateway.objects.get(pk=1),
+                             sensor=Sensor.objects.get(pk=1))
 
 
     return HttpResponse("Hello, world. You're at the polls index.")

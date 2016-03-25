@@ -82,3 +82,15 @@ ul
     top: 10px;
     left: 0;
 }
+
+.btn-archive {
+    bottom: 15px;
+    position: relative;
+    top: 15px;
+}
+
+.btn-refresh {
+    bottom: 15px;
+    position: relative;
+    top: 25px;
+}
