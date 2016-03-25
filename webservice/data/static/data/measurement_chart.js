@@ -66,10 +66,10 @@ function drawGraph(data, chart_id) {
     SimpleGraph = function(elemid, options) {
         var self = this;
         this.chart = document.getElementById(elemid);
-        //this.cx = this.chart.clientWidth; // To be responsive
-        //this.cy = this.chart.clientHeight;
-        this.cx = 960;
-        this.cy = 500;
+        this.cx = this.chart.clientWidth; // To be responsive
+        this.cy = this.chart.clientHeight;
+        //this.cx = 960;
+        //this.cy = 500;
         this.options = options || {};
         this.options.xmax = options.xmax || 30;
         this.options.xmin = options.xmin || 0;
@@ -80,7 +80,7 @@ function drawGraph(data, chart_id) {
 
         this.padding = {
             "top": this.options.title ? 40 : 20,
-            "right": 30,
+            "right": 50,
             "bottom": this.options.xlabel ? 80 : 10,
             "left": this.options.ylabel ? 70 : 45
         };
@@ -101,10 +101,10 @@ function drawGraph(data, chart_id) {
         height = 500 - margin.top - margin.bottom;
 
         this.x = x = d3.time.scale()
-                    .range([0, width])
+                    .range([0, this.size.width])
                     .nice();
         this.y = y = d3.scale.linear()
-                    .range([height, 0])
+                    .range([this.size.height, 0])
                     .nice();
         this.line = d3.svg.line()
                     .x(function(d) {
