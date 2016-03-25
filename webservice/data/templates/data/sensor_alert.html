@@ -28,7 +28,7 @@
 <script src="{% static 'data/measurement_chart.js' %}"></script>
 
 <script>
-    var url = '/rest/gateways/{{ gateway }}/sensors/{{ sensor }}/measurements.json?type=0&start=2015-01-01&end=2020-01-01';
+    var url = '/rest/gateways/{{ gateway }}/sensors/{{ sensor }}/measurements.json?type=1&start=2015-01-01&end=2020-01-01';
         var chart_id = 'measurement_chart-{{ sensor }}';
 
         var margin = {
