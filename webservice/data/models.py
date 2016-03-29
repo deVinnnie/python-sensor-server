@@ -138,7 +138,7 @@ class Measurement(models.Model):
     sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements') # Field name made lowercase.
     measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type') # Field name made lowercase.
     value = models.FloatField(db_column='Value', blank=True, null=True) # Field name made lowercase.
-    alert = models.BooleanField(default=False)
+    alert = models.BooleanField(default=False) #New alert?
 
     class Meta:
         managed = True
