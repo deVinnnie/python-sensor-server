@@ -170,28 +170,38 @@
                             <div class="row">
                                 <h2>Measurements</h2>
                                 <div class="tabbable">
-                                    <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#type-tab1-{{ sensor.sensor_id }}" data-toggle="tab">Capacitance</a></li>
-                                        <li><a href="#type-tab2-{{ sensor.sensor_id }}" data-toggle="tab">Temperature</a></li>
-                                        <li><a href="#type-tab3-{{ sensor.sensor_id }}" data-toggle="tab">Humidity</a></li>
+                                    <ul class="nav nav-tabs" id="graphDataTabs">
+                                        {% for t in measurement_types %}
+                                            <li>
+                                                <a href="#type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}" data-toggle="tab" data-measurement-type-name="{{ t.name }}" data-measurement-type="{{ t.measurementTypeID }}">{{ t.name }}</a>
+                                            </li>
+                                        {% endfor %}
+                                        <!--<li class="active"><a href="#type-tab1-{{ sensor.sensor_id }}" data-toggle="tab">Capacitance</a></li>-->
+                                        <!--<li><a href="#type-tab2-{{ sensor.sensor_id }}" data-toggle="tab">Temperature</a></li>-->
+                                        <!--<li><a href="#type-tab3-{{ sensor.sensor_id }}" data-toggle="tab">Humidity</a></li>-->
                                     </ul>
                                     <div class="tab-content">
-                                        <div class="tab-pane active" id="type-tab1-{{ sensor.sensor_id }}">
-                                            <!--<p>Capacitance measurements</p>-->
-                                            <!--<h3>Here will come the measurements for Sensor {{ sensor.sensor_id }}</h3>-->
-                                            <!--<script type="text/javascript">-->
-                                                <!--var url = '/rest/gateways/{{ gateway_id }}/sensors/{{ sensor.sensor_id }}/measurements.json?type=0&start=2015-01-01&end=2020-01-01'-->
-                                                <!--var chart_id = 'measurement_chart-{{ sensor.sensor_id }}';-->
-                                            <!--</script>-->
-                                            <!--<script type="text/javascript" src="{% static 'data/measurement_chart.js' %}"></script>-->
-                                            <div id="measurement_chart-{{ sensor.sensor_id }}" class="chart"></div>
-                                        </div>
-                                        <div class="tab-pane" id="type-tab2-{{ sensor.sensor_id }}">
-                                            <p>Temperature measurements</p>
-                                        </div>
-                                        <div class="tab-pane" id="type-tab3-{{ sensor.sensor_id }}">
-                                            <p>Humidity measurements</p>
-                                        </div>
+                                        {% for t in measurement_types %}
+                                            <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}">
+                                                <div class="chart" id="measurement_chart-{{ t.measurementTypeID }}-{{ sensor.sensor_id }}"></div>
+                                            </div>
+                                        {% endfor %}
+                                        <!--<div class="tab-pane active" id="type-tab1-{{ sensor.sensor_id }}">-->
+                                            <!--&lt;!&ndash;<p>Capacitance measurements</p>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<h3>Here will come the measurements for Sensor {{ sensor.sensor_id }}</h3>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<script type="text/javascript">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;var url = '/rest/gateways/{{ gateway_id }}/sensors/{{ sensor.sensor_id }}/measurements.json?type=0&start=2015-01-01&end=2020-01-01'&ndash;&gt;-->
+                                                <!--&lt;!&ndash;var chart_id = 'measurement_chart-{{ sensor.sensor_id }}';&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</script>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<script type="text/javascript" src="{% static 'data/measurement_chart.js' %}"></script>&ndash;&gt;-->
+                                            <!--<div id="measurement_chart-{{ sensor.sensor_id }}" class="chart"></div>-->
+                                        <!--</div>-->
+                                        <!--<div class="tab-pane" id="type-tab2-{{ sensor.sensor_id }}">-->
+                                            <!--<p>Temperature measurements</p>-->
+                                        <!--</div>-->
+                                        <!--<div class="tab-pane" id="type-tab3-{{ sensor.sensor_id }}">-->
+                                            <!--<p>Humidity measurements</p>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                             </div>
@@ -338,62 +348,71 @@ $(document).ready(function(){
         var id = pillName.slice(-1); // x
         console.log(pillName);
         console.log(id);
-        var url = '/rest/gateways/{{ gateway_id }}/sensors/' + id + '/measurements.json?type=1&start=2015-01-01&end=2020-01-01';
-        var chart_id = 'measurement_chart-' + id;
-        console.log(url);
-        console.log(chart_id);
 
-        var margin = {
-                top: 20,
-                right: 50,
-                bottom: 30,
-                left: 50
-            },
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+        function loadGraph(type, typeName) {
+            var url = '/rest/gateways/{{ gateway_id }}/sensors/' + id + '/measurements.json?type=' + type + '&start=2015-01-01&end=2020-01-01';
+            var chart_id = 'measurement_chart-' + type + '-' + id;
+            console.log(url);
+            console.log(chart_id);
 
-        var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse,
-            bisectDate = d3.bisector(function(d) {
-                return d.timestamp;
-            }).left,
-            formatValue = d3.format(",.2f"),
-            formatUnit = function(d) {
-                return formatValue(d) + "pF";
-            };
+            var margin = {
+                    top: 20,
+                    right: 50,
+                    bottom: 30,
+                    left: 50
+                },
+                width = 960 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
 
-        var x = d3.time.scale()
-            .range([0, width])
-            .nice();
+            var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse,
+                bisectDate = d3.bisector(function(d) {
+                    return d.timestamp;
+                }).left,
+                formatValue = d3.format(",.2f"),
+                formatUnit = function(d) {
+                    return formatValue(d) + "pF";
+                };
 
-        var y = d3.scale.linear()
-            .range([height, 0])
-            .nice();
+            var x = d3.time.scale()
+                .range([0, width])
+                .nice();
 
-        var line = d3.svg.line()
-            .x(function(d) {
-                return x(d.timestamp);
-            })
-            .y(function(d) {
-                return y(d.value);
+            var y = d3.scale.linear()
+                .range([height, 0])
+                .nice();
+
+            var line = d3.svg.line()
+                .x(function(d) {
+                    return x(d.timestamp);
+                })
+                .y(function(d) {
+                    return y(d.value);
+                });
+
+            d3.json(url, function(error, incoming_data) {
+                if (error) throw error;
+
+                var data = incoming_data.measurements;
+
+                data.forEach(function(d) {
+                    d.timestamp = parseDate(d[0]);
+                    d.value = +d[1];
+                });
+
+                data.sort(function(a, b) {
+                    return a.timestamp - b.timestamp;
+                });
+
+                drawGraph(data, chart_id, typeName);
+
             });
+        }
 
-        d3.json(url, function(error, incoming_data) {
-            if (error) throw error;
+        $('#graphDataTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+           console.log(e.target.dataset.measurementType); // newly activated tab
+           loadGraph(e.target.dataset.measurementType, e.target.dataset.measurementTypeName);
+        })
 
-            var data = incoming_data.measurements;
-
-            data.forEach(function(d) {
-                d.timestamp = parseDate(d[0]);
-                d.value = +d[1];
-            });
-
-            data.sort(function(a, b) {
-                return a.timestamp - b.timestamp;
-            });
-
-            drawGraph(data, chart_id);
-
-        });
     });
 });
 </script>

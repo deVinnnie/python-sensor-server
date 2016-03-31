@@ -54,7 +54,7 @@ d3.json(url, function(error, incoming_data) {
 
 });*/
 
-function drawGraph(data, chart_id) {
+function drawGraph(data, chart_id, typeName) {
     bisectDate = d3.bisector(function(d) {
         return d.timestamp;
     }).left,
@@ -348,7 +348,7 @@ function drawGraph(data, chart_id) {
     graph = new SimpleGraph(chart_id, {
         "xmax": data[len-1][0], "xmin": data[0][0],
         "ymax": data[len-1][1], "ymin": data[0][1],
-        "title": "Capacity measurements",
+        "title": typeName + " measurements",
         "xlabel": "Time",
         "ylabel": "Value"
     });
