@@ -17,6 +17,7 @@ from django.db.models import Count
 from .fields import UUIDField
 import uuid
 
+
 class Company(models.Model):
     company_id = models.AutoField(db_column='Company_ID', primary_key=True)
     name = models.CharField(db_column='Name', max_length=45, blank=True)  # Field name made lowercase.
@@ -210,6 +211,10 @@ class Alert(models.Model):
     gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='alerts')
     sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='alerts')
     measurement_type = models.ForeignKey(MeasurementType, db_column='MeasurementType_ID', related_name='alerts')
+
+    def type_name(self):
+        return self.measurement_type.name
+
 
 # class Permission(models.Model):
 #     permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.

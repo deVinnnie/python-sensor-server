@@ -29,59 +29,60 @@
 
 <script>
     var url = '/rest/gateways/{{ gateway }}/sensors/{{ sensor }}/measurements.json?type=' + {{ measurement_type }} + '&start=2015-01-01&end=2020-01-01';
-        var chart_id = 'measurement_chart-{{ sensor }}';
+    var chart_id = 'measurement_chart-{{ sensor }}';
+    var typeName = '{{ type_name }}';
 
-        var margin = {
-                top: 20,
-                right: 50,
-                bottom: 30,
-                left: 50
-            },
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+    var margin = {
+            top: 20,
+            right: 50,
+            bottom: 30,
+            left: 50
+        },
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
-        var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse,
-            bisectDate = d3.bisector(function(d) {
-                return d.timestamp;
-            }).left,
-            formatValue = d3.format(",.2f"),
-            formatUnit = function(d) {
-                return formatValue(d) + "pF";
-            };
+    var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse,
+        bisectDate = d3.bisector(function(d) {
+            return d.timestamp;
+        }).left,
+        formatValue = d3.format(",.2f"),
+        formatUnit = function(d) {
+            return formatValue(d) + "pF";
+        };
 
-        var x = d3.time.scale()
-            .range([0, width])
-            .nice();
+    var x = d3.time.scale()
+        .range([0, width])
+        .nice();
 
-        var y = d3.scale.linear()
-            .range([height, 0])
-            .nice();
+    var y = d3.scale.linear()
+        .range([height, 0])
+        .nice();
 
-        var line = d3.svg.line()
-            .x(function(d) {
-                return x(d.timestamp);
-            })
-            .y(function(d) {
-                return y(d.value);
-            });
-
-        d3.json(url, function(error, incoming_data) {
-            if (error) throw error;
-
-            var data = incoming_data.measurements;
-
-            data.forEach(function(d) {
-                d.timestamp = parseDate(d[0]);
-                d.value = +d[1];
-            });
-
-            data.sort(function(a, b) {
-                return a.timestamp - b.timestamp;
-            });
-
-            drawGraph(data, chart_id);
-
+    var line = d3.svg.line()
+        .x(function(d) {
+            return x(d.timestamp);
+        })
+        .y(function(d) {
+            return y(d.value);
         });
+
+    d3.json(url, function(error, incoming_data) {
+        if (error) throw error;
+
+        var data = incoming_data.measurements;
+
+        data.forEach(function(d) {
+            d.timestamp = parseDate(d[0]);
+            d.value = +d[1];
+        });
+
+        data.sort(function(a, b) {
+            return a.timestamp - b.timestamp;
+        });
+
+        drawGraph(data, chart_id, typeName);
+
+    });
 
 </script>
 
