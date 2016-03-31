@@ -76,6 +76,9 @@ class Gateway(models.Model):
     def __str__(self):
         return 'Gateway ' + repr(self.gateway_id)
 
+    def measurement_types(self): #Return all available measurement types
+        return MeasurementType.objects.all()
+
 
 class Sensor(models.Model):
     sensor_id = models.AutoField(db_column='Sensor_ID', primary_key=True)  # Field name made lowercase.
@@ -206,6 +209,7 @@ class Alert(models.Model):
     archived = models.BooleanField(default=False)
     gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='alerts')
     sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='alerts')
+    measurement_type = models.ForeignKey(MeasurementType, db_column='MeasurementType_ID', related_name='alerts')
 
 # class Permission(models.Model):
 #     permission_id = models.IntegerField(db_column='Permission_ID', primary_key=True) # Field name made lowercase.

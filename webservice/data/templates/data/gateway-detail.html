@@ -16,32 +16,48 @@
         overflow-y:auto;
         overflow-x:scroll;
     }
+
+    .measurements {
+        max-height:600px;
+        overflow-y:auto;
+        overflow-x:scroll;
+    }
 </style>
 
 <div class="row">
     <div class="col-md-6">
         <div class="tabbable">
             <ul class="nav nav-tabs" id="measurementDataTabs">
-                <li class="active">
-                    <a href="#type-tab1" data-toggle="tab" data-measurement-type="1">Capacitance</a>
-                </li>
-                <li>
-                    <a href="#type-tab2" data-toggle="tab" data-measurement-type="2">Temperature</a>
-                </li>
-                <li>
-                    <a href="#type-tab3" data-toggle="tab" data-measurement-type="3">Humidity</a>
-                </li>
+                {% for t in measurement_types %}
+                    <li>
+                        <a href="#type-tab{{ t.measurementTypeID }}" data-toggle="tab" data-measurement-type="{{ t.measurementTypeID }}">{{ t.name }}</a>
+                    </li>
+                {% endfor %}
+                <!--<li class="active">-->
+                    <!--<a href="#type-tab1" data-toggle="tab" data-measurement-type="1">Capacitance</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#type-tab2" data-toggle="tab" data-measurement-type="2">Temperature</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#type-tab3" data-toggle="tab" data-measurement-type="3">Humidity</a>-->
+                <!--</li>-->
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="type-tab1">
-                    <div class="row" id="measurements-type-1"></div>
-                </div>
-                <div class="tab-pane" id="type-tab2">
-                    <div class="row" id="measurements-type-2"></div>
-                </div>
-                <div class="tab-pane" id="type-tab3">
-                    <div class="row" id="measurements-type-3"></div>
-                </div>
+                {% for t in measurement_types %}
+                    <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}">
+                        <div class="row measurements" id="measurements-type-{{ t.measurementTypeID }}"></div>
+                    </div>
+                {% endfor %}
+                <!--<div class="tab-pane active" id="type-tab1">-->
+                    <!--<div class="row" id="measurements-type-1"></div>-->
+                <!--</div>-->
+                <!--<div class="tab-pane" id="type-tab2">-->
+                    <!--<div class="row" id="measurements-type-2"></div>-->
+                <!--</div>-->
+                <!--<div class="tab-pane" id="type-tab3">-->
+                    <!--<div class="row" id="measurements-type-3"></div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>

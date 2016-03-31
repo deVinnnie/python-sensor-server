@@ -6,7 +6,7 @@ class AlertSerializer(serializers.ModelSerializer):
     class Meta:
         model = Alert
         fields = '__all__'
-        read_only_fields = ('id', 'company', 'gateway', 'sensor')
+        read_only_fields = ('id', 'company', 'gateway', 'sensor', 'measurement_type')
 
 
 class SensorConfigurationSerializer(serializers.ModelSerializer):
@@ -49,7 +49,7 @@ class GatewaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Gateway
         # fields = ('gateway_id', 'sensors', 'installation', 'config', 'api_key')
-        fields = ('gateway_id', 'sensors', 'installation', 'config', 'alerts', 'api_key')
+        fields = ('gateway_id', 'sensors', 'installation', 'config', 'alerts', 'api_key', 'measurement_types')
         read_only_fields = ('gateway_id',)
 
 
@@ -100,5 +100,5 @@ class MeasurementTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MeasurementType
-        fields = ('measurementTypeID', 'name', 'unit', 'scalar', 'upper_bound', 'lower_bound')
+        fields = ('measurementTypeID', 'name', 'unit', 'scalar', 'upper_bound', 'lower_bound', 'alerts')
         read_only_fields = ('measurementTypeID',)
