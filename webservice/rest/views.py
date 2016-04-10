@@ -47,6 +47,7 @@ class HTMLGenericViewSet():
             #'create': ["%s/%s-detail.html" % (app, name), "created.html"], #Redirect?
             'edit': ["%s/%s-update.html" % (app, name), "update.html"],
             'update': ["%s/%s-update.html" % (app, name), "update.html"],
+            'partial_update' : ["%s/%s-update.html" % (app, name), "update.html"],
             'delete': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
             'destroy': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
 
@@ -198,7 +199,8 @@ class GatewayConfigurationViewSet(viewsets.ModelViewSet,HTMLGenericViewSet):
     #     gatewayConf.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
 
-class SensorViewSet(viewsets.ModelViewSet):
+
+class SensorViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
     """
     /gateways/$1/sensors
     """
@@ -230,7 +232,7 @@ class SensorViewSet(viewsets.ModelViewSet):
     def edit(self, request, gateway_pk, pk=None,format=None):
         sensor = get_object_or_404(self.queryset, pk=pk)
         serializer = SensorSerializer(sensor)
-        return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensor-update.html')
+        return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensor-edit.html')
 
 
 class MeasurementViewSet(
