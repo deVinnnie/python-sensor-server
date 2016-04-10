@@ -1,0 +1,32 @@
+[
+  {
+    "model": "data.measurement",
+    "pk": 1,
+    "fields": {
+      "sensor_id": 1,
+      "measurement_type" : 1,
+      "value" : 3.14,
+      "timestamp" : "2016-05-01T12:00"
+    }
+  },
+  {
+    "model": "data.measurement",
+    "pk": 2,
+    "fields": {
+      "sensor_id": 1,
+      "measurement_type" : 1,
+      "value" : 4.00,
+      "timestamp" : "2016-05-01T13:00"
+    }
+  },
+  {
+    "model": "data.measurement",
+    "pk": 3,
+    "fields": {
+      "sensor_id": 1,
+      "measurement_type" : 1,
+      "value" : 5.5,
+      "timestamp" : "2016-05-01T14:00"
+    }
+  }
+ ]
