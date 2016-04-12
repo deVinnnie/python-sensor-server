@@ -210,7 +210,7 @@ class Alert(models.Model):
     archived = models.BooleanField(default=False)
     gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='alerts')
     sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='alerts')
-    measurement_type = models.ForeignKey(MeasurementType, db_column='MeasurementType_ID', related_name='alerts')
+    measurementTypeID = models.ForeignKey(MeasurementType, db_column='MeasurementTypeID', related_name='alerts')
 
     def type_name(self):
         return self.measurement_type.name
