@@ -20,7 +20,7 @@ import uuid
 
 class Company(models.Model):
     company_id = models.AutoField(db_column='Company_ID', primary_key=True)
-    name = models.CharField(db_column='Name', max_length=45, blank=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=45, blank=True)
     active = models.BooleanField(default=True)
 
     class Meta:
@@ -58,9 +58,9 @@ class Installation(models.Model):
 
 
 class Gateway(models.Model):
-    gateway_id = models.AutoField(db_column='Gateway_ID', primary_key=True)  # Field name made lowercase.
+    gateway_id = models.AutoField(db_column='Gateway_ID', primary_key=True)
     installation = models.ForeignKey(Installation, db_column='Installation_ID', blank=True, null=True,
-                                     related_name="gateways")  # Field name made lowercase.
+                                     related_name="gateways")
     active = models.BooleanField(default=True)
 
     api_key = UUIDField(default=uuid.uuid4, editable=False)#auto=True)
@@ -82,11 +82,10 @@ class Gateway(models.Model):
 
 
 class Sensor(models.Model):
-    sensor_id = models.AutoField(db_column='Sensor_ID', primary_key=True)  # Field name made lowercase.
-    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='sensors',
-                                default="1")  # Field name made lowercase.
+    sensor_id = models.AutoField(db_column='Sensor_ID', primary_key=True)
+    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='sensors', default="1")
     name = models.CharField(db_column='Name', max_length=45, blank=True,
-                            default='Sensor Node')  # Field name made lowercase.
+                            default='Sensor Node')
     # position_long = models.DecimalField(db_column='Position_Long', max_digits=10, decimal_places=0, blank=True,
     #                                     null=True)  # Field name made lowercase.
     # position_lat = models.DecimalField(db_column='Position_Lat', max_digits=10, decimal_places=0, blank=True,
@@ -137,12 +136,12 @@ class MeasurementType(models.Model):
 
 
 class Measurement(models.Model):
-    measurement_id = models.AutoField(db_column='Measurement_ID', primary_key=True) # Field name made lowercase.
-    timestamp = models.DateTimeField(db_column='Timestamp') # Field name made lowercase.
-    sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements') # Field name made lowercase.
-    #sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements') # Field name made lowercase.
-    measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type') # Field name made lowercase.
-    value = models.FloatField(db_column='Value', blank=True, null=True) # Field name made lowercase.
+    measurement_id = models.AutoField(db_column='Measurement_ID', primary_key=True)
+    timestamp = models.DateTimeField(db_column='Timestamp')
+    sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements')
+    #sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements')
+    measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type')
+    value = models.FloatField(db_column='Value', blank=True, null=True)
     alert = models.BooleanField(default=False) #New alert?
 
     class Meta:
@@ -157,11 +156,10 @@ class Measurement(models.Model):
 
 
 class RemoteDatabase(models.Model):
-    remote_database_id = models.IntegerField(db_column='Remote_Database_ID',
-                                             primary_key=True)  # Field name made lowercase.
-    url = models.CharField(db_column='URL', max_length=300, blank=True)  # Field name made lowercase.
-    username = models.CharField(db_column='Username', max_length=45, blank=True)  # Field name made lowercase.
-    password = models.CharField(db_column='Password', max_length=45, blank=True)  # Field name made lowercase.
+    remote_database_id = models.IntegerField(db_column='Remote_Database_ID', primary_key=True)
+    url = models.CharField(db_column='URL', max_length=300, blank=True)
+    username = models.CharField(db_column='Username', max_length=45, blank=True)
+    password = models.CharField(db_column='Password', max_length=45, blank=True)
 
     class Meta:
         managed = True
@@ -170,9 +168,9 @@ class RemoteDatabase(models.Model):
 
 class SensorConfiguration(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
-    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='config')  # Field name made lowercase.
+    sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='config')
     attribute = models.CharField(db_column='Attribute', max_length=45)
-    value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
+    value = models.CharField(db_column='Value', max_length=200, blank=True)
     confirmed = models.BooleanField(default=False)
 
     class Meta:
@@ -189,9 +187,9 @@ class SensorConfiguration(models.Model):
 
 class GatewayConfiguration(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
-    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='config')  # Field name made lowercase.
-    attribute = models.CharField(db_column='Attribute', max_length=45)  # Field name made lowercase.
-    value = models.CharField(db_column='Value', max_length=200, blank=True)  # Field name made lowercase.
+    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='config')
+    attribute = models.CharField(db_column='Attribute', max_length=45)
+    value = models.CharField(db_column='Value', max_length=200, blank=True)
     confirmed = models.BooleanField(default=False)
 
     class Meta:
