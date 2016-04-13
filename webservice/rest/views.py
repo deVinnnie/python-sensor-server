@@ -13,10 +13,11 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from data.models import *
 from rest.serializers import *
-from datetime import datetime
+from datetime import datetime, timedelta
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from .permissions import IsGatewayOrAuthenticated, IsUserAllowed
 from .custom_renderers import *
+from django.db.models import Avg
 
 
 # Note on PUT requests:
@@ -156,6 +157,45 @@ class GatewayViewSet(HTMLGenericViewSet):
         gateway = get_object_or_404(self.queryset, pk=pk)
         serializer = GatewaySerializer(gateway)
         return Response(serializer.data,template_name='data/gateway_new_config.html')
+
+    @detail_route(methods=['get'])
+    def measurements(self, request, pk=None, type=1,format=None):
+        """
+        Returns an overview of the measurements for a specific type.
+        Gives one average value per sensor per day.
+        """
+
+        # Time is not important. Date is.
+        # Pick measurements based on date.
+        gateway = get_object_or_404(self.queryset, pk=pk)
+
+        startTimestamp = self.request.query_params.get('start', "2016-05-01")
+        startDate = datetime.strptime(startTimestamp, "%Y-%m-%d")
+
+        endTimestamp = self.request.query_params.get('end', "2016-05-05")
+        endDate = datetime.strptime(endTimestamp, "%Y-%m-%d")
+
+        data = {}
+        sensorList = []
+
+        for sensor in gateway.sensors.all():
+            sensorList.append(sensor.sensor_id)
+
+        data["measurements"] = { "sensors" : sensorList,
+                                 "values" : []
+                                }
+
+        while(startDate != endDate):
+            values = []
+            for sensor in gateway.sensors.all():
+                queryRes = sensor.measurements.filter(measurement_type=type, timestamp__gte=startDate,
+                                                  timestamp__lte=startDate + timedelta(days=1)).aggregate(Avg('value'))
+                values.append(queryRes["value__avg"])
+
+            data["measurements"]["values"].append({"date" : startDate.strftime("%Y-%m-%d"),"data" : values})
+            startDate += timedelta(days=1)
+
+        return Response(data)
 
 
 class GatewayConfigurationViewSet(HTMLGenericViewSet):

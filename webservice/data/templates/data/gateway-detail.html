@@ -46,7 +46,15 @@
             <div class="tab-content">
                 {% for t in measurement_types %}
                     <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}">
-                        <div class="row measurements" id="measurements-type-{{ t.measurementTypeID }}"></div>
+                        <div class="row measurements" id="measurements-type-{{ t.measurementTypeID }}">
+                            <table>
+                                <thead>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 {% endfor %}
                 <!--<div class="tab-pane active" id="type-tab1">-->
@@ -278,51 +286,11 @@
 </script>-->
 {% block scripts %}
 
+
 <script>
-    base_url = "/rest/gateways/{{ gateway_id }}/sensors/"
-    sensors = [
-    {% for sensor in sensors %}
-        "{{ sensor.sensor_id }}",
-    {% endfor %}
-    ];
-
-    function loadMeasurements(type){
-        targetId = "#measurements-type-" + type;
-        $(targetId).empty();
-
-        sensors.forEach(function(s) {
-            url = base_url + s + "/measurements.json?type=" + type + "&start=2016-03-04"
-
-            $.getJSON(url, function(data) {
-                sensor_id = 1;
-                var items = [];
-                $.each( data.measurements, function(index, value) {
-                    //console.log(value[1])
-                    items.push( "<li>" + value[1] + "</li>" );
-                });
-
-                $(targetId).append(
-                            $("<div/>", { class : "col-md-5"}).append(
-                                                                    $("<h3/>", {
-                                                                        text : "Sensor " + s
-                                                                        }))
-                                                              .append(
-                                                                    $("<ul/>").append(
-                                                                            items.join("")
-                                                                    )
-                                                              )
-                );
-            });
-        });
-    }
-
-    $('#measurementDataTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-        console.log(e.target.dataset.measurementType); // newly activated tab
-        loadMeasurements(e.target.dataset.measurementType);
-    })
-
-    loadMeasurements(1); // Load first tab. Quick Hack.
+    base_url = "/rest/gateways/{{ gateway_id }}/measurements";
 </script>
+<script src="{% static 'data/gateway.js' %}"></script>
 
 <script>
 function initialize() {
