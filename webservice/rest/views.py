@@ -76,10 +76,9 @@ class CompanyViewSet(HTMLGenericViewSet):
     """
     /companies
     """
-    #renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    #authentication_classes = (SessionAuthentication, BasicAuthentication)
 
     @list_route(methods=['get'])
     def new(self, request):
@@ -204,11 +203,11 @@ class GatewayConfigurationViewSet(HTMLGenericViewSet):
     #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class SensorViewSet(viewsets.ModelViewSet, HTMLGenericViewSet):
+class SensorViewSet(HTMLGenericViewSet):
     """
     /gateways/$1/sensors
     """
-    renderer_classes = HTMLGenericViewSet.renderer_classes
+    #renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
 
