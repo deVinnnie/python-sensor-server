@@ -31,22 +31,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Home</a>
+                <a class="navbar-brand" href="{% url 'company-list' %}">Home</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     {% block page_1 %}<li><a href="/admin/">User management</a></li>{% endblock %}
-                    {% block page_2 %}<li><a href="#">Meassurement types</a></li>{% endblock %}
+                    {% block page_2 %}<li><a href="{% url 'measurementtype-list' %}">Meassurement types</a></li>{% endblock %}
                     {% block page_3 %}<li><a href="#">My account</a></li>{% endblock %}
                 </ul>
-
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href=""><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
-                    <li><a href="{% url 'admin:logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                    <li><a href="/rest/api-auth/logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                 </ul>
             </div>
             <ol class="breadcrumb">
-                <li><a href="#">Home</a></li>
+                {% block bread %}<li><a href="{% url 'company-list' %}">Home</a></li>{% endblock %}
                 {% block bread_1 %}<li><a href="#">Library</a></li>{% endblock %}
                 {% block bread_active %}<li class="active">Data</li>{% endblock %}
             </ol>
