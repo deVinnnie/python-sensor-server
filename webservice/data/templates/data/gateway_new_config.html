@@ -11,9 +11,18 @@
 <form action="/rest/gateways/{{ gateway_id }}/config/" method="POST">
     {% csrf_token %}
     <input type="hidden" name="gateway" value="{{ gateway_id }}"/>
-    <input type="text" name="attribute" placeholder="Attribute"/>
-    <input type="text" name="value" placeholder="Value"/>
+
+    <div class="form-group">
+        <label for="attribute">Attribute</label>
+        <input type="text" class="form-control" name="attribute" id="attribute" placeholder="Attribute"/>
+    </div>
+
+    <div class="form-group">
+        <label for="value">Value</label>
+        <input type="text" class="form-control" name="value" id="value" placeholder="Value"/>
+    </div>
+
     <input type="hidden" name="confirmed" value="false">
-    <input type="submit" value="Save">
+    <input type="submit" class="btn btn-default" value="Save">
 </form>
 {% endblock %}
