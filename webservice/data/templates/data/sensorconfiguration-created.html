@@ -1,0 +1,22 @@
+{% extends "data/template.html" %}
+
+{% block title %}New Config Parameter Added{% endblock %}
+
+{% load data_extras %}
+
+{% block headextra %}
+    {% url 'gateway-detail' gateway as redirect_url %}
+    {% refresh redirect_url %}
+{% endblock %}
+
+{% block content %}
+<div class="alert alert-success" role="alert">
+    <p>
+        Configuration parameter added. Redirecting to gateway page.
+    </p>
+
+    <p>
+        <a href="{% url 'gateway-detail' gateway %}">Go to gateway page.</a>
+    </p>
+</div>
+{% endblock %}

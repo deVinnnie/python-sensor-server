@@ -11,10 +11,18 @@
 <form action="/rest/gateways/{{ gateway }}/sensors/{{ sensor_id }}/config/" method="POST">
     {% csrf_token %}
     <input type="hidden" name="sensor" value="{{ sensor_id }}"/>
-    <input type="text" name="attribute" placeholder="IP-address"/>
-    <input type="text" name="value" placeholder="192.168.1.2"/>
+
+    <div class="form-group">
+        <label for="attribute">Attribute</label>
+        <input type="text" class="form-control" name="attribute" id="attribute" placeholder="attribute"/>
+    </div>
+
+    <div class="form-group">
+        <label for="value">Value</label>
+        <input type="text" class="form-control" name="value" id="value" placeholder="value"/>
+    </div>
+
     <input name="confirmed" value="false" type="hidden">
-    <input name="deleted" value="false" type="hidden">
     <input type="submit" value="Save">
 </form>
 {% endblock %}

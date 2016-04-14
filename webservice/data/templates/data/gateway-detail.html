@@ -127,7 +127,9 @@
                     </tbody>
                 </table>
             </div>
-            <a href="{% url 'gateway-new-config' gateway_id %}">Add Configuration</a>
+            <a href="{% url 'gateway-new-config' gateway_id %}">
+                <span class="glyphicon glyphicon-plus"></span> Add Configuration
+            </a>
 
             <!-- Delete Modal -->
             <div class="modal fade" id="deleteGConf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -145,15 +147,18 @@
                       </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
+<hr/>
+
 <div class="row">
     <div class="col-md-12">
         <h2>Sensors</h2>
-        <a href="">Edit Common Configuration</a>
+        <a href="">
+            <span class="glyphicon glyphicon-pencil"></span> Edit Common Configuration
+        </a>
         <!-- Sets Config Options for all sensors in this gateway in one go.-->
     </div>
 </div>
