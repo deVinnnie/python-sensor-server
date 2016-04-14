@@ -37,6 +37,12 @@ class GatewayConfigurationSerializer(serializers.ModelSerializer):
         fields = ('id', 'gateway', 'attribute', 'value', 'confirmed')
         read_only_fields = ('id',)
 
+class MeasurementTypeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MeasurementType
+        fields = ('measurementTypeID', 'name', 'unit', 'scalar', 'upper_bound', 'lower_bound', 'alerts')
+        read_only_fields = ('measurementTypeID',)
 
 class GatewaySerializer(serializers.ModelSerializer):
     sensors = SensorSerializer(many=True, read_only=True)
@@ -45,6 +51,8 @@ class GatewaySerializer(serializers.ModelSerializer):
     config = GatewayConfigurationSerializer(many=True, read_only=True)
 
     alerts = AlertSerializer(many=True, read_only=True)
+
+    measurement_types = MeasurementTypeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Gateway
@@ -96,9 +104,4 @@ class LiteMeasurementSerializer(serializers.ModelSerializer):
         fields = ('timestamp', 'value')
 
 
-class MeasurementTypeSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = MeasurementType
-        fields = ('measurementTypeID', 'name', 'unit', 'scalar', 'upper_bound', 'lower_bound', 'alerts')
-        read_only_fields = ('measurementTypeID',)
