@@ -20,7 +20,7 @@
 {% endif %}
 
 <div class="table-responsive">
-    <table class="table-striped">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Installation_ID</th>
@@ -32,6 +32,12 @@
                 <tr>
                     <td>{{ installation.installation_id }}</td>
                     <td><a href="{% url 'installation-detail' installation.installation_id %}">{{ installation.name }}</a></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td>
+                        No installations added yet.
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -46,6 +52,8 @@
         <div class="alert alert-danger" role="alert">
             {{ alert.text }} {{ alert.url }}
         </div>
+        {% empty %}
+        <p>No alerts. Everything is OK!</p>
         {% endfor %}
     </div>
 </div>

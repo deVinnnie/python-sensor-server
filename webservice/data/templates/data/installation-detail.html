@@ -17,7 +17,7 @@
 {% endif %}
 
 <div class="table-responsive">
-    <table class="table-striped">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Gateway_ID</th>
@@ -30,11 +30,14 @@
                     <td><a href="{% url 'gateway-detail' gateway.gateway_id %}">{{ gateway.gateway_id }}</a></td>
                     <td>{{ gateway.api_key }}</td>
                 </tr>
+            {% empty %}
+                <tr>
+                    <td>
+                        No gateways added yet.
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-
-
-
 {% endblock %}
