@@ -43,8 +43,16 @@
                 {% for t in measurement_types %}
                     <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}">
                         <div class="row measurements" id="measurements-type-{{ t.measurementTypeID }}">
-                            <button onclick="loadPrevMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}">Back</button>
-                            <button onclick="loadNextMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}">Forward</button>
+                            <button onclick="loadPrevMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}"
+                                    class="btn btn-link"
+                            >
+                                <span class="glyphicon glyphicon-chevron-left"></span> Back
+                            </button>
+                            <button onclick="loadNextMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}"
+                                    class="btn btn-link"
+                            >
+                                Forward <span class="glyphicon glyphicon-chevron-right"></span>
+                            </button>
 
                             <table class="table table-striped m">
                                 <thead></thead>
