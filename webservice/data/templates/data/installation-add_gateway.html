@@ -14,12 +14,13 @@
 <form action="/rest/gateways/" method="POST">
     {% csrf_token %}
 
-    <input type="text" name="api_key" placeholder="API"/>
-
-    <!--<label for="n_sensors">Number of Sensors</label>
-    <input type="number" name="n_sensors" placeholder="Number of Sensors"/>-->
+    <!-- TODO API KEY Format Checking-->
+    <div class="form-group">
+        <label for="api_key">API-Key</label>
+        <input class="form-control" type="text" name="api_key" id="api_key" placeholder="API"/>
+    </div>
 
     <input type="hidden" name="installation" value="{{ installation_id}}"/>
-    <input type="submit" value="Save">
+    <input type="submit" value="Save" class="btn btn-default">
 </form>
 {% endblock %}

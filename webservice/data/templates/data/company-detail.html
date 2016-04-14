@@ -11,12 +11,18 @@
     <p>[Deactivated]</p>
 {% endif %}
 
-<a href="{% url 'company-new-installation' company_id %}">Add Installation</a>
+<a href="{% url 'company-new-installation' company_id %}">
+    <span class="glyphicon glyphicon-plus"></span> Add Installation
+</a>
 
 {% if active %}
-<a href="{% url 'company-deactivate' company_id %}">Deactivate</a>
+<a href="{% url 'company-deactivate' company_id %}">
+    <span class="glyphicon glyphicon glyphicon-off"></span> Deactivate
+</a>
 {% else %}
-<a href="{% url 'company-activate' company_id %}">Activate</a>
+<a href="{% url 'company-activate' company_id %}">
+    <span class="glyphicon glyphicon glyphicon-off"></span> Activate
+</a>
 {% endif %}
 
 <div class="table-responsive">

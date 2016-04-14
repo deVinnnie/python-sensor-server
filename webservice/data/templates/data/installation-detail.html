@@ -8,12 +8,18 @@
 {% block content %}
 <h1>{{ name }} ({{ installation_id }})</h1>
 
-<a href="{% url 'installation-add-gateway' installation_id %}">Add Gateway</a>
+<a href="{% url 'installation-add-gateway' installation_id %}">
+     <span class="glyphicon glyphicon-plus"></span> Add Gateway
+</a>
 
 {% if active %}
-<a href="{% url 'installation-deactivate' installation_id %}">Deactivate</a>
+<a href="{% url 'installation-deactivate' installation_id %}">
+    <span class="glyphicon glyphicon-off"></span> Deactivate
+</a>
 {% else %}
-<a href="{% url 'installation-activate' installation_id %}">Activate</a>
+<a href="{% url 'installation-activate' installation_id %}">
+    <span class="glyphicon glyphicon-off"></span> Activate
+</a>
 {% endif %}
 
 <div class="table-responsive">
