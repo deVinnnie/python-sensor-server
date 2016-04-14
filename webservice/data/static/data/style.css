@@ -1,7 +1,7 @@
 table.table{
     margin-bottom: 20px;
     max-width: none;
-    width: 2000px;
+    width: 100%;
 }
 
 #myChart {

@@ -22,6 +22,10 @@
         overflow-y:auto;
         overflow-x:scroll;
     }
+
+    table.m{
+        width: 2000px;
+    }
 </style>
 
 <div class="row">
@@ -49,7 +53,7 @@
                         <div class="row measurements" id="measurements-type-{{ t.measurementTypeID }}">
                             <button onclick="loadPrevMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}">Back</button>
                             <button onclick="loadNextMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}">Forward</button>
-                            <table class="table table-striped">
+                            <table class="table table-striped m">
                                 <thead></thead>
                                 <tbody></tbody>
                             </table>
