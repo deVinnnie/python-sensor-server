@@ -290,12 +290,27 @@
 
 <script>
 function initialize() {
+
+  // The location of the 'gateway' corresponds to the
+  // location of the first sensor.
   var mapProp = {
-    center:new google.maps.LatLng(50.8748576, 4.7055737),
+    center:new google.maps.LatLng(
+        {{ sensors.0.position_lat}},
+        {{ sensors.0.position_long}}
+    ),
     zoom:18,
     mapTypeId:google.maps.MapTypeId.ROADMAP
   };
   var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+  var marker = new google.maps.Marker({
+    position: {
+                lat: {{ sensors.0.position_lat}},
+                lng: {{ sensors.0.position_long}}
+               },
+    map: map,
+    title: 'Gateway Location'
+  });
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
