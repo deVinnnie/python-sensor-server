@@ -10,7 +10,10 @@
 
 <form action="/rest/companies/" method="POST">
     {% csrf_token %}
-    <input type="text" placeholder="ACME Inc" name="name"/>
-    <input type="submit" value="Submit"/>
+    <div class="form-group">
+        <label for="company-name">Name</label>
+        <input type="text" class="form-control" placeholder="Name" name="name" id="company-name"/>
+    </div>
+    <input type="submit" value="Submit" class="btn btn-default"/>
 </form>
 {% endblock %}
