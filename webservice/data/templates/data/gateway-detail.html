@@ -37,22 +37,15 @@
                         <a href="#type-tab{{ t.measurementTypeID }}" data-toggle="tab" data-measurement-type="{{ t.measurementTypeID }}">{{ t.name }}</a>
                     </li>
                 {% endfor %}
-                <!--<li class="active">-->
-                    <!--<a href="#type-tab1" data-toggle="tab" data-measurement-type="1">Capacitance</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="#type-tab2" data-toggle="tab" data-measurement-type="2">Temperature</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="#type-tab3" data-toggle="tab" data-measurement-type="3">Humidity</a>-->
-                <!--</li>-->
             </ul>
+
             <div class="tab-content">
                 {% for t in measurement_types %}
                     <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}">
                         <div class="row measurements" id="measurements-type-{{ t.measurementTypeID }}">
                             <button onclick="loadPrevMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}">Back</button>
                             <button onclick="loadNextMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}">Forward</button>
+
                             <table class="table table-striped m">
                                 <thead></thead>
                                 <tbody></tbody>
@@ -76,10 +69,8 @@
             <!-- Map -->
             <div id="googleMap" style="width:500px;height:380px;">
                 {% if sensors|length == 0 %}
-                <p>Location unknown.</p>
+                    <p>Location unknown.</p>
                 {% endif %}
-
-
             </div>
         </div>
 
@@ -131,22 +122,22 @@
                 <span class="glyphicon glyphicon-plus"></span> Add Configuration
             </a>
 
-            <!-- Delete Modal -->
-            <div class="modal fade" id="deleteGConf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                      <div class="modal-content">
-                          <div class="modal-body">
-                              <h4 class="text-center">Are you sure you want to delete this Gateway Configuration Instance?</h4>
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                              <form class="button-form" action="/rest/gateways/1/config/18/" data-method="DELETE">
-                                  <button class="btn btn-danger">Delete</button>
-                              </form>
-                          </div>
-                      </div>
-                </div>
-            </div>
+            <!--&lt;!&ndash; Delete Modal &ndash;&gt;-->
+            <!--<div class="modal fade" id="deleteGConf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+                <!--<div class="modal-dialog">-->
+                      <!--<div class="modal-content">-->
+                          <!--<div class="modal-body">-->
+                              <!--<h4 class="text-center">Are you sure you want to delete this Gateway Configuration Instance?</h4>-->
+                          <!--</div>-->
+                          <!--<div class="modal-footer">-->
+                              <!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>-->
+                              <!--<form class="button-form" action="/rest/gateways/1/config/18/" data-method="DELETE">-->
+                                  <!--<button class="btn btn-danger">Delete</button>-->
+                              <!--</form>-->
+                          <!--</div>-->
+                      <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
 </div>
@@ -187,9 +178,6 @@
                                             <a href="#type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}" data-toggle="tab" data-measurement-type-name="{{ t.name }}" data-measurement-type="{{ t.measurementTypeID }}">{{ t.name }}</a>
                                         </li>
                                     {% endfor %}
-                                    <!--<li class="active"><a href="#type-tab1-{{ sensor.sensor_id }}" data-toggle="tab">Capacitance</a></li>-->
-                                    <!--<li><a href="#type-tab2-{{ sensor.sensor_id }}" data-toggle="tab">Temperature</a></li>-->
-                                    <!--<li><a href="#type-tab3-{{ sensor.sensor_id }}" data-toggle="tab">Humidity</a></li>-->
                                 </ul>
                                 <div class="tab-content">
                                     {% for t in measurement_types %}
