@@ -1,7 +1,7 @@
-.table-striped {
+table.table{
     margin-bottom: 20px;
-    max-width: 100%;
-    width: 100%;
+    max-width: none;
+    width: 2000px;
 }
 
 #myChart {

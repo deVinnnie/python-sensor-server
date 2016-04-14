@@ -47,25 +47,15 @@
                 {% for t in measurement_types %}
                     <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}">
                         <div class="row measurements" id="measurements-type-{{ t.measurementTypeID }}">
-                            <table>
-                                <thead>
-                                </thead>
-
-                                <tbody>
-                                </tbody>
+                            <button onclick="loadPrevMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}">Back</button>
+                            <button onclick="loadNextMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}">Forward</button>
+                            <table class="table table-striped">
+                                <thead></thead>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
                 {% endfor %}
-                <!--<div class="tab-pane active" id="type-tab1">-->
-                    <!--<div class="row" id="measurements-type-1"></div>-->
-                <!--</div>-->
-                <!--<div class="tab-pane" id="type-tab2">-->
-                    <!--<div class="row" id="measurements-type-2"></div>-->
-                <!--</div>-->
-                <!--<div class="tab-pane" id="type-tab3">-->
-                    <!--<div class="row" id="measurements-type-3"></div>-->
-                <!--</div>-->
             </div>
         </div>
     </div>
@@ -101,7 +91,6 @@
                     <tbody>
                         {% for conf in config %}
                             {% if conf.deleted %}
-
                                 <tr class="deleted">
                                     <td>{{ conf.attribute }}</td>
                                     <td>{{ conf.value }}</td>
@@ -285,10 +274,13 @@
     }
 </script>-->
 {% block scripts %}
-
+<script src="{% static 'data/moment.js' %}"></script>
 
 <script>
     base_url = "/rest/gateways/{{ gateway_id }}/measurements";
+
+    var start = moment().subtract(20, 'days');
+    var end = moment();
 </script>
 <script src="{% static 'data/gateway.js' %}"></script>
 
