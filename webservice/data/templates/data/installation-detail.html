@@ -8,6 +8,10 @@
 {% block content %}
 <h1>{{ name }} ({{ installation_id }})</h1>
 
+{% if not active %}
+     <p>[Deactivated]</p>
+{% endif %}
+
 <a href="{% url 'installation-add-gateway' installation_id %}">
      <span class="glyphicon glyphicon-plus"></span> Add Gateway
 </a>
@@ -26,7 +30,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Gateway_ID</th>
+                <th>Gateway ID</th>
                 <th>API-key</th>
             </tr>
         </thead>

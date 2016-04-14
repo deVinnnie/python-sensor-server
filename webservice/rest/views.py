@@ -229,8 +229,6 @@ class GatewayConfigurationViewSet(HTMLGenericViewSet):
         gatewayConf = get_object_or_404(self.queryset, pk=pk)
         serializer = GatewayConfigurationSerializer(gatewayConf)
 
-
-
         # if serializer.is_valid():
         #     serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/gateway-update.html')
@@ -417,6 +415,10 @@ class MeasurementTypeViewSet(HTMLGenericViewSet):
     """
     queryset=MeasurementType.objects.all()
     serializer_class = MeasurementTypeSerializer
+
+    @list_route(methods=['get'])
+    def new(self, request):
+        return Response()
 
 
 class AlertViewSet(HTMLGenericViewSet):
