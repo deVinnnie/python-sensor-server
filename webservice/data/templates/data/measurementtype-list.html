@@ -17,6 +17,8 @@
     </li>
 {% endfor %}
 </ul>
-<a href="#">Add Type</a>
 
+<a href="{% url 'measurementtype-new' %}">
+    <span class="glyphicon glyphicon-plus"></span> Add Type
+</a>
 {% endblock %}
