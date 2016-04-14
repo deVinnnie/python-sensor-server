@@ -1,0 +1,22 @@
+{% extends "data/template.html" %}
+
+{% block title %}New Company Added{% endblock %}
+
+{% load data_extras %}
+
+{% block headextra %}
+    {% url 'installation-detail' installation_id as redirect_url %}
+    {% refresh redirect_url %}
+{% endblock %}
+
+{% block content %}
+<div class="alert alert-success" role="alert">
+    <p>
+        Installation added. Redirecting to installation page.
+    </p>
+
+    <p>
+        <a href="{% url 'installation-detail' installation_id %}">Go to installation page.</a>
+    </p>
+</div>
+{% endblock %}
