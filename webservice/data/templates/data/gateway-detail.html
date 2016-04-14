@@ -173,109 +173,115 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-md-10">
-            <div class="row">
-                <div class="tab-content">
-                    {% for sensor in sensors %}
-                        <div class="tab-pane" id="sensor-tab{{ sensor.sensor_id }}">
-                            <div class="row">
-                                <h2>Measurements</h2>
-                                <div class="tabbable">
-                                    <ul class="nav nav-tabs" id="graphDataTabs">
-                                        {% for t in measurement_types %}
-                                            <li>
-                                                <a href="#type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}" data-toggle="tab" data-measurement-type-name="{{ t.name }}" data-measurement-type="{{ t.measurementTypeID }}">{{ t.name }}</a>
-                                            </li>
-                                        {% endfor %}
-                                        <!--<li class="active"><a href="#type-tab1-{{ sensor.sensor_id }}" data-toggle="tab">Capacitance</a></li>-->
-                                        <!--<li><a href="#type-tab2-{{ sensor.sensor_id }}" data-toggle="tab">Temperature</a></li>-->
-                                        <!--<li><a href="#type-tab3-{{ sensor.sensor_id }}" data-toggle="tab">Humidity</a></li>-->
-                                    </ul>
-                                    <div class="tab-content">
-                                        {% for t in measurement_types %}
-                                            <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}">
-                                                <div class="chart" id="measurement_chart-{{ t.measurementTypeID }}-{{ sensor.sensor_id }}"></div>
-                                            </div>
-                                        {% endfor %}
-                                        <!--<div class="tab-pane active" id="type-tab1-{{ sensor.sensor_id }}">-->
-                                            <!--&lt;!&ndash;<p>Capacitance measurements</p>&ndash;&gt;-->
-                                            <!--&lt;!&ndash;<h3>Here will come the measurements for Sensor {{ sensor.sensor_id }}</h3>&ndash;&gt;-->
-                                            <!--&lt;!&ndash;<script type="text/javascript">&ndash;&gt;-->
-                                                <!--&lt;!&ndash;var url = '/rest/gateways/{{ gateway_id }}/sensors/{{ sensor.sensor_id }}/measurements.json?type=0&start=2015-01-01&end=2020-01-01'&ndash;&gt;-->
-                                                <!--&lt;!&ndash;var chart_id = 'measurement_chart-{{ sensor.sensor_id }}';&ndash;&gt;-->
-                                            <!--&lt;!&ndash;</script>&ndash;&gt;-->
-                                            <!--&lt;!&ndash;<script type="text/javascript" src="{% static 'data/measurement_chart.js' %}"></script>&ndash;&gt;-->
-                                            <!--<div id="measurement_chart-{{ sensor.sensor_id }}" class="chart"></div>-->
-                                        <!--</div>-->
-                                        <!--<div class="tab-pane" id="type-tab2-{{ sensor.sensor_id }}">-->
-                                            <!--<p>Temperature measurements</p>-->
-                                        <!--</div>-->
-                                        <!--<div class="tab-pane" id="type-tab3-{{ sensor.sensor_id }}">-->
-                                            <!--<p>Humidity measurements</p>-->
-                                        <!--</div>-->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                            <!-- Detailed view of selected sensor -->
-                                <h2>Configuration</h2>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Attribute</th>
-                                                <th>Value</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for conf in sensor.config %}
-                                                {% if conf.deleted %}
 
-                                                    <tr class="deleted">
-                                                        <td>{{ conf.attribute }}</td>
-                                                        <td>{{ conf.value }}</td>
-                                                    </tr>
-                                                {% else %}
-                                                    <tr>
-                                                        <td>{{ conf.attribute }}</td>
-                                                        <td>{{ conf.value }}</td>
-                                                        <td><p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                            <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensorconfiguration-edit' gateway_id sensor.sensor_id conf.id %}"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
-                                                    </tr>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                 <a href="{% url 'sensor-new-config' gateway_id sensor.sensor_id %}">Add Configuration</a>
-                            </div>
-                            <div class="row">
-                                <h2>Location</h2>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Longitude</th>
-                                                <th>Latitude</th>
-                                                <th>Edit</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>{{ sensor.position_long }}</td>
-                                            <td>{{ sensor.position_lat }}</td>
-                                            <td><p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensor-edit' gateway_id sensor.sensor_id %}"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+        <div class="col-md-10">
+            <div class="tab-content">
+                {% for sensor in sensors %}
+                    <div class="tab-pane" id="sensor-tab{{ sensor.sensor_id }}">
+                        <div class="row">
+                            <h2>Measurements</h2>
+                            <div class="tabbable">
+                                <ul class="nav nav-tabs" id="graphDataTabs">
+                                    {% for t in measurement_types %}
+                                        <li>
+                                            <a href="#type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}" data-toggle="tab" data-measurement-type-name="{{ t.name }}" data-measurement-type="{{ t.measurementTypeID }}">{{ t.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    <!--<li class="active"><a href="#type-tab1-{{ sensor.sensor_id }}" data-toggle="tab">Capacitance</a></li>-->
+                                    <!--<li><a href="#type-tab2-{{ sensor.sensor_id }}" data-toggle="tab">Temperature</a></li>-->
+                                    <!--<li><a href="#type-tab3-{{ sensor.sensor_id }}" data-toggle="tab">Humidity</a></li>-->
+                                </ul>
+                                <div class="tab-content">
+                                    {% for t in measurement_types %}
+                                        <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}">
+                                            <div class="chart" id="measurement_chart-{{ t.measurementTypeID }}-{{ sensor.sensor_id }}"></div>
+                                        </div>
+                                    {% endfor %}
+                                    <!--<div class="tab-pane active" id="type-tab1-{{ sensor.sensor_id }}">-->
+                                        <!--&lt;!&ndash;<p>Capacitance measurements</p>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<h3>Here will come the measurements for Sensor {{ sensor.sensor_id }}</h3>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<script type="text/javascript">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;var url = '/rest/gateways/{{ gateway_id }}/sensors/{{ sensor.sensor_id }}/measurements.json?type=0&start=2015-01-01&end=2020-01-01'&ndash;&gt;-->
+                                            <!--&lt;!&ndash;var chart_id = 'measurement_chart-{{ sensor.sensor_id }}';&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</script>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<script type="text/javascript" src="{% static 'data/measurement_chart.js' %}"></script>&ndash;&gt;-->
+                                        <!--<div id="measurement_chart-{{ sensor.sensor_id }}" class="chart"></div>-->
+                                    <!--</div>-->
+                                    <!--<div class="tab-pane" id="type-tab2-{{ sensor.sensor_id }}">-->
+                                        <!--<p>Temperature measurements</p>-->
+                                    <!--</div>-->
+                                    <!--<div class="tab-pane" id="type-tab3-{{ sensor.sensor_id }}">-->
+                                        <!--<p>Humidity measurements</p>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
+                        <div class="row">
+                        <!-- Detailed view of selected sensor -->
+                            <h2>Configuration</h2>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Attribute</th>
+                                            <th>Value</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for conf in sensor.config %}
+                                            {% if conf.deleted %}
+
+                                                <tr class="deleted">
+                                                    <td>{{ conf.attribute }}</td>
+                                                    <td>{{ conf.value }}</td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td>{{ conf.attribute }}</td>
+                                                    <td>{{ conf.value }}</td>
+                                                    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
+                                                        <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensorconfiguration-edit' gateway_id sensor.sensor_id conf.id %}"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                             <a href="{% url 'sensor-new-config' gateway_id sensor.sensor_id %}">
+                                 <span class="glyphicon glyphicon-plus"></span> Add Configuration
+                             </a>
+                        </div>
+                        <div class="row">
+                            <h2>Location</h2>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Longitude</th>
+                                            <th>Latitude</th>
+                                            <th>Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ sensor.position_long }}</td>
+                                        <td>{{ sensor.position_lat }}</td>
+                                        <td>
+                                            <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                                <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensor-edit' gateway_id sensor.sensor_id %}">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </a>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
