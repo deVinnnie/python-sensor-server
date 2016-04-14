@@ -1,13 +1,22 @@
 {% extends "data/template.html" %}
 
-{% block title %}New Company{% endblock %}
+{% block title %}New Company Added{% endblock %}
 
-{% block bread_1 %}<li><a href="{% url 'company-new' %}">Add company</a></li>{% endblock %}
-{% block bread_active %}<li class="active">Company added</li>{% endblock %}
+{% load data_extras %}
+
+{% block headextra %}
+    {% url 'company-detail' company_id as redirect_url %}
+    {% refresh redirect_url %}
+{% endblock %}
 
 {% block content %}
-<h1>Company Added</h1>
+<div class="alert alert-success" role="alert">
+    <p>
+        Company added. Redirecting to company page.
+    </p>
 
-{{ name }}
-
+    <p>
+        <a href="{% url 'company-detail' company_id %}">Go to company page.</a>
+    </p>
+</div>
 {% endblock %}
