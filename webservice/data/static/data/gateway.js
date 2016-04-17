@@ -36,7 +36,6 @@ function loadMeasurements(type){
 }
 
 function loadPrevMeasurements(type){
-    console.log("H");
     start = start.subtract(20, 'days');
     end = end.subtract(20, 'days');
     loadMeasurements(type);
@@ -54,3 +53,4 @@ $('#measurementDataTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e){
 })
 
 loadMeasurements(1); // Load first tab. Quick Hack.
+$("#measurementDataTabs a:first").tab('show');
