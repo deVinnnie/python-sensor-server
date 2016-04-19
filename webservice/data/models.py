@@ -224,6 +224,21 @@ class Permission(models.Model):
     class Meta:
         db_table = 'Permission'
 
+
+class Template(models.Model):
+    template_id = models.AutoField(db_column='Permission_ID', primary_key=True)
+    name = models.CharField(max_length=45)
+    entityType = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = 'Template'
+
+
+class TemplateParameter(models.Model):
+    attribute = models.CharField(db_column='Attribute', max_length=45)
+    value = models.CharField(db_column='Value', max_length=200, blank=True)
+    template = models.ForeignKey(Template, related_name='params')
+
 # 
 # class Role(models.Model):
 #     role_id = models.IntegerField(db_column='Role_ID', primary_key=True) # Field name made lowercase.

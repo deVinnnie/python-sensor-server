@@ -114,5 +114,57 @@
       "scalar": 1,
       "name": "Humidity"
     }
+  },
+  {
+    "model": "data.template",
+    "pk": 1,
+    "fields": {
+      "name" : "Default Gateway Configuration",
+      "entityType" : "gateway"
+    }
+  },
+  {
+    "model": "data.templateparameter",
+    "pk": 1,
+    "fields": {
+      "attribute" : "led-policy",
+      "value" : "serious",
+      "template" : 1
+    }
+  },
+  {
+    "model": "data.templateparameter",
+    "pk": 2,
+    "fields": {
+      "attribute" : "coffee-frequency",
+      "value" : "10",
+      "template" : 1
+    }
+  },
+  {
+    "model": "data.template",
+    "pk": 2,
+    "fields": {
+      "name" : "ACME Super Coffee Configuration",
+      "entityType" : "gateway"
+    }
+  },
+  {
+    "model": "data.templateparameter",
+    "pk": 3,
+    "fields": {
+      "attribute" : "led-policy",
+      "value" : "casual",
+      "template" : 2
+    }
+  },
+  {
+    "model": "data.templateparameter",
+    "pk": 4,
+    "fields": {
+      "attribute" : "coffee-frequency",
+      "value" : "30",
+      "template" : 2
+    }
   }
 ]

@@ -14,42 +14,45 @@
 </div>
 
 <h2>Use a Template</h2>
-<form>
-    <select>
-        <option>Basic Configuration</option>
-        <option>ACME Configuration</option>
+<form action="/rest/gateways/{{ gateway_id}}/use_template/" method="POST">
+    <select name="template_id">
+        {% for template in templates %}
+            <option value="{{ template.template_id }}">{{ template.name }}</option>
+        {% endfor %}
     </select>
 
-    <input type="hidden" name="gateway" value="{{ gateway_id}}"/>
-    <input type="submit" value="Save">
+    <!--<input type="hidden" name="gateway" value="{{ gateway_id}}"/>-->
+    <input type="submit" value="Save" class="btn btn-default">
 </form>
 
 
-<h2>Manual Entry</h2>
 
-<form action="/rest/gateways/{{ gateway_id }}/config/" method="POST">
-    {% csrf_token %}
 
-    <!-- TODO Custom Parser -->
+<!--<h2>Manual Entry</h2>-->
 
-    <div class="row">
-        <input type="text" name="key" placeholder="Key"/>
-        <input type="text" name="value" placeholder="Value"/>
-    </div>
+<!--<form action="/rest/gateways/{{ gateway_id }}/config/" method="POST">-->
+    <!--{% csrf_token %}-->
 
-    <div class="row">
-        <input type="text" name="key" placeholder="Key"/>
-        <input type="text" name="value" placeholder="Value"/>
-    </div>
+    <!--&lt;!&ndash; TODO Custom Parser &ndash;&gt;-->
 
-    <div class="row">
-        <input type="text" name="key" placeholder="Key"/>
-        <input type="text" name="value" placeholder="Value"/>
-    </div>
-    <!--<label for="n_sensors">Number of Sensors</label>
-    <input type="number" name="n_sensors" placeholder="Number of Sensors"/>-->
+    <!--<div class="row">-->
+        <!--<input type="text" name="key" placeholder="Key"/>-->
+        <!--<input type="text" name="value" placeholder="Value"/>-->
+    <!--</div>-->
 
-    <input type="hidden" name="gateway" value="{{ gateway_id}}"/>
-    <input type="submit" value="Save">
-</form>
+    <!--<div class="row">-->
+        <!--<input type="text" name="key" placeholder="Key"/>-->
+        <!--<input type="text" name="value" placeholder="Value"/>-->
+    <!--</div>-->
+
+    <!--<div class="row">-->
+        <!--<input type="text" name="key" placeholder="Key"/>-->
+        <!--<input type="text" name="value" placeholder="Value"/>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;<label for="n_sensors">Number of Sensors</label>-->
+    <!--<input type="number" name="n_sensors" placeholder="Number of Sensors"/>&ndash;&gt;-->
+
+    <!--<input type="hidden" name="gateway" value="{{ gateway_id}}"/>-->
+    <!--<input type="submit" value="Save">-->
+<!--</form>-->
 {% endblock %}

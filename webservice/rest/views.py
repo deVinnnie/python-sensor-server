@@ -7,10 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework import generics
-from rest_framework.decorators import api_view
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
 from data.models import *
 from rest.serializers import *
 from datetime import datetime, timedelta
@@ -62,8 +60,6 @@ class HTMLGenericViewSet(viewsets.ModelViewSet):
 
         }
 
-
-        print("D")
         print(self.action)
         if self.action in templates.keys():
             selected_templates = templates[self.action]
@@ -158,6 +154,17 @@ class GatewayViewSet(HTMLGenericViewSet):
         serializer = GatewaySerializer(gateway)
         return Response(serializer.data,template_name='data/gateway_new_config.html')
 
+    def create(self, request, *args, **kwargs):
+        # def create(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, pk=None,
+        # format=None, ):
+        result = super(GatewayViewSet, self).create(request, *args, **kwargs)
+
+        templates = Template.objects.filter(entityType="gateway")
+        serializer = TemplateSerializer(templates, many=True)
+        result.data['templates'] = serializer.data
+
+        return result
+
     @detail_route(methods=['get'])
     def measurements(self, request, pk=None, type=1,format=None):
         """
@@ -197,6 +204,24 @@ class GatewayViewSet(HTMLGenericViewSet):
 
         return Response(data)
 
+    @detail_route(methods=['post'])
+    def use_template(self, request, pk=None, *args, **kwargs):
+        gateway = get_object_or_404(self.queryset, pk=pk)
+
+        template_id = request.POST['template_id']
+        template = get_object_or_404(Template.objects.all(), pk=template_id)
+
+        for param in template.params.all():
+            if len(gateway.config.filter(attribute=param.attribute)) != 0:
+                # Config with same attribute exists. Overwrite.
+                conf = gateway.config.filter(attribute=param.attribute)[0]
+                conf.value = param.value
+                conf.save()
+            else:
+                # Add new.
+                gateway.config.create(attribute=param.attribute, value=param.value)
+
+        return redirect('gateway-detail', pk)
 
 class GatewayConfigurationViewSet(HTMLGenericViewSet):
     """

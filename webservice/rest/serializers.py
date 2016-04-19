@@ -104,4 +104,15 @@ class LiteMeasurementSerializer(serializers.ModelSerializer):
         fields = ('timestamp', 'value')
 
 
+class TemplateParameterSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = TemplateParameter
+        fields = ('attribute', 'value')
+
+class TemplateSerializer(serializers.ModelSerializer):
+    params = TemplateParameterSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Template
+        fields = ('template_id', 'name', 'entityType', 'params')
