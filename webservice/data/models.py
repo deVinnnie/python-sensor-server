@@ -1,12 +1,3 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Remove `managed = False` lines for those models you wish to give write DB access
-# Feel free to rename the models, but don't rename db_table values or field names.
-#
-# Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
-# into your database.
 from __future__ import unicode_literals
 from django.template.loader import render_to_string
 
@@ -86,10 +77,6 @@ class Sensor(models.Model):
     gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='sensors', default="1")
     name = models.CharField(db_column='Name', max_length=45, blank=True,
                             default='Sensor Node')
-    # position_long = models.DecimalField(db_column='Position_Long', max_digits=10, decimal_places=0, blank=True,
-    #                                     null=True)  # Field name made lowercase.
-    # position_lat = models.DecimalField(db_column='Position_Lat', max_digits=10, decimal_places=0, blank=True,
-    #                                    null=True)  # Field name made lowercase.
     position_long = models.FloatField(db_column='Position_Long', blank=True, null=True)
     position_lat = models.FloatField(db_column='Position_Lat', blank=True, null=True)
 
@@ -153,17 +140,6 @@ class Measurement(models.Model):
 
     def __str__(self):
         return '{:%Y-%m-%d %H:%M:%S}'.format(self.timestamp)
-
-
-class RemoteDatabase(models.Model):
-    remote_database_id = models.IntegerField(db_column='Remote_Database_ID', primary_key=True)
-    url = models.CharField(db_column='URL', max_length=300, blank=True)
-    username = models.CharField(db_column='Username', max_length=45, blank=True)
-    password = models.CharField(db_column='Password', max_length=45, blank=True)
-
-    class Meta:
-        managed = True
-        db_table = 'Remote_Database'
 
 
 class SensorConfiguration(models.Model):
@@ -238,6 +214,19 @@ class TemplateParameter(models.Model):
     attribute = models.CharField(db_column='Attribute', max_length=45)
     value = models.CharField(db_column='Value', max_length=200, blank=True)
     template = models.ForeignKey(Template, related_name='params')
+
+
+
+
+#     class RemoteDatabase(models.Model):
+#         remote_database_id = models.IntegerField(db_column='Remote_Database_ID', primary_key=True)
+#         url = models.CharField(db_column='URL', max_length=300, blank=True)
+#         username = models.CharField(db_column='Username', max_length=45, blank=True)
+#         password = models.CharField(db_column='Password', max_length=45, blank=True)
+#
+#         class Meta:
+#             managed = True
+#             db_table = 'Remote_Database'
 
 # 
 # class Role(models.Model):
