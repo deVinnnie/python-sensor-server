@@ -4,7 +4,6 @@ from _testcapi import raise_exception
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import status, permissions, views, renderers, viewsets
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.decorators import detail_route, list_route
@@ -17,6 +16,7 @@ from .permissions import IsGatewayOrAuthenticated, IsUserAllowed
 from .custom_renderers import *
 from django.db.models import Avg
 
+from django.contrib.auth.models import User
 
 # Note on PUT requests:
 #
@@ -462,3 +462,8 @@ class AlertViewSet(HTMLGenericViewSet):
         alert.archived = True
         alert.save()
         return redirect('company-list')
+class UserViewSet(HTMLGenericViewSet):
+    queryset = User.objects.all()
+
+    def list(self, request):
+        return Response(template_name='data/profile.html')

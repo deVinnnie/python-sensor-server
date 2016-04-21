@@ -30,6 +30,7 @@ router.register(r'companies', views.CompanyViewSet)
 router.register(r'installations', views.InstallationViewSet)
 router.register(r'gateways', views.GatewayViewSet)
 router.register(r'measurement-types', views.MeasurementTypeViewSet)
+router.register(r'user', views.UserViewSet)
 
 gateways_router = NestedSimpleRouter(router, r'gateways', lookup='gateway')
 gateways_router.register(r'sensors', views.SensorViewSet)
