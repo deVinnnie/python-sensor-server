@@ -8,7 +8,7 @@ function loadMeasurements(type){
         items = [];
         items.push("<th>Date</th>");
         $.each(data.measurements.sensors, function(index, value){
-            items.push("<th>Sensor " + value + "</th>" );
+            items.push("<th>Sensor " + value + "</th>");
         });
 
         $(targetId + " table thead").empty();
@@ -50,7 +50,7 @@ function loadNextMeasurements(type){
 $('#measurementDataTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e){
     console.log(e.target.dataset.measurementType); // newly activated tab
     loadMeasurements(e.target.dataset.measurementType);
-})
+});
 
 loadMeasurements(1); // Load first tab. Quick Hack.
 $("#measurementDataTabs a:first").tab('show');

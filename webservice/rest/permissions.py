@@ -29,12 +29,11 @@ class IsGatewayOrAuthenticated(permissions.BasePermission):
 class IsUserAllowed(permissions.BasePermission):
     """
     Does the user has the right 'permissions' to view/edit this entity?
-    This is ambiguous since the permissions concept is differs in meaning for this class and for the user of the system.
+    This is ambiguous since the permissions concept differs in meaning for this class and for the user of the system.
     'Having permission' means that the user has a sufficiently high role, or that he is assigned the entity id in a seperate table.
     """
     def has_permission(self, request, view):
         return True
-
 
     def has_object_permission(self, request, view, object):
         entities = ['Measurement', 'Sensor', 'Gateway', 'Installation', 'Company']
@@ -43,7 +42,6 @@ class IsUserAllowed(permissions.BasePermission):
 
         # sensor = getattr(entity, "sensor")
         # print(sensor.sensor_id)
-
 
         while True:
             entityName = type(entity).__name__
