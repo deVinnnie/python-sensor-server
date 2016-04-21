@@ -94,3 +94,9 @@ ul
     position: relative;
     top: 25px;
 }
+
+
+tr.not-confirmed{
+    background: #EFEFEF;
+
+}
