@@ -4,7 +4,6 @@ from django.views.generic import RedirectView
 
 urlpatterns = patterns('',
     url(r'^data/', include('data.urls', namespace="data")),
-    url(r'^configuration/', include('configuration.urls', namespace="configuration")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^rest/', include('rest.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
