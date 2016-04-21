@@ -101,3 +101,19 @@ tr.not-confirmed{
     background: #EFEFEF;
 
 }
+
+#measurements {
+    max-height:600px;
+    overflow-y:auto;
+    overflow-x:scroll;
+}
+
+.measurements {
+    max-height:600px;
+    overflow-y:auto;
+    overflow-x:scroll;
+}
+
+table.m{
+    width: 2000px;
+}

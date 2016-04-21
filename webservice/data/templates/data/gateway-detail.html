@@ -10,24 +10,6 @@
 {% block content %}
 <h1>Gateway {{ gateway_id }}</h1>
 
-<style>
-    #measurements {
-        max-height:600px;
-        overflow-y:auto;
-        overflow-x:scroll;
-    }
-
-    .measurements {
-        max-height:600px;
-        overflow-y:auto;
-        overflow-x:scroll;
-    }
-
-    table.m{
-        width: 2000px;
-    }
-</style>
-
 <div class="row">
     <div class="col-md-6">
         <div class="tabbable">
@@ -98,8 +80,6 @@
                     </thead>
                     <tbody>
                         {% for conf in config %}
-
-
                             {% if not conf.confirmed %}
                             <tr class="not-confirmed">
                             {% else %}
