@@ -79,6 +79,7 @@ $(document).ready(function(){
 
     $('.graphDataTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         console.log(e.target.dataset.measurementType); // newly activated tab
-        loadGraph(e.target.dataset.measurementType, e.target.dataset.measurementTypeName, e.target.dataset.sensor);
+        //loadGraph(e.target.dataset.measurementType, e.target.dataset.measurementTypeName, e.target.dataset.sensor);
+        loadGraph();
     })
 });

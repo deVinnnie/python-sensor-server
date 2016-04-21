@@ -125,11 +125,7 @@
     <div class="col-md-12">
         <h2>Sensors</h2>
 
-        <div>
-            <div id="chart-1" class='with-3d-shadow with-transitions' style="height: 600px;">
-                <svg></svg>
-            </div>
-        </div>
+
     </div>
 </div>
 
@@ -166,7 +162,11 @@
                                         <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}">
                                             <!--<div class="chart" id="measurement_chart-{{ t.measurementTypeID }}-{{ sensor.sensor_id }}"></div>
                                             <div class="chart" id="measurement_chart-{{ t.measurementTypeID }}-{{ sensor.sensor_id }}-overview"></div>-->
-
+                                            <div>
+                                                <div id="chart-1" class='with-3d-shadow with-transitions' style="height: 600px;">
+                                                    <svg></svg>
+                                                </div>
+                                            </div>
 
                                         </div>
                                     {% endfor %}
@@ -303,7 +303,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
 <script src="{% static 'data/SimpleGraph.js' %}"></script>
-<!--<script src="{% static 'data/measurement_chart.js' %}"></script>-->
+<script src="{% static 'data/measurement_chart.js' %}"></script>
 
 <script src="{% static 'data/chart.js' %}"></script>
 {% endblock %}

@@ -1,6 +1,6 @@
 function loadMeasurements(type){
     targetId = "#measurements-type-" + type;
-    //$(targetId).empty();
+
     url = base_url + "?type=" + type + "&start=" + start.format("YYYY-MM-DD") + "&end=" + end.format("YYYY-MM-DD");
     console.log(url);
 
