@@ -16,6 +16,8 @@ from .permissions import IsGatewayOrAuthenticated, IsUserAllowed
 from .custom_renderers import *
 from django.db.models import Avg
 
+from django.http import HttpResponse
+
 from django.contrib.auth.models import User
 
 # Note on PUT requests:
@@ -426,6 +428,22 @@ class SensorConfigurationViewSet(HTMLGenericViewSet):
         serializer = SensorConfigurationSerializer(sensorConf)
 
         return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensorconfiguration-detail.html')
+
+    def destroy(self, request, gateway_pk, format=None, *args, **kwargs):
+        result = super(SensorConfigurationViewSet, self).destroy(request, *args, **kwargs)
+
+        if format == None or format == 'html':
+            response = HttpResponse(content="", status=303)
+            response["Location"] = reverse('gateway-detail', args=gateway_pk)
+            return response
+        else:
+            return result
+
+    # @detail_route(methods=['get'])
+    # def test(self, request, gateway_pk, *args, **kwargs):
+    #     response = HttpResponse(content="", status=303)
+    #     response["Location"] = reverse('gateway-detail', args=gateway_pk)
+    #     return response
 
 class MeasurementTypeViewSet(HTMLGenericViewSet):
     """
