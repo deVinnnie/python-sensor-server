@@ -44,7 +44,14 @@
             <ul class="list">
                 {% for c in results %}
                 <li>
-                    <a class="name" href="{% url 'company-detail' c.company_id %}">{{ c.name }}</a>
+                    {% if not c.active %}
+                    <a class="name deactivated" href="{% url 'company-detail' c.company_id %}">
+                        <span class="glyphicon glyphicon-ban-circle"></span>
+                    {% else %}
+                    <a class="name" href="{% url 'company-detail' c.company_id %}">
+                    {% endif %}
+                        {{ c.name }}
+                    </a>
                 </li>
                 {% endfor %}
             </ul>

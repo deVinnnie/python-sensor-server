@@ -117,3 +117,7 @@ tr.not-confirmed{
 table.m{
     width: 2000px;
 }
+
+a.deactivated{
+    color: #AAA;
+}
