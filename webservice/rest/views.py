@@ -204,11 +204,11 @@ class GatewayViewSet(HTMLGenericViewSet):
 
         return Response(data)
 
-    @detail_route(methods=['post'])
+    @detail_route(methods=['get'])
     def use_template(self, request, pk=None, *args, **kwargs):
         gateway = get_object_or_404(self.queryset, pk=pk)
 
-        template_id = request.POST['template_id']
+        template_id = request.GET['template_id']
         template = get_object_or_404(Template.objects.all(), pk=template_id)
 
         for param in template.params.all():
@@ -220,7 +220,6 @@ class GatewayViewSet(HTMLGenericViewSet):
             else:
                 # Add new.
                 gateway.config.create(attribute=param.attribute, value=param.value)
-
         return redirect('gateway-detail', pk)
 
 class GatewayConfigurationViewSet(HTMLGenericViewSet):
@@ -259,12 +258,6 @@ class GatewayConfigurationViewSet(HTMLGenericViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/gateway-update.html')
         # else:
         #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # def delete(self, request, gateway_pk, pk=None, format=None):
-    #     gatewayConf = get_object_or_404(self.queryset, pk=pk)
-    #     gatewayConf.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 class SensorViewSet(HTMLGenericViewSet):
     """

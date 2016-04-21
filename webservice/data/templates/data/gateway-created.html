@@ -7,25 +7,35 @@
 
 {% block content %}
 <h1>Gateway {{ gateway_id }}</h1>
-<div class="alert alert-success" role="alert">
-    <p>Well Done. You created a gateway.</p>
-    <p>Would you like to edit its configuration?</p>
-    <a href="{% url 'gateway-detail' gateway_id %}">Skip</a>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="alert alert-success" role="alert">
+            <p>New gateway created</p>
+            <p>Would you like to add a configuration?</p>
+            <a href="{% url 'gateway-detail' gateway_id %}">Skip</a>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                API Key: {{ api_key }}
+            </div>
+        </div>
+    </div>
 </div>
 
 <h2>Use a Template</h2>
-<form action="/rest/gateways/{{ gateway_id}}/use_template/" method="POST">
+<form action="/rest/gateways/{{ gateway_id}}/use_template/" method="GET">
     <select name="template_id">
         {% for template in templates %}
             <option value="{{ template.template_id }}">{{ template.name }}</option>
         {% endfor %}
     </select>
 
-    <!--<input type="hidden" name="gateway" value="{{ gateway_id}}"/>-->
     <input type="submit" value="Save" class="btn btn-default">
 </form>
-
-
 
 
 <!--<h2>Manual Entry</h2>-->

@@ -9,16 +9,14 @@
 
 <h1>Add Gateway to {{ name }}</h1>
 
-<!-- TODO Templates / Duplicate or Copy -->
-
 <form action="/rest/gateways/" method="POST">
     {% csrf_token %}
 
     <!-- TODO API KEY Format Checking-->
-    <div class="form-group">
+    <!--<div class="form-group">
         <label for="api_key">API-Key</label>
         <input class="form-control" type="text" name="api_key" id="api_key" placeholder="API"/>
-    </div>
+    </div>-->
 
     <input type="hidden" name="installation" value="{{ installation_id}}"/>
     <input type="submit" value="Save" class="btn btn-default">
