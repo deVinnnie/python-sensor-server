@@ -23,8 +23,8 @@ table.table{
 }
 
 body {
-font: 13px sans-serif;
-margin-bottom: 20px;
+    font: 13px sans-serif;
+    margin-bottom: 20px;
 }
 
 rect { fill: #fff; }
@@ -61,8 +61,7 @@ tr.deleted {
     margin-right: 5px;
 }
 
-ul
-{
+ul{
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -96,10 +95,8 @@ ul
     top: 25px;
 }
 
-
 tr.not-confirmed{
     background: #EFEFEF;
-
 }
 
 #measurements {
