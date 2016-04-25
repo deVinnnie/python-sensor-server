@@ -94,6 +94,8 @@ nv.models.lineChart = function() {
 
     var onViewfinderDrag = function(){};
 
+    var updateURL = "";
+
     function chart(selection) {
         renderWatch.reset();
         renderWatch.models(lines);
@@ -529,6 +531,8 @@ nv.models.lineChart = function() {
                         rangeStart.isBefore(currentRange.start, 'days')
                 )
                 {
+                        var start, end;
+
                         console.log(
                             "Retrieving new data for selected range:" +
                             "From " + rangeStart.format() + " To " + rangeEnd.format()
@@ -547,8 +551,8 @@ nv.models.lineChart = function() {
                         currentRange.end = moment.max(currentRange.end, rangeEnd);
                         currentRange.start = moment.min(currentRange.start, rangeStart);
 
-                        var url = makeURL(start, end);
-
+                        var url = makeURL(chart.updateURL, start, end);
+                        console.log(url);
                         d3.json(url , function(error, incoming_data) {
                             if(error){
                                 throw error;
@@ -565,13 +569,6 @@ nv.models.lineChart = function() {
                             values.sort(function(a, b){
                                 return a.x - b.x;
                             });
-
-                            //var stream = new Object();
-                            //stream.values= values;
-                            //stream.key = "Measurements";
-                            //stream.color = "#2ca02c";
-
-                            //data = new Array();
 
                             data[0].values = data[0].values.concat(values);
                             data[0].values.sort(function(a, b){
@@ -613,8 +610,6 @@ nv.models.lineChart = function() {
                 updateXAxis();
                 updateYAxis();
             }
-
-
         });
 
         renderWatch.renderEnd('lineChart immediate');
@@ -656,6 +651,7 @@ nv.models.lineChart = function() {
     chart.options = nv.utils.optionsFunc.bind(chart);
 
     chart.onViewfinderDrag = onViewfinderDrag;
+    chart.updateURL = updateURL;
 
     chart._options = Object.create({}, {
         // simple options, just get/set the necessary values

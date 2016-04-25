@@ -1,46 +1,3 @@
-
-
-/*s = new Object();
-
-var values = new Array();
-for(var i = 0; i<1000; i+=2){
-    obj = new Object();
-    obj.x = i;
-    obj.y = 10;
-    values.push(obj);
-}
-
-s.values= values;
-s.key = "Overview";
-s.color = "#2ca02c";
-
-data2 = new Array();
-data2.push(s);
-
-s = new Object();
-
-var values = new Array();
-for(var i = 0; i<500; i++){
-    obj = new Object();
-    obj.x = i;
-    obj.y = (i*i) - 100*i;
-    values.push(obj);
-}
-
-for(var i = 500; i<1000; i++){
-    obj = new Object();
-    obj.x = i;
-    obj.y = 0;
-    values.push(obj);
-}
-
-s.values= values;
-s.key = "Stream";
-s.color = "#2ca02c";
-
-data = new Array();
-data.push(s);*/
-
 /**
 * Start and end date of values in data set.
 */
@@ -49,16 +6,20 @@ var currentRange;
 var data, data2;
 var chart;
 
-var common_url = '/rest/gateways/2/sensors/1/measurements.json?type=1';
-var url = makeURL(start, end); //common_url + '&start=' + start.format("YYYY-MM-DD") + '&end=' + end.format("YYYY-MM-DD");
+var base_url = '/rest/gateways/2/';
 
-function makeURL(start, end){
-    var url = common_url + '&start=' + start.format("YYYY-MM-DD") + '&end=' + end.format("YYYY-MM-DD");
+function makeURL(base_url, start, end){
+    var url = base_url + '&start=' + start.format("YYYY-MM-DD") + '&end=' + end.format("YYYY-MM-DD");
     return url;
 }
 
-function loadGraph(){
-    d3.json(url , function(error, incoming_data) {
+function loadGraph(sensor, type){
+    console.log("Load Chart");
+    var common_url = base_url + 'sensors/' + sensor + '/measurements.json?type=' + type;
+    var url = makeURL(common_url, start, end);
+
+    d3.json(url , function(error, incoming_data){
+        console.log(start.format("YYYY-MM-DD") + " " + end.format("YYYY-MM-DD"));
         if(error){
             throw error;
         }
@@ -67,7 +28,6 @@ function loadGraph(){
 
         values.forEach(function(d) {
             date = new Date(d[0]);
-            console.log(date.getTime());
             d.x = date.getTime();
             d.y = +d[1];
         });
@@ -84,9 +44,12 @@ function loadGraph(){
         data = new Array();
         data[0] = stream;
 
+        console.log(data[0]);
+
 
         // Load data for viewfinder.
         d3.json(common_url , function(error, incoming_data) {
+            console.log("Load Viewfinder Chart");
             if(error){
                 throw error;
             }
@@ -95,7 +58,6 @@ function loadGraph(){
 
             values.forEach(function(d) {
                 date = new Date(d[0]);
-                console.log(date.getTime());
                 d.x = date.getTime();
                 d.y = +d[1];
             });
@@ -112,12 +74,13 @@ function loadGraph(){
             data2 = new Array();
             data2[0] = stream;
 
-            initializeGraph();
+            initializeGraph(sensor, type, common_url);
         });
     });
 }
 
-function initializeGraph(){
+function initializeGraph(sensor, type, updateURL){
+     console.log("Init Graph");
      nv.addGraph(function() {
         chart = nv.models.lineWithFocusChart();
 
@@ -136,6 +99,8 @@ function initializeGraph(){
         chart.y2Axis.tickFormat(d3.format(',.2f'));
         chart.useInteractiveGuideline(true);
 
+        chart.updateURL = updateURL;
+
         // Set initial range.
         earliestMeasurementAvailable = moment(data2[0].values[0].x); //Array is already sorted!
         viewFinderStart = earliestMeasurementAvailable.isAfter(start) ? earliestMeasurementAvailable : start;
@@ -143,7 +108,8 @@ function initializeGraph(){
 
         currentRange = {"start" : viewFinderStart, "end" : end};
 
-        d3.select('#chart-1 svg')
+        chartID = '#chart-sensor-' + sensor + '-type-' + type;
+        d3.select(chartID + ' svg')
             .datum(data)
             .call(chart);
 
@@ -152,37 +118,6 @@ function initializeGraph(){
         return chart;
     });
 }
-
-function refresh() {
-    var tempDataValues;
-    var tempDataValuesOverview;
-    d3.json(url, function(error, incoming_data) {
-        if(error){
-            throw error;
-        }
-
-        var values = incoming_data.measurements;
-
-        values.forEach(function(d) {
-            date = new Date(d[0]);
-            console.log(date.getTime());
-            d.x = date.getTime();
-            d.y = +d[1];
-        });
-
-        values.sort(function(a, b){
-            return a.x - b.x;
-        });
-
-        tempDataValues = values;
-        tempDataValuesOverview = values;
-
-         data[0].values = tempDataValues;
-        data2[0].values = tempDataValuesOverview ;
-        chart.update();
-     });
-}
-
 
 
 //Update data AJAX

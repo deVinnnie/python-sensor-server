@@ -121,3 +121,8 @@ table.m{
 a.deactivated{
     color: #AAA;
 }
+
+
+.measurement-chart{
+    height: 500px;
+}

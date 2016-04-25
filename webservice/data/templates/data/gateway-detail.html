@@ -124,8 +124,6 @@
 <div class="row">
     <div class="col-md-12">
         <h2>Sensors</h2>
-
-
     </div>
 </div>
 
@@ -163,11 +161,10 @@
                                             <!--<div class="chart" id="measurement_chart-{{ t.measurementTypeID }}-{{ sensor.sensor_id }}"></div>
                                             <div class="chart" id="measurement_chart-{{ t.measurementTypeID }}-{{ sensor.sensor_id }}-overview"></div>-->
                                             <div>
-                                                <div id="chart-1" class='with-3d-shadow with-transitions' style="height: 600px;">
+                                                <div id="chart-sensor-{{ sensor.sensor_id}}-type-{{t.measurementTypeID}}" class='with-3d-shadow with-transitions measurement-chart'>
                                                     <svg></svg>
                                                 </div>
                                             </div>
-
                                         </div>
                                     {% endfor %}
                                 </div>
