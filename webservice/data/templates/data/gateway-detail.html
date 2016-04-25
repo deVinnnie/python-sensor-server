@@ -252,7 +252,7 @@
 <script src="{% static 'data/moment.js' %}"></script>
 
 <script>
-    base_url = "/rest/gateways/{{ gateway_id }}/measurements";
+    table_base_url = "/rest/gateways/{{ gateway_id }}/measurements";
 
     // Define range for the measurements retrieved for table.
     var start = moment().subtract(20, 'days');
