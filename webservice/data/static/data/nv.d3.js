@@ -6137,6 +6137,8 @@ nv.models.line = function() {
 
     return chart;
 };
+
+
 nv.models.lineChart = function() {
     "use strict";
 
@@ -6651,39 +6653,23 @@ nv.models.lineChart = function() {
                     });
             }
     
-    
+            // Custom edit.
+
             function onBrush() {
                 brushExtent = brush.empty() ? null : brush.extent();
                 var extent = brush.empty() ? x2.domain() : brush.extent();
+
+
+                var rangeStart = moment(extent[0]);
+                var rangeEnd = moment(extent[1]);
+
+                console.log(
+                    "From " + rangeStart.format() +
+                    " To " + rangeEnd.format()
+                );
+
                 
-                
-                
-                
-                console.log(extent); //Min / Max
-    
-                /*if(dataExtent[1] < extent[1]){
-                    //Update data:
-                    
-                    s = new Object();
-                    
-                    var values = new Array();
-                    for(var i = 0; i< extent[1]; i++){
-                        obj = new Object();
-                        obj.x = i;
-                        obj.y = (i*i) - 100*i;
-                        values.push(obj);
-                    }
-                    
-                    s.values= values;
-                    s.key = "Stream";
-                    s.color = "#2ca02c";
-                    
-                    var data = new Array();
-                    data.push(s);
-                    console.log("new");
-                    
-                    dataExtent[1] = extent[1];
-                }*/
+                //console.log(extent); //Min / Max
     
                 //The brush extent cannot be less than one.  If it is, don't update the line chart.
                 if (Math.abs(extent[0] - extent[1]) <= 1) {
@@ -6695,29 +6681,7 @@ nv.models.lineChart = function() {
     
                 updateBrushBG();
     
-                
-                
-                
-                    
-                /*var url = '/rest/gateways/2/sensors/1/measurements.json?type=1&start=2015-01-01&end=2020-01-01';
-                d3.json(url, function(error, incoming_data) {
-                    if(error){
-                        throw error;
-                    }
 
-                    var data = incoming_data.measurements;
-
-                    data.forEach(function(d) {
-                        d.timestamp = parseDate(d[0]);
-                        d.value = +d[1];
-                    });
-
-                    data.sort(function(a, b) {
-                        return a.timestamp - b.timestamp;
-                    });
-                });*/
-    
-    
                 // Update Main (Focus)
                 var focusLinesWrap = g.select('.nv-focus .nv-linesWrap')
                     .datum(
@@ -6735,6 +6699,47 @@ nv.models.lineChart = function() {
                             };
                         })
                 );
+
+                // Load new data.
+                //console.log(data[0].values);
+                //console.log(data2[0].values);
+
+                if(currentRange.end.isBefore(rangeEnd, 'days') ||
+                    rangeStart.isBefore(currentRange.start, 'days')
+                )
+                {
+                    currentRange.start = rangeStart;
+                    currentRange.end = rangeEnd;
+
+                    var url = makeURL(rangeStart, rangeEnd);
+
+                    d3.json(url , function(error, incoming_data) {
+                        if(error){
+                            throw error;
+                        }
+
+                        var values = incoming_data.measurements;
+
+                        values.forEach(function(d) {
+                            date = new Date(d[0]);
+                            d.x = date.getTime();
+                            d.y = +d[1];
+                        });
+
+                        values.sort(function(a, b){
+                            return a.x - b.x;
+                        });
+
+                        var stream = new Object();
+                        stream.values= values;
+                        stream.key = "Measurements";
+                        stream.color = "#2ca02c";
+
+                        data = new Array();
+                        data[0] = stream;
+                    });
+                }
+
                 focusLinesWrap.transition().duration(duration).call(lines);
     
     

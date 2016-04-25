@@ -1,4 +1,4 @@
-function drawGraph(data, chart_id, typeName) {
+/*function drawGraph(data, chart_id, typeName) {
     bisectDate = d3.bisector(function(d) {
         return d.timestamp;
     }).left,
@@ -8,7 +8,7 @@ function drawGraph(data, chart_id, typeName) {
     };
 
     var len = data.length;
-    console.log(data)
+    console.log(data);
     graph = new SimpleGraph(chart_id,
         data,
         {
@@ -30,7 +30,7 @@ function drawGraph(data, chart_id, typeName) {
             "ylabel": "Value"
         }
     );
-}
+}*/
 
 function loadGraph(type, typeName, id) {
     var url = '/rest/gateways/{{ gateway_id }}/sensors/' + id + '/measurements.json?type=' + type + '&start=2015-01-01&end=2020-01-01';
@@ -66,20 +66,3 @@ function loadGraph(type, typeName, id) {
         drawGraph(data, chart_id, typeName);
     });
 }
-
-$(document).ready(function(){
-    $(".nav-pills a").click(function(){
-        $(this).tab('show');
-    });
-
-    $('.nav-pills a').on('shown.bs.tab', function(event){
-        var pillName = $(event.target).text(); // Sensor x
-        var id = pillName.slice(-1); // x
-    });
-
-    $('.graphDataTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-        console.log(e.target.dataset.measurementType); // newly activated tab
-        //loadGraph(e.target.dataset.measurementType, e.target.dataset.measurementTypeName, e.target.dataset.sensor);
-        loadGraph();
-    })
-});

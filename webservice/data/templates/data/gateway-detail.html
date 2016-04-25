@@ -249,14 +249,9 @@
     </div>
 </div>
 {% endblock %}
-<!--<script>
-    function deleteFunc() {
-        console.log(id);
-        window.location.href = "{% url 'gatewayconfiguration-deactivate' gateway_id id %}";
-    }
-</script>-->
+
 {% block scripts %}
-<script src="{% static 'data/nv.d3.js'%}"></script>
+<script src="{% static 'data/nv.d3.min.js'%}"></script>
 <script src="{% static 'data/moment.js' %}"></script>
 
 <script>
@@ -298,5 +293,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <script src="{% static 'data/SimpleGraph.js' %}"></script>
 <script src="{% static 'data/measurement_chart.js' %}"></script>
 
+<script src="{% static 'data/nvd3_custom_lineChart.js' %}"></script>
 <script src="{% static 'data/chart.js' %}"></script>
+
+<script src="{% static 'data/main.js' %}"></script>
 {% endblock %}

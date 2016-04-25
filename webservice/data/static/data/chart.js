@@ -41,12 +41,21 @@ s.color = "#2ca02c";
 data = new Array();
 data.push(s);*/
 
-dataExtent = [ 50, 70];
+/**
+* Start and end date of values in data set.
+*/
+var currentRange;
+
 var data, data2;
 var chart;
 
 var common_url = '/rest/gateways/2/sensors/1/measurements.json?type=1';
-var url = common_url + '&start=' + start.format("YYYY-MM-DD") + '&end=' + end.format("YYYY-MM-DD");
+var url = makeURL(start, end); //common_url + '&start=' + start.format("YYYY-MM-DD") + '&end=' + end.format("YYYY-MM-DD");
+
+function makeURL(start, end){
+    var url = common_url + '&start=' + start.format("YYYY-MM-DD") + '&end=' + end.format("YYYY-MM-DD");
+    return url;
+}
 
 function loadGraph(){
     d3.json(url , function(error, incoming_data) {
@@ -112,8 +121,6 @@ function initializeGraph(){
      nv.addGraph(function() {
         chart = nv.models.lineWithFocusChart();
 
-        chart.brushExtent([50,70]);
-
         chart.xAxis.tickFormat(
             function(d){
                 return d3.time.format('%Y-%m-%d')(new Date(d));
@@ -130,7 +137,11 @@ function initializeGraph(){
         chart.useInteractiveGuideline(true);
 
         // Set initial range.
-        chart.brushExtent([start.valueOf(), end.valueOf()])
+        earliestMeasurementAvailable = moment(data2[0].values[0].x); //Array is already sorted!
+        viewFinderStart = earliestMeasurementAvailable.isAfter(start) ? earliestMeasurementAvailable : start;
+        chart.brushExtent([earliestMeasurementAvailable.valueOf(), end.valueOf()]);
+
+        currentRange = {"start" : viewFinderStart, "end" : end};
 
         d3.select('#chart-1 svg')
             .datum(data)
