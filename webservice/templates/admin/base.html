@@ -35,7 +35,7 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    {% block page_1 %}<li><a href="/admin/">User management</a></li>{% endblock %}
+                    {% block page_1 %}<li class="active"><a href="/admin/">User management</a></li>{% endblock %}
                     {% block page_2 %}<li><a href="{% url 'measurementtype-list' %}">Meassurement types</a></li>{% endblock %}
                     {% block page_3 %}<li><a href="#">My account</a></li>{% endblock %}
                 </ul>
@@ -46,8 +46,8 @@
             </div>
             <ol class="breadcrumb">
                 {% block bread %}<li><a href="{% url 'company-list' %}">Home</a></li>{% endblock %}
-                {% block bread_1 %}<li><a href="#">Library</a></li>{% endblock %}
-                {% block bread_active %}<li class="active">Data</li>{% endblock %}
+                {% block bread_1 %}{% endblock %}
+                {% block bread_active %}<li class="active">User management</li>{% endblock %}
             </ol>
         </div>
     </nav>

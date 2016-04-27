@@ -2,15 +2,12 @@
 
 {% block title %}My Account{% endblock %}
 
-{% block bread_1 %}
-<li class="active">
-    <a href="{% url 'user-list' %}">
-        My Account
-    </a>
-</li>
+{% block bread %}<li><a href="{% url 'company-list' %}">Home</a></li>{% endblock %}
+{% block bread_1 %}{% endblock %}
+{% block bread_active %}<li class="active">My Account</li>{% endblock %}
 
-{% endblock %}
-{% block bread_active %}{% endblock %}
+{% block page_3 %}<li class="active"><a href="{% url 'user-list' %}">My account</a></li>{% endblock %}
+
 
 {% block content %}
 <h1>My Account</h1>
