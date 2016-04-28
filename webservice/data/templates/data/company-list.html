@@ -47,6 +47,7 @@
                     {% if not c.active %}
                     <a class="name deactivated" href="{% url 'company-detail' c.company_id %}">
                         <span class="glyphicon glyphicon-ban-circle"></span>
+                    </a>
                     {% else %}
                     <a class="name" href="{% url 'company-detail' c.company_id %}">
                     {% endif %}
