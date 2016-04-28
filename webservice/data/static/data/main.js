@@ -12,5 +12,7 @@ $(document).ready(function(){
         console.log(e.target.dataset.measurementType); // newly activated tab
         //loadGraph(e.target.dataset.measurementType, e.target.dataset.measurementTypeName, e.target.dataset.sensor);
         loadGraph(e.target.dataset.sensor, e.target.dataset.measurementType);
-    })
+    });
+
+    $('.measurements table').stickyTableHeaders();
 });

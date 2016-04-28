@@ -12,7 +12,7 @@
 
         <!-- Bootstrap -->
         <link href="{% static 'data/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet" />
-        <link href="{% static 'data/nv.d3.css' %}"  type="text/css" rel="stylesheet" />
+        <link href="{% static 'data/libs/nv.d3.css' %}"  type="text/css" rel="stylesheet" />
         <link href="{% static 'data/style.css' %}"  type="text/css" rel="stylesheet" />
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -67,7 +67,7 @@
         </div>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="{% static 'data/jquery.js' %}" type="text/javascript"></script>
+        <script src="{% static 'data/libs/jquery.js' %}" type="text/javascript"></script>
         <script src="{% static 'data/d3/d3.min.js' %}" type="text/javascript"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{% static 'data/bootstrap-3.3.6-dist/js/bootstrap.min.js' %}"></script>
@@ -76,8 +76,10 @@
         <script src="{% static 'rest_framework/js/csrf.js' %}"></script>
         <script src="{% static 'rest_framework/js/ajax-form.js' %}"></script>
 
-        <script src="{% static 'data/list.fuzzysearch.min.js' %}" type="text/javascript"></script>
-        <script src="{% static 'data/list.js' %}" type="text/javascript"></script>
+        <script src="{% static 'data/libs/list.fuzzysearch.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'data/libs/list.js' %}" type="text/javascript"></script>
+
+        <script src="{% static 'data/libs/jquery.stickytableheaders.min.js' %}"></script>
 
         <script>
             $(document).ready(function() {
