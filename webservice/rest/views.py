@@ -49,20 +49,15 @@ class HTMLGenericViewSet(viewsets.ModelViewSet):
         templates = {
             'list': ["%s/%s-list.html" % (app, name), "list.html"],
             'retrieve': ["%s/%s-detail.html" % (app, name), "detail.html"],
-
             'create': ["%s/%s-created.html" % (app, name), "created.html"],
-            #'create': ["%s/%s-detail.html" % (app, name), "created.html"], #Redirect?
             'edit': ["%s/%s-update.html" % (app, name), "update.html"],
             'update': ["%s/%s-update.html" % (app, name), "update.html"],
             'partial_update' : ["%s/%s-update.html" % (app, name), "update.html"],
             'delete': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
             'destroy': ["%s/%s-destroy.html" % (app, name), "destroy.html"],
-
             'new' : ["%s/%s-new.html" % (app, name), "new.html"],
-
         }
 
-        print(self.action)
         if self.action in templates.keys():
             selected_templates = templates[self.action]
         else:

@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="{% static 'data/images/favicon.ico' %}" type="image/x-icon">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>{% block title %}Bootstrap 101 Template{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
 
         <!-- Bootstrap -->
         <link href="{% static 'data/bootstrap-3.3.6-dist/css/bootstrap.min.css' %}" rel="stylesheet" />
@@ -44,6 +44,7 @@
                         {% block page_2 %}<li><a href="{% url 'measurementtype-list' %}">Meassurement types</a></li>{% endblock %}
                         {% block page_3 %}<li><a href="{% url 'user-list' %}">My account</a></li>{% endblock %}
                     </ul>
+
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="{% url 'user-list' %}"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
                         <li><a href="/rest/api-auth/logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
@@ -69,6 +70,7 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="{% static 'data/libs/jquery.js' %}" type="text/javascript"></script>
         <script src="{% static 'data/d3/d3.min.js' %}" type="text/javascript"></script>
+
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{% static 'data/bootstrap-3.3.6-dist/js/bootstrap.min.js' %}"></script>
         <script src="http://maps.googleapis.com/maps/api/js"></script>
@@ -83,7 +85,7 @@
 
         <script>
             $(document).ready(function() {
-                console.log("startup");
+                // Enables forms to send PUT/PATCH/DELETE requests in addition to POST/GET
                 $('form').ajaxForm();
             });
         </script>
