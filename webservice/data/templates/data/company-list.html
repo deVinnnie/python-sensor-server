@@ -24,7 +24,7 @@
             {% endif %}
             {% for alert in c.not_archived %}
                     <div class="alert alert-danger" role="alert">
-                        <a href="{% url 'alert-alert' alert.gateway alert.sensor alert.id %}">{{ alert.text }}</a>
+                        <a href="{% url 'alert-alert' alert.gateway.gateway_id alert.sensor.sensor_id alert.id %}">{{ alert.text }}</a>
                     </div>
             {% endfor %}
         {% endfor %}
