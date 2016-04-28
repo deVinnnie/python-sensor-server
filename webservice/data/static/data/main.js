@@ -16,3 +16,26 @@ $(document).ready(function(){
 
     $('.measurements table').stickyTableHeaders();
 });
+
+
+function initialize() {
+    // The location of the 'gateway' corresponds to the
+    // location of the first sensor.
+    var mapProp = {
+        center:new google.maps.LatLng(
+            gateway_position.lat,
+            gateway_position.long
+        ),
+        zoom:18,
+        mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+        var marker = new google.maps.Marker({
+        position: gateway_position,
+        map: map,
+        title: 'Gateway Location'
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
