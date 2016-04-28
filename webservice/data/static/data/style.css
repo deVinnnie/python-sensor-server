@@ -48,10 +48,6 @@ rect { fill: #fff; }
   stroke: steelblue;
 }
 
-tr.deleted {
-    background-color: #575757;
-}
-
 .button-form {
     float: right;
 }
@@ -83,16 +79,10 @@ ul{
     left: 0;
 }
 
-.btn-archive {
+.btn-archive, .btn-refresh {
     bottom: 15px;
     position: relative;
     top: 15px;
-}
-
-.btn-refresh {
-    bottom: 15px;
-    position: relative;
-    top: 25px;
 }
 
 tr.not-confirmed{
@@ -106,8 +96,8 @@ tr.not-confirmed{
 }
 
 .measurements {
-    max-height:600px;
-    overflow-y:auto;
+    /*max-height:600px;*/
+    overflow-y:scroll;
     overflow-x:scroll;
 }
 
@@ -121,5 +111,5 @@ a.deactivated{
 
 
 .measurement-chart{
-    height: 500px;
+    height: 600px;
 }
