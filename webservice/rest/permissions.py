@@ -5,7 +5,7 @@ from data.models import Gateway, Permission
 # For Measurement entity. Only the owning gateway can update.
 # Measurements cannot be deleted and cannot be changed, by either the gateway or a user.
 # A gateway authenticates itself with an API-key. This API-key must be transmitted as an additional parameter
-# with each request.
+# for each request.
 class IsGatewayOrAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
         print("Hello World, this is the guard.")
