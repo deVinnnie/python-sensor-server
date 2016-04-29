@@ -11,18 +11,14 @@ function loadMeasurements(type){
 
     $.getJSON(url, function(data) {
         var header = $("<tr></tr>");
-        var items = [];
-
         header.append(
             $("<th></th>").text("Date")
         );
 
-        $.each(data.measurements.sensors, function(index, value){
+        $.each(data.measurements.sensors, function(index, tag){
             header.append(
-                $("<th></th>").text("Sensor " + value )
+                $("<th></th>").text(tag)
             );
-
-            items.push("<th>Sensor " + value + "</th>");
         });
 
         $(targetId + " table thead").empty();

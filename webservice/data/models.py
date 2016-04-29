@@ -75,8 +75,7 @@ class Gateway(models.Model):
 class Sensor(models.Model):
     sensor_id = models.AutoField(db_column='Sensor_ID', primary_key=True)
     gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='sensors', default="1")
-    name = models.CharField(db_column='Name', max_length=45, blank=True,
-                            default='Sensor Node')
+    tag = models.CharField(db_column='Name', max_length=45, blank=True, default='Sensor Node')
     position_long = models.FloatField(db_column='Position_Long', blank=True, null=True)
     position_lat = models.FloatField(db_column='Position_Lat', blank=True, null=True)
 

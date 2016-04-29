@@ -62,7 +62,6 @@
         <div>
             <!-- Config -->
             <h2>Configuration</h2>
-            <!--<button>Edit</button>-->
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -128,7 +127,7 @@
         <div class="col-md-2">
             <ul class="nav nav-pills nav-stacked">
                 {% for sensor in sensors %}
-                    <li><a href="#sensor-tab{{ sensor.sensor_id }}" data-toggle="tab">Sensor {{ sensor.sensor_id }}</a></li>
+                    <li><a href="#sensor-tab{{ sensor.sensor_id }}" data-toggle="tab">{{ sensor.tag }}</a></li>
                 {% endfor %}
             </ul>
         </div>

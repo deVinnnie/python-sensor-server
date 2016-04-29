@@ -167,6 +167,43 @@ class GatewayViewSet(HTMLGenericViewSet):
         """
         Returns an overview of the measurements for a specific type.
         Gives one average value per sensor per day.
+
+        Example JSON output:
+        {
+          "measurements": {
+            "values": [
+              {
+                "data": [
+                  3.14,
+                  null,
+                  null
+                ],
+                "date": "2016-05-01"
+              },
+              {
+                "data": [
+                  4.0,
+                  null,
+                  null
+                ],
+                "date": "2016-05-02"
+              },
+            ],
+            "sensors": {
+              "1": "G2S1",
+              "2": "G2S2",
+              "3": "G2S3",
+              "4": "G2S4",
+              ...
+            }
+        }
+
+        'sensors' contains a mapping of sensor id to sensor tag.
+        The id is a string value - though the database value is integer - this is a
+        limitation of JSON which only allows strings as key.
+        Furthermore the 'sensors' list serves as the header for the actual measurements.
+        The index in the array for measurement corresponds to the index its sensor in the "sensors' list.
+        A null value in the values array means that no data was found.
         """
 
         # Time is not important. Date is.
@@ -180,14 +217,15 @@ class GatewayViewSet(HTMLGenericViewSet):
         endDate = datetime.strptime(endTimestamp, "%Y-%m-%d")
 
         data = {}
-        sensorList = []
+        sensorList = {}
 
         for sensor in gateway.sensors.all():
-            sensorList.append(sensor.sensor_id)
+            sensorList[sensor.sensor_id] = sensor.tag
 
-        data["measurements"] = { "sensors" : sensorList,
-                                 "values" : []
-                                }
+        data["measurements"] = {
+                            "sensors" : sensorList,
+                            "values" : []
+        }
 
         while(startDate != endDate):
             values = []

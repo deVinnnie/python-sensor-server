@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S1",
       "position_long": 4.01,
       "position_lat": 51.1
     }
@@ -14,7 +14,7 @@
     "pk": 2,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S2",
       "position_long": 4.02,
       "position_lat": 51.1
     }
@@ -24,7 +24,7 @@
     "pk": 3,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S3",
       "position_long": 4.03,
       "position_lat": 51.1
     }
@@ -34,7 +34,7 @@
     "pk": 4,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S4",
       "position_long": 4.04,
       "position_lat": 51.1
     }
@@ -44,7 +44,7 @@
     "pk": 5,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S5",
       "position_long": 4.05,
       "position_lat": 51.1
     }
@@ -54,7 +54,7 @@
     "pk": 6,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S6",
       "position_long": 4.06,
       "position_lat": 51.1
     }
@@ -64,7 +64,7 @@
     "pk": 7,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S7",
       "position_long": 4.07,
       "position_lat": 51.1
     }
@@ -74,7 +74,7 @@
     "pk": 8,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S8",
       "position_long": 4.08,
       "position_lat": 51.1
     }
@@ -84,7 +84,7 @@
     "pk": 9,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S9",
       "position_long": 4.09,
       "position_lat": 51.1
     }
@@ -94,7 +94,7 @@
     "pk": 10,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S10",
       "position_long": 4.010,
       "position_lat": 51.1
     }
@@ -104,7 +104,7 @@
     "pk": 11,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S11",
       "position_long": 4.011,
       "position_lat": 51.1
     }
@@ -114,7 +114,7 @@
     "pk": 12,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S12",
       "position_long": 4.012,
       "position_lat": 51.1
     }
@@ -124,7 +124,7 @@
     "pk": 13,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S13",
       "position_long": 4.013,
       "position_lat": 51.1
     }
@@ -134,7 +134,7 @@
     "pk": 14,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S14",
       "position_long": 4.014,
       "position_lat": 51.1
     }
@@ -144,7 +144,7 @@
     "pk": 15,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S15",
       "position_long": 4.015,
       "position_lat": 51.1
     }
@@ -154,7 +154,7 @@
     "pk": 16,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S16",
       "position_long": 4.016,
       "position_lat": 51.1
     }
@@ -164,7 +164,7 @@
     "pk": 17,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S17",
       "position_long": 4.017,
       "position_lat": 51.1
     }
@@ -174,7 +174,7 @@
     "pk": 18,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S18",
       "position_long": 4.018,
       "position_lat": 51.1
     }
@@ -184,7 +184,7 @@
     "pk": 19,
     "fields": {
       "gateway": 2,
-      "name": "Default Sensor Node",
+      "tag": "G2-S19",
       "position_long": 4.019,
       "position_lat": 51.1
     }
