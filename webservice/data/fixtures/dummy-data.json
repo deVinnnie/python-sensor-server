@@ -85,7 +85,7 @@
     "fields": {
       "unit": "pF",
       "scalar": 1,
-      "name": "Capacitance Measurement"
+      "name": "Capacitance"
     }
   },
   {
@@ -94,7 +94,7 @@
     "fields": {
       "unit": "°C",
       "scalar": 1,
-      "name": "Temperature Measurement Type 1"
+      "name": "Temperature (Type 1)"
     }
   },
   {
@@ -103,7 +103,7 @@
     "fields": {
       "unit": "°C",
       "scalar": 1,
-      "name": "Temperature Measurement Type 2"
+      "name": "Temperature (Type 2)"
     }
   },
   {
