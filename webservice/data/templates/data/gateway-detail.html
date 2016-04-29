@@ -11,7 +11,7 @@
 <h1>Gateway {{ gateway_id }}</h1>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="tabbable">
             <ul class="nav nav-tabs" id="measurementDataTabs">
                 {% for t in measurement_types %}
@@ -24,22 +24,17 @@
             <div class="tab-content">
                 {% for t in measurement_types %}
                     <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}">
-                        <div class="row measurements" id="measurements-type-{{ t.measurementTypeID }}">
-                            <button onclick="loadPrevMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}"
-                                    class="btn btn-link"
-                            >
-                                <span class="glyphicon glyphicon-chevron-left"></span> Back
-                            </button>
-                            <button onclick="loadNextMeasurements({{ t.measurementTypeID }});" data-measurement-type="{{ t.measurementTypeID }}"
-                                    class="btn btn-link"
-                            >
-                                Forward <span class="glyphicon glyphicon-chevron-right"></span>
-                            </button>
-
+                        <div class="measurements" id="measurements-type-{{ t.measurementTypeID }}">
                             <table class="table table-striped m">
                                 <thead></thead>
                                 <tbody></tbody>
                             </table>
+
+                            <button onclick="loadNextMeasurements({{ t.measurementTypeID }});"
+                                    data-measurement-type="{{ t.measurementTypeID }}"
+                                    class="btn btn-link">
+                                Load More <span class="glyphicon glyphicon-chevron-down"></span>
+                            </button>
                         </div>
                     </div>
                 {% endfor %}
@@ -47,7 +42,7 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
         <!-- Meta data -->
         <div class="panel panel-default">
             <div class="panel-body">
@@ -57,7 +52,7 @@
 
         <div>
             <!-- Map -->
-            <div id="googleMap" style="width:500px;height:380px;">
+            <div id="googleMap" style="width:100%;height:380px;">
                 {% if sensors|length == 0 %}
                     <p>Location unknown.</p>
                 {% endif %}

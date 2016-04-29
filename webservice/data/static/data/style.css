@@ -90,13 +90,14 @@ tr.not-confirmed{
 }
 
 #measurements {
-    max-height:600px;
+    max-height:300px;
+
     overflow-y:auto;
     overflow-x:scroll;
 }
 
 .measurements {
-    /*max-height:600px;*/
+    max-height:450px;
     overflow-y:scroll;
     overflow-x:scroll;
 }

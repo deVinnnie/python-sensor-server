@@ -194,7 +194,10 @@ class GatewayViewSet(HTMLGenericViewSet):
             for sensor in gateway.sensors.all():
                 queryRes = sensor.measurements.filter(measurement_type=type, timestamp__gte=startDate,
                                                   timestamp__lte=startDate + timedelta(days=1)).aggregate(Avg('value'))
-                values.append(queryRes["value__avg"])
+                average = queryRes["value__avg"]
+                if average != None:
+                    average = round(average, 2)
+                values.append(average)
 
             data["measurements"]["values"].append({"date" : startDate.strftime("%Y-%m-%d"),"data" : values})
             startDate += timedelta(days=1)
