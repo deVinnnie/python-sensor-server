@@ -5,8 +5,8 @@ class AlertSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Alert
-        fields = ('id', 'text', 'url', 'company', 'archived', 'gateway', 'sensor', 'measurementTypeID')
-        read_only_fields = ('id', 'company', 'gateway', 'sensor', 'measurementTypeID')
+        fields = ('id', 'text', 'company', 'archived', 'gateway', 'sensor', 'measurementTypeID')
+        read_only_fields = ('id', 'text', 'company', 'gateway', 'sensor', 'measurementTypeID')
 
 
 class SensorConfigurationSerializer(serializers.ModelSerializer):
@@ -71,10 +71,9 @@ class InstallationSerializer(serializers.ModelSerializer):
         read_only_fields = ('installation_id',)
 
 class CompanySerializer(serializers.ModelSerializer):
-    #installations = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
     installations = InstallationSerializer(many=True, read_only=True)
-
     alerts = AlertSerializer(many=True, read_only=True)
+    not_archived = AlertSerializer(many=True, read_only=True)
 
     class Meta:
         model = Company
