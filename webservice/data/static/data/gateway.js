@@ -24,8 +24,6 @@ function loadMeasurements(type){
         $(targetId + " table thead").empty();
         $(targetId + " table thead").append(header);
 
-        console.log(data.measurements.values);
-
         data.measurements.values.sort(
             function(a, b){
                 l = moment(a.date, 'YYYY-MM-DD');
@@ -33,8 +31,6 @@ function loadMeasurements(type){
                 return l.isBefore(r);
             }
         );
-
-        console.log(data.measurements.values);
 
         $.each(data.measurements.values, function(index, value){
             row = [];
@@ -74,7 +70,7 @@ $('#measurementDataTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e){
     start = moment().subtract(20, 'days');
     end = moment();
 
-    console.log(e.target.dataset.measurementType); // newly activated tab
+    //console.log(e.target.dataset.measurementType); // newly activated tab
     loadMeasurements(e.target.dataset.measurementType, true);
 });
 

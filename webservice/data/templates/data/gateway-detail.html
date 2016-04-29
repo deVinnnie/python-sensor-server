@@ -25,7 +25,8 @@
                 {% for t in measurement_types %}
                     <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}">
                         <div class="measurements" id="measurements-type-{{ t.measurementTypeID }}">
-                            <table class="table table-striped m">
+                            <table class="table table-striped">
+                                <!-- Table filled with data from AJAX request. -->
                                 <thead></thead>
                                 <tbody></tbody>
                             </table>
