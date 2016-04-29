@@ -1,0 +1,39 @@
+{% extends "data/template.html" %}
+
+{% load staticfiles %}
+{% load data_extras %}
+
+{% block title %}Archive {{ tag }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ tag }} Alerts</h1>
+
+<h2>Active</h2>
+{% for alert in alerts|is_active %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+            <p>
+                {{ alert.measurement.timestamp }} <br/>
+                [{{ alert.measurement.measurement_type.name }}] <br/>
+                {{ alert.measurement.value }}{{ alert.measurement.measurement_type.unit }}
+            </p>
+    </div>
+{% empty %}
+    <p>No Active Alerts</p>
+{% endfor %}
+
+
+<h2>Archived</h2>
+{% for alert in alerts|is_archived %}
+    <div class="alert alert-info" role="alert">
+            <p>
+                {{ alert.measurement.timestamp }} <br/>
+                [{{ alert.measurement.measurement_type.name }}] <br/>
+                {{ alert.measurement.value }}{{ alert.measurement.measurement_type.unit }}
+            </p>
+    </div>
+{% empty %}
+    <p>No Archived Alerts</p>
+{% endfor %}
+
+{% endblock %}

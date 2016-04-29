@@ -1,8 +1,6 @@
 from __future__ import unicode_literals
 from django.template.loader import render_to_string
-
 from django.core.urlresolvers import reverse
-
 from django.db import models
 from django.db.models import Count
 from .fields import UUIDField
@@ -79,6 +77,9 @@ class Sensor(models.Model):
     position_long = models.FloatField(db_column='Position_Long', blank=True, null=True)
     position_lat = models.FloatField(db_column='Position_Lat', blank=True, null=True)
 
+    # Last time since measurements were checked for outliers and abnormalities.
+    last_check = models.DateTimeField(db_column='Last_Check', blank=True, null=True)
+
     class Meta:
         managed = True
         db_table = 'Sensor'
@@ -128,7 +129,8 @@ class Measurement(models.Model):
     #sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements')
     measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type')
     value = models.FloatField(db_column='Value', blank=True, null=True)
-    alert = models.BooleanField(default=False) #New alert?
+
+    #alert = models.BooleanField(default=False)
 
     class Meta:
         managed = True
@@ -179,12 +181,12 @@ class GatewayConfiguration(models.Model):
 class Alert(models.Model):
     id = models.AutoField(primary_key=True)
     text = models.CharField(max_length=500)
-    url = models.URLField()
     company = models.ForeignKey(Company, related_name='alerts')
     archived = models.BooleanField(default=False)
-    gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='alerts')
+    #gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='alerts')
     sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='alerts')
-    measurementTypeID = models.ForeignKey(MeasurementType, db_column='MeasurementTypeID', related_name='alerts')
+    #measurementTypeID = models.ForeignKey(MeasurementType, db_column='MeasurementTypeID', related_name='alerts')
+    measurement = models.ForeignKey(Measurement, db_column='Measurement_ID', related_name='alert')
 
     def type_name(self):
         return self.measurement_type.name
@@ -213,6 +215,47 @@ class TemplateParameter(models.Model):
     attribute = models.CharField(db_column='Attribute', max_length=45)
     value = models.CharField(db_column='Value', max_length=200, blank=True)
     template = models.ForeignKey(Template, related_name='params')
+
+
+class VagueMeasurement(models.Model):
+    id = models.AutoField(primary_key=True)
+    timestamp = models.DateTimeField(db_column='Timestamp')
+    sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='overview_measurements')
+    measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type')
+    value = models.FloatField(db_column='Value', blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'VagueMeasurement'
+
+    def __str__(self):
+        return '{:%Y-%m-%d %H:%M:%S}'.format(self.timestamp)
+
+
+
+# class SingletonModel(models.Model):
+#     """""
+#     Adapted from http://goodcode.io/articles/django-singleton-models/
+#     """""
+#
+#     singleton_enforce = models.IntegerField(default=1, unique=True)
+#
+#     class Meta:
+#         abstract = True
+#
+#     def save(self, *args, **kwargs):
+#         self.__class__.objects.exclude(id=self.id).delete()
+#         super(SingletonModel, self).save(*args, **kwargs)
+#
+#     @classmethod
+#     def load(cls):
+#         try:
+#             return cls.objects.get()
+#         except cls.DoesNotExist:
+#             return cls()
+#
+# class Settings(SingletonModel):
+#
 
 
 

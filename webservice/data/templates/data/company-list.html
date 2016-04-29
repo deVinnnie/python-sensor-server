@@ -8,8 +8,11 @@
 {% block content %}
 <div class="row">
     <div class="col-md-2">
-        <h1>Alerts</h1>
+        <h1>
+             <span class="glyphicon glyphicon-bell"></span> Alerts
+        </h1>
     </div>
+
     <div class="col-md-5">
         <a class="btn btn-primary btn-refresh" href="{% url 'data:alerts' %}">Refresh</a>
         <a class="btn btn-primary btn-refresh" href="{% url 'measurementtype-list' %}">Set boundaries</a>
@@ -24,7 +27,7 @@
             {% endif %}
             {% for alert in c.not_archived %}
                     <div class="alert alert-danger" role="alert">
-                        <a href="{% url 'alert-alert' alert.gateway.gateway_id alert.sensor.sensor_id alert.id %}">{{ alert.text }}</a>
+                        <a href="{% url 'alert-alert' alert.id %}">{{ alert.text }}</a>
                     </div>
             {% endfor %}
         {% endfor %}

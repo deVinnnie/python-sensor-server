@@ -113,3 +113,7 @@ a.deactivated{
 .measurement-chart{
     height: 600px;
 }
+
+.badge-alert{
+    background: #a94442;
+}

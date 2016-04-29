@@ -331,6 +331,12 @@ class SensorViewSet(HTMLGenericViewSet):
         serializer = SensorSerializer(sensor)
         return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensor-edit.html')
 
+    @detail_route(methods=['get'])
+    def archive(self, request, gateway_pk, pk=None, format=None):
+        sensor = get_object_or_404(self.queryset, pk=pk)
+        serializer = SensorSerializer(sensor)
+        return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensor-archive.html')
+
 
 class MeasurementViewSet(
                         mixins.CreateModelMixin,
@@ -498,10 +504,10 @@ class AlertViewSet(HTMLGenericViewSet):
     serializer_class = AlertSerializer
 
     @detail_route(methods=['get'])
-    def alert(self, request, gateway_pk=None, sensor_pk=None, pk=None, format=None):
+    def alert(self, request, pk=None, format=None):
         alert = get_object_or_404(self.queryset, pk=pk)
         serializer = AlertSerializer(alert)
-        return Response(serializer.data, template_name='data/sensor_alert.html')
+        return Response(serializer.data, template_name='data/alert-detail.html')
 
     @detail_route(methods=['get'])
     def archive(self, request, gateway_pk=None, sensor_pk=None, pk=None, format=None):
@@ -509,6 +515,8 @@ class AlertViewSet(HTMLGenericViewSet):
         alert.archived = True
         alert.save()
         return redirect('company-list')
+
+
 class UserViewSet(HTMLGenericViewSet):
     queryset = User.objects.all()
 
