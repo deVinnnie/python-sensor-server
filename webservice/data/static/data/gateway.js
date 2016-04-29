@@ -1,33 +1,15 @@
+/**
+ * Load the measurement data for the given measurementType.
+ * The range is based on the global variables start and end.
+ * These variables should be defined as a moment instance (see momentjs library).
+ *
+ * The data is directly added to the corresponding table for the type.
+ */
 function loadMeasurements(type){
     targetId = "#measurements-type-" + type;
     url = table_base_url + "?type=" + type + "&start=" + start.format("YYYY-MM-DD") + "&end=" + end.format("YYYY-MM-DD");
 
     $.getJSON(url, function(data) {
-        /* var values = data.measurements.values;
-        console.log(values);
-        selection = d3.select(targetId + "tbody").selectAll("tr").data(values);
-        selection.enter().append("tr").text(
-            function(d){ return d; }
-        );
-
-        // create a row for each object in the data
-        var rows = tbody.selectAll("tr")
-            .data(values)
-            .enter()
-            .append("tr");
-
-        // create a cell in each row for each column
-        var cells = rows.selectAll("td")
-            .data(function(row) {
-                return values.map(function(column) {
-                    return {column: column, value: row[column]};
-                });
-            })
-            .enter()
-            .append("td")
-                .html(function(d) { return d.value; });
-        */
-
         var header = $("<tr></tr>");
         var items = [];
 
@@ -78,6 +60,11 @@ function loadMeasurements(type){
     });
 }
 
+/**
+ * Load the measurement data for the previous 20 days.
+ * The new data is added to the bottom of the table.
+ * This is a convenience method to avoid using loadMeasurements() directly.
+ */
 function loadNextMeasurements(type){
     start = start.subtract(20, 'days');
     end = end.subtract(20, 'days');
@@ -95,4 +82,6 @@ $('#measurementDataTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e){
     loadMeasurements(e.target.dataset.measurementType, true);
 });
 
+// Show first tab, the event listener is called so the data is loaded automatically.
+// No need to call the load method here explicitly.
 $("#measurementDataTabs a:first").tab('show');
