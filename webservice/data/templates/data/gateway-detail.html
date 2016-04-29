@@ -244,10 +244,10 @@
 
 {% block scripts %}
 <script src="{% static 'data/libs/nv.d3.min.js'%}"></script>
-<script src="{% static 'data/libs/moment.js' %}"></script>
+<script src="{% static 'data/libs/moment.min.js' %}"></script>
 
 <script>
-    table_base_url = "/rest/gateways/{{ gateway_id }}/measurements";
+    table_base_url = "/rest/gateways/{{ gateway_id }}/measurements/";
 
     // Define range for the measurements retrieved for table.
     var start = moment().subtract(20, 'days');

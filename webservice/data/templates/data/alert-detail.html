@@ -13,13 +13,13 @@
             <h3>Sensor {{ sensor }} has given an alert!</h3>
         </div>
         <div class="col-md-6">
-            <a class="btn btn-danger btn-archive" href="{% url 'alert-archive' gateway sensor id %}">Archive</a>
+            <a class="btn btn-danger btn-archive" href="{% url 'alert-archive' id %}">Archive</a>
         </div>
     </div>
     <div class="row">
-            <div class="col-md-12">
-                <div id="measurement_chart-{{ sensor }}" class="chart"></div>
-            </div>
+        <div class="col-md-12">
+            <div id="measurement_chart-{{ sensor }}" class="chart"></div>
+        </div>
     </div>
 {% endblock %}
 
