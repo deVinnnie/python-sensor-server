@@ -166,5 +166,15 @@
       "value" : "30",
       "template" : 2
     }
+  },
+  {
+    "model": "data.permission",
+    "pk": 1,
+    "fields": {
+      "entity" : "gateway",
+      "identifier" : 2,
+      "action" : "all",
+      "user" : 1
+    }
   }
 ]

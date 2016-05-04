@@ -38,7 +38,7 @@ class HTMLGenericViewSet(viewsets.ModelViewSet):
                         renderers.BrowsableAPIRenderer
                         )
 
-    #permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsGatewayOrAuthenticated, IsUserAllowed)
 
     def get_template_names(self):
         meta = self.get_queryset().model._meta
@@ -65,6 +65,9 @@ class HTMLGenericViewSet(viewsets.ModelViewSet):
 
         return selected_templates
 
+    def getQSet(self):
+        return self.queryset
+
 
 class CompanyViewSet(HTMLGenericViewSet):
     """
@@ -72,7 +75,6 @@ class CompanyViewSet(HTMLGenericViewSet):
     """
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-    #authentication_classes = (SessionAuthentication, BasicAuthentication)
 
     @list_route(methods=['get'])
     def new(self, request):
@@ -114,7 +116,6 @@ class InstallationViewSet(HTMLGenericViewSet):
     See http://www.django-rest-framework.org/api-guide/viewsets/
     """
     queryset = Installation.objects.all()
-
     serializer_class = InstallationSerializer
 
     @detail_route(methods=['get'])
@@ -144,6 +145,7 @@ class GatewayViewSet(HTMLGenericViewSet):
     """
     queryset = Gateway.objects.all()
     serializer_class = GatewaySerializer
+    permission_classes = (IsGatewayOrAuthenticated, IsUserAllowed)
 
     @detail_route(methods=['get'])
     def new_config(self, request, pk=None):
@@ -152,8 +154,6 @@ class GatewayViewSet(HTMLGenericViewSet):
         return Response(serializer.data,template_name='data/gateway_new_config.html')
 
     def create(self, request, *args, **kwargs):
-        # def create(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, pk=None,
-        # format=None, ):
         result = super(GatewayViewSet, self).create(request, *args, **kwargs)
 
         templates = Template.objects.filter(entityType="gateway")
@@ -260,6 +260,7 @@ class GatewayViewSet(HTMLGenericViewSet):
                 gateway.config.create(attribute=param.attribute, value=param.value)
         return redirect('gateway-detail', pk)
 
+
 class GatewayConfigurationViewSet(HTMLGenericViewSet):
     """
     /gateways/$1/config
@@ -267,10 +268,11 @@ class GatewayConfigurationViewSet(HTMLGenericViewSet):
     #renderer_classes = (RawConfigJSONRenderer,) + HTMLGenericViewSet.renderer_classes
     queryset = GatewayConfiguration.objects.all()
     serializer_class = GatewayConfigurationSerializer
+    #permission_classes = (IsGatewayOrAuthenticated, IsUserAllowed,)
 
     def list(self, request, gateway_pk=None, format=None):
         """
-        Returns data in following format:
+        Returns data in following format (<Key, Value> pairs):
         {
             "interval" : "12",
             "data-scheme" : "xsd:dfsfdf",
@@ -304,15 +306,11 @@ class SensorViewSet(HTMLGenericViewSet):
     #renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
+    permission_classes = (IsGatewayOrAuthenticated, IsUserAllowed)
 
     def list(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, sensor_pk=None, format=None):
         queryset = self.queryset.filter(gateway_id=gateway_pk)
         serializer = SensorSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, pk=None, format=None):
-        queryset = get_object_or_404(self.queryset, sensor_id=pk)
-        serializer = SensorSerializer(queryset)
         return Response(serializer.data)
 
     def create(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, pk=None, format=None, *args, **kwargs):
@@ -369,8 +367,7 @@ class MeasurementViewSet(
     queryset = Measurement.objects.all()
     serializer_class = MeasurementSerializer
     renderer_classes = (RawMeasurementJSONRenderer,) + HTMLGenericViewSet.renderer_classes
-    permission_classes = (#IsGatewayOrAuthenticated,
-    IsUserAllowed,)
+    permission_classes = (IsGatewayOrAuthenticated, IsUserAllowed,)
 
     def list(self, request, gateway_pk=None, sensor_pk=None, format=None):
         """
@@ -399,6 +396,38 @@ class MeasurementViewSet(
         serializer = MeasurementSerializer(queryset, many=True)
         return Response( {'measurements': serializer.data})
 
+    @list_route(methods=['get'])
+    def overview(self, request, gateway_pk=None, sensor_pk=None, format=None):
+        """
+        GET Request Filtering:
+        /gateways/$1/sensors/$2/measurements?start=2015-01-01&end=2015-02-01&type=0
+        Returns only measurement from sensor with ID $2 which have a timestamp that is in the range start -> end.
+        type= measurement type
+        """
+        type = self.request.query_params.get('type', 0)
+
+        queryset = self.queryset.filter(sensor_id=sensor_pk)
+        queryset = queryset.filter(measurement_type=type)
+
+        # /*startTimestamp = self.request.query_params.get('start', "2000-01-01")
+        # startDate = datetime.strptime(startTimestamp, "%Y-%m-%d")
+        #
+        # endTimestamp = self.request.query_params.get('end', "2020-01-01")
+        # endDate = datetime.strptime(endTimestamp, "%Y-%m-%d")*/
+
+        # if startDate is not None:
+        #     queryset = queryset.filter(timestamp__gte=startDate)
+        #
+        # if endDate is not None:
+        #     queryset = queryset.filter(timestamp__lte=endDate)
+
+        extrapolatedData = [];
+
+        for measurement in queryset:
+            print(measurement)
+
+        serializer = MeasurementSerializer(queryset, many=True)
+        return Response({'measurements': serializer.data})
 
     def retrieve(self, request, gateway_pk=None, sensor_pk=None, pk=None, format=None):
         queryset = get_object_or_404(self.queryset, sensor_id=sensor_pk, measurement_id=pk)
@@ -443,15 +472,6 @@ class MeasurementViewSet(
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LiteMeasurementView(views.APIView):
-    permission_classes = []
-
-    def get(self, request, format=None, *args, **kwargs):
-        # email = request.DATA.get('email', None)
-        # url = request.DATA.get('url', None)
-        return Response({"success": True})
-
-
 class SensorConfigurationViewSet(HTMLGenericViewSet):
     """
     /gateways/$1/sensors/$2/config
@@ -481,6 +501,7 @@ class SensorConfigurationViewSet(HTMLGenericViewSet):
         else:
             return result
 
+    # Redirect example
     # @detail_route(methods=['get'])
     # def test(self, request, gateway_pk, *args, **kwargs):
     #     response = HttpResponse(content="", status=303)

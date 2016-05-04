@@ -113,7 +113,6 @@ class GatewayTest(APITestCase):
     def test_create_gateway(self):
         url = '/rest/gateways/'
         data = {
-            "ip_address" : "192.168.1.2",
             "sensors" : [],
             "config" : [],
             "installation" : self.installation.installation_id

@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Count
+from django.contrib.auth.models import User
 from .fields import UUIDField
 import uuid
 
@@ -192,12 +193,13 @@ class Alert(models.Model):
         return self.measurement_type.name
 
 
-
 class Permission(models.Model):
     permission_id = models.AutoField(db_column='Permission_ID', primary_key=True)
     entity = models.CharField(db_column='Entity', max_length=45)
     identifier = models.IntegerField(db_column='Identifier')
     action = models.CharField(db_column='Action', max_length=45)
+    user = models.ForeignKey(User, db_column='User')
+
     class Meta:
         db_table = 'Permission'
 

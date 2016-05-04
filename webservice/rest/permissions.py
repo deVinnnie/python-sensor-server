@@ -8,16 +8,21 @@ from data.models import Gateway, Permission
 # for each request.
 class IsGatewayOrAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
-        print("Hello World, this is the guard.")
+        #print("Hello World, this is the guard.")
 
         #pprint(vars(request))
         # pprint (vars(view))
         if request.user.is_authenticated():
             return True
         else:
-            gateway_id = request.parser_context['kwargs']['gateway_pk']
-            gateway = Gateway.objects.get(pk=gateway_id)
+            # When accessing the gateway directly the pk is stored in 'pk'.
+            # In all other cases it is in 'gateway_pk'.
+            if 'gateway_pk' in request.parser_context['kwargs']:
+                gateway_id = request.parser_context['kwargs']['gateway_pk']
+            else:
+                gateway_id = request.parser_context['kwargs']['pk']
 
+            gateway = Gateway.objects.get(pk=gateway_id)
             api_key = request.GET.get('api_key')
 
             if api_key == gateway.api_key:
@@ -33,33 +38,53 @@ class IsUserAllowed(permissions.BasePermission):
     'Having permission' means that the user has a sufficiently high role, or that he is assigned the entity id in a seperate table.
     """
     def has_permission(self, request, view):
-        return True
+        if request.user.is_superuser:
+            # Superuser is allowed to do absolutly everything
+            return True
+
+        print(view.action)
+        if view.action != 'list':
+            pk = request.parser_context['kwargs']['pk']
+            object = view.getQSet().get(pk=pk)
+            pprint(vars(object))
+
+            return self.has_object_permission(request, view, object)
+        else:
+            return False
 
     def has_object_permission(self, request, view, object):
+        if request.user.is_superuser:
+            # Superuser is allowed to do absolutly everything
+            return True
+
+        # Note: we don't do permissions on Measurement level, the lowest level should be sensor.
         entities = ['Measurement', 'Sensor', 'Gateway', 'Installation', 'Company']
         entity = object
-        print(entity.sensor.gateway.installation.company)
+        #   print(entity.sensor.gateway.installation.company)
 
-        # sensor = getattr(entity, "sensor")
-        # print(sensor.sensor_id)
-
+        # Do a recursive search. Begin at the bottom of the hierarchy and check for permission.
+        # If the user doesn't have permission at the current level, the level above is searched.
+        # This is repeated until the top of the hiearchy is reached.
         while True:
             entityName = type(entity).__name__
-            index = entities.index(entityName) + 1
-            if index >= len(entities):
-                return False
-            parentEntityName = entities[index]
-            print(parentEntityName)
+            id = getattr(entity, "{}_id".format(entityName.lower()))
 
-            parentEntity = getattr(entity, parentEntityName.lower())
-
-            print(parentEntity)
-            id = getattr(parentEntity, "{}_id".format(parentEntityName.lower()))
-            print(id)
-
-            permissions = Permission.objects.filter(identifier=id, entity=parentEntityName.lower())
+            # Check the permissions table.
+            permissions = Permission.objects.filter(user=request.user.id,
+                                                    identifier=id,
+                                                    entity=entityName.lower()
+            )
 
             if len(permissions) >= 1:
                 return True
             else:
+                index = entities.index(entityName)
+                if index + 1 >= len(entities):
+                    # End of hiearchy reached. I'm sorry you don't have permission.
+                    return False
+
+                parentEntityName = entities[index+1]
+                parentEntity = getattr(entity, parentEntityName.lower())
                 entity = parentEntity
+
+

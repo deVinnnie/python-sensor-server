@@ -54,20 +54,14 @@ class GatewayConfigurationSerializer(serializers.ModelSerializer):
         read_only_fields = ('id',)
 
 
-
 class GatewaySerializer(serializers.ModelSerializer):
     sensors = SensorSerializer(many=True, read_only=True)
-    #sensors = serializers.PrimaryKeyRelatedField(many=True, queryset=Sensor.objects.all())
-    #config = serializers.PrimaryKeyRelatedField(many=True, queryset=GatewayConfiguration.objects.all())
     config = GatewayConfigurationSerializer(many=True, read_only=True)
-
     alerts = AlertSerializer(many=True, read_only=True)
-
     measurement_types = MeasurementTypeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Gateway
-        # fields = ('gateway_id', 'sensors', 'installation', 'config', 'api_key')
         fields = ('gateway_id', 'sensors', 'installation', 'config', 'alerts', 'api_key', 'measurement_types')
         read_only_fields = ('gateway_id',)
 
