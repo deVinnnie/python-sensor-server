@@ -12,7 +12,7 @@ Companies and Installations do not use nested routes.
 The gateway entry point serves for both gateways, sensors and measurements.
 It is the go to entry point for the physical node when pushing new data to the server.
 
-A fourth entry point is for measurement types, they are independent of the hierarchy.
+A fourth and fifth entry point are for measurement types and alerts, they are independent of the hierarchy.
 
 /companies/{}
 /installations/{}
@@ -23,6 +23,7 @@ A fourth entry point is for measurement types, they are independent of the hiera
             -> config
 
 /measurement-types/
+/alerts
 """
 
 router = SimpleRouter()
