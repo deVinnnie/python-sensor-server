@@ -42,6 +42,9 @@ class IsUserAllowed(permissions.BasePermission):
             # Superuser is allowed to do absolutly everything
             return True
 
+        if self.isGateway(request, view):
+            return True
+
         print(view.action)
         if view.action != 'list':
             pk = request.parser_context['kwargs']['pk']
@@ -55,6 +58,9 @@ class IsUserAllowed(permissions.BasePermission):
     def has_object_permission(self, request, view, object):
         if request.user.is_superuser:
             # Superuser is allowed to do absolutly everything
+            return True
+
+        if self.isGateway(request, view):
             return True
 
         # Note: we don't do permissions on Measurement level, the lowest level should be sensor.
@@ -87,4 +93,6 @@ class IsUserAllowed(permissions.BasePermission):
                 parentEntity = getattr(entity, parentEntityName.lower())
                 entity = parentEntity
 
-
+    def isGateway(self, request, view):
+        if 'api_key' in request.GET:
+            return True
