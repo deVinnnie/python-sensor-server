@@ -13,27 +13,6 @@ $(document).ready(function(){
         //loadGraph(e.target.dataset.measurementType, e.target.dataset.measurementTypeName, e.target.dataset.sensor);
         loadGraph(e.target.dataset.sensor, e.target.dataset.measurementType);
     });
-
-    // Slightly different intialisation of the sticky table headers.
-    // The headers of each table should stick to the parent div, not to the window.
-    // This manner allows for calling the stickyTableHeaders lib with the right params.
-    /*$('.measurements table').each(
-        function(index, value){
-            $(value).stickyTableHeaders(
-                {scrollableArea: $(value).parent()} // .parent() -> cannot do this in normal init syntax.
-            );
-        }
-    );*/
-
-    /*var $table = $('.measurements table');
-    $table.floatThead({
-        scrollContainer: function(){
-            return $("measurements-type-1");
-        }
-        });
-        /*function($table){
-            return $table.closest('.measurements');
-        }*/
 });
 
 
