@@ -51,6 +51,8 @@
         {% empty %}
             <p>Everything is OK!</p>
         {% endfor %}
+
+        <a href="{% url 'sensor-detail' gateway_id sensor.sensor_id %}archive">See Archived Alerts</a>
     </div>
 
     <div class="row">
