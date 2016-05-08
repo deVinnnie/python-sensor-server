@@ -6,8 +6,6 @@ var currentRange;
 var data, data2;
 var chart;
 
-var base_url = '/rest/gateways/2/';
-
 function makeURL(base_url, start, end){
     var url = base_url + '&start=' + start.format("YYYY-MM-DD") + '&end=' + end.format("YYYY-MM-DD");
     return url;
@@ -19,6 +17,7 @@ function loadGraph(sensor, type){
     var url = makeURL(common_url, start, end);
 
     d3.json(url , function(error, incoming_data){
+        // Fetch data for main chart
         console.log(start.format("YYYY-MM-DD") + " " + end.format("YYYY-MM-DD"));
         if(error){
             throw error;
@@ -48,7 +47,9 @@ function loadGraph(sensor, type){
 
 
         // Load data for viewfinder.
-        d3.json(common_url , function(error, incoming_data) {
+
+        overview_url = base_url + 'sensors/' + sensor + "/measurements/overview.json/?type=" + type + "&step=5";
+        d3.json(overview_url , function(error, incoming_data) {
             console.log("Load Viewfinder Chart");
             if(error){
                 throw error;
@@ -86,7 +87,7 @@ function initializeGraph(sensor, type, updateURL){
 
         chart.xAxis.tickFormat(
             function(d){
-                return d3.time.format('%Y-%m-%d')(new Date(d));
+                return d3.time.format('%Y-%m-%d %H:%M')(new Date(d));
             }
         );
 

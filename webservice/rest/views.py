@@ -405,28 +405,14 @@ class MeasurementViewSet(
         type= measurement type
         """
         type = self.request.query_params.get('type', 0)
+        step = int(self.request.query_params.get('step', 2))
 
         queryset = self.queryset.filter(sensor_id=sensor_pk)
         queryset = queryset.filter(measurement_type=type)
 
-        # /*startTimestamp = self.request.query_params.get('start', "2000-01-01")
-        # startDate = datetime.strptime(startTimestamp, "%Y-%m-%d")
-        #
-        # endTimestamp = self.request.query_params.get('end', "2020-01-01")
-        # endDate = datetime.strptime(endTimestamp, "%Y-%m-%d")*/
+        extrapolatedData = queryset[::step] # get subsequent 2nd item
 
-        # if startDate is not None:
-        #     queryset = queryset.filter(timestamp__gte=startDate)
-        #
-        # if endDate is not None:
-        #     queryset = queryset.filter(timestamp__lte=endDate)
-
-        extrapolatedData = [];
-
-        for measurement in queryset:
-            print(measurement)
-
-        serializer = MeasurementSerializer(queryset, many=True)
+        serializer = MeasurementSerializer(extrapolatedData, many=True)
         return Response({'measurements': serializer.data})
 
     def retrieve(self, request, gateway_pk=None, sensor_pk=None, pk=None, format=None):
@@ -462,7 +448,7 @@ class MeasurementViewSet(
         """
         listOfThings = request.data['measurements']
 
-        serializer = self.get_serializer(data=listOfThings, many=True)
+        serializer = MeasurementCreationSerializer(data=listOfThings, many=True)
         if serializer.is_valid():
             serializer.save()
             headers = self.get_success_headers(serializer.data)

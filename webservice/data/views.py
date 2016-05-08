@@ -28,13 +28,13 @@ def alerts(request):
             for m in the_dangers:
                 company = m.sensor_id.gateway.installation.company.company_id
                 gateway = m.sensor_id.gateway.gateway_id
-                sensor = m.sensor_id.sensor_id
-                Alert.objects.create(text="Sensor " + str(sensor) + " has a measurement out of bounds! (" + t.name + ")",
+                sensor = m.sensor_id.tag
+                Alert.objects.create(text="Sensor " + sensor + " has a measurement out of bounds! (" + t.name + ")",
                                      archived=0,
                                      company=Company.objects.get(pk=company),
-                                     gateway=Gateway.objects.get(pk=gateway),
-                                     sensor=Sensor.objects.get(pk=sensor),
+                                     sensor=Sensor.objects.get(pk=m.sensor_id.sensor_id),
                                      measurement=m)
+                break
 
             s.last_check = max_timestamp
             s.save()

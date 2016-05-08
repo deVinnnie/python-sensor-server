@@ -9,7 +9,7 @@ class MeasurementTypeSerializer(serializers.ModelSerializer):
         read_only_fields = ('measurementTypeID',)
 
 class MeasurementSerializer(serializers.ModelSerializer):
-    measurement_type = MeasurementTypeSerializer(read_only=True)
+    measurement_type = MeasurementTypeSerializer()
 
     # def __init__(self, *args, **kwargs):
     #     many = kwargs.pop('many', True)
@@ -18,6 +18,11 @@ class MeasurementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Measurement
         fields = ('measurement_id', 'timestamp', 'measurement_type', 'value')
+
+class MeasurementCreationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Measurement
+        fields = ('measurement_id', 'sensor_id', 'timestamp', 'measurement_type', 'value')
 
 class AlertSerializer(serializers.ModelSerializer):
     measurement = MeasurementSerializer(read_only=True)
