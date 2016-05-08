@@ -43,14 +43,13 @@ function initialize() {
     var mapProp = {
         center:new google.maps.LatLng(
             gateway_position.lat,
-            gateway_position.long
+            gateway_position.lng
         ),
         zoom:18,
         mapTypeId:google.maps.MapTypeId.ROADMAP
-        };
-        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
-        var marker = new google.maps.Marker({
+    };
+    var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+    var marker = new google.maps.Marker({
         position: gateway_position,
         map: map,
         title: 'Gateway Location'
