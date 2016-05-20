@@ -11,8 +11,14 @@ Loading Fixture Data
 Setup
 -----
 
-### Installing Dependencies
+### Set up virtualenv and install Dependencies
 
+`virtualenv -p /usr/bin/python3.3 env`
+(p flag indicates the python version to use, must be installed on system)
+
+Use `source env/bin/activate` to use the virtual environment.
+
+Install dependencies:
 `pip install -r requirements.txt`
 
 ### Django Setup
