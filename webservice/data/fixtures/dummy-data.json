@@ -3,7 +3,7 @@
     "model": "data.company",
     "pk": 1,
     "fields": {
-      "name": "ACME Inc."
+      "name": "ACME Corporation"
     }
   },
   {
@@ -11,6 +11,83 @@
     "pk": 2,
     "fields": {
       "name": "Duck Industries"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 3,
+    "fields": {
+      "name": "Evil corporation"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 4,
+    "fields": {
+      "name": "The Ministry of Magic"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 5,
+    "fields": {
+      "name": "SPECTRE"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 6,
+    "fields": {
+      "name": "Milliways"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 7,
+    "fields": {
+      "name": "Hogwarts School of Witchcraft and Wizardry"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 7,
+    "fields": {
+      "name": "Sienar Technologies"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 8,
+    "fields": {
+      "name": "Starfleet Inc."
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 9,
+    "fields": {
+      "name": "Ollivanders"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 10,
+    "fields": {
+      "name": "Gringotts Wizarding Bank"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 10,
+    "fields": {
+      "name": "M. Mouse Corporation"
+    }
+  },
+  {
+    "model": "data.company",
+    "pk": 11,
+    "fields": {
+      "name": "Java Bean Coffee Makers"
     }
   },
   {
