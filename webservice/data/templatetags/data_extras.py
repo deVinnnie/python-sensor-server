@@ -16,6 +16,12 @@ def refresh(url, time_delay=5):
 
 @register.filter
 def is_archived(alerts):
+    """
+    Filters the given array and returns a new array with only alerts that are archived.
+
+    Args:
+        alerts: An array containing serialiezd representations of Alert objects.
+    """
     result = []
     for alert in alerts:
         if(alert['archived']):
@@ -24,13 +30,14 @@ def is_archived(alerts):
 
 @register.filter
 def is_active(alerts):
+    """
+    Filters the given array and returns a new array with only alerts that are active (NOT archived).
+
+    Args:
+        alerts: An array containing serialiezd representations of Alert objects.
+    """
     result = []
     for alert in alerts:
         if(not alert['archived']):
             result.append(alert)
     return result
-
-
-
-# def in_category(things, category):
-#     return things.filter(category=category)

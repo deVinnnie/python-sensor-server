@@ -1,3 +1,6 @@
+/*
+* Initialisation for Gateway Detail page.
+*/
 $(document).ready(function(){
     $(".nav-pills a").click(function(){
         $(this).tab('show');
@@ -16,6 +19,9 @@ $(document).ready(function(){
 });
 
 
+/**
+ * Initialisation function for map.
+ */
 function initialize() {
     // The location of the 'gateway' corresponds to the
     // location of the first sensor.
@@ -28,6 +34,8 @@ function initialize() {
         mapTypeId:google.maps.MapTypeId.ROADMAP
     };
     var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+    // Add a pushpin
     var marker = new google.maps.Marker({
         position: gateway_position,
         map: map,

@@ -1,16 +1,29 @@
 /**
-* Start and end date of values in data set.
+ * Wrapper code for loading chart.
+ */
+
+/**
+* currentRange.start and currentRange.end specify date
+* range of values currently in data set.
 */
 var currentRange;
 
 var data, data2;
 var chart;
 
+/**
+ * Convenience method : returns a url with range specifiers based upon a base url.
+ */
 function makeURL(base_url, start, end){
     var url = base_url + '&start=' + start.format("YYYY-MM-DD") + '&end=' + end.format("YYYY-MM-DD");
     return url;
 }
 
+/**
+ * @param {int} sensor = id of sensor
+ * @param {int} type = id of measurementType
+ *
+ */
 function loadGraph(sensor, type){
     console.log("Load Chart");
     var common_url = base_url + 'sensors/' + sensor + '/measurements.json?type=' + type;
@@ -42,8 +55,6 @@ function loadGraph(sensor, type){
 
         data = new Array();
         data[0] = stream;
-
-        console.log(data[0]);
 
 
         // Load data for viewfinder.

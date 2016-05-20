@@ -8,12 +8,9 @@ class MeasurementTypeSerializer(serializers.ModelSerializer):
         fields = ('measurementTypeID', 'name', 'unit', 'scalar', 'upper_bound', 'lower_bound')#, 'alerts')
         read_only_fields = ('measurementTypeID',)
 
+
 class MeasurementSerializer(serializers.ModelSerializer):
     measurement_type = MeasurementTypeSerializer()
-
-    # def __init__(self, *args, **kwargs):
-    #     many = kwargs.pop('many', True)
-    #     super(MeasurementSerializer, self).__init__(many=many, *args, **kwargs)
 
     class Meta:
         model = Measurement
@@ -23,6 +20,7 @@ class MeasurementCreationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Measurement
         fields = ('measurement_id', 'sensor_id', 'timestamp', 'measurement_type', 'value')
+
 
 class AlertSerializer(serializers.ModelSerializer):
     measurement = MeasurementSerializer(read_only=True)
@@ -41,8 +39,6 @@ class SensorConfigurationSerializer(serializers.ModelSerializer):
 
 class SensorSerializer(serializers.ModelSerializer):
     config = SensorConfigurationSerializer(many=True, read_only=True)
-    #serializers.PrimaryKeyRelatedField(many=True,queryset=SensorConfiguration.objects.all())
-    #measurement_types = serializers.ListField(read_only=True)
     alerts = AlertSerializer(many=True, read_only=True)
 
     class Meta:
@@ -72,15 +68,13 @@ class GatewaySerializer(serializers.ModelSerializer):
 
 
 class InstallationSerializer(serializers.ModelSerializer):
-    #gateways = serializers.PrimaryKeyRelatedField(many=True, queryset=Gateway.objects.all())
     gateways = GatewaySerializer(many=True, read_only=True)
 
     class Meta:
         model = Installation
-        #fields = ('installation_id', 'name', 'gateways', )
-        #fields = '__all__'
         exclude = ('storage_on_remote', 'remote_database_id')
         read_only_fields = ('installation_id',)
+
 
 class CompanySerializer(serializers.ModelSerializer):
     installations = InstallationSerializer(many=True, read_only=True)
@@ -93,14 +87,7 @@ class CompanySerializer(serializers.ModelSerializer):
         read_only_fields = ('company_id',)
 
 
-
-
-
 class LiteMeasurementSerializer(serializers.ModelSerializer):
-    #def __init__(self, *args, **kwargs):
-    #    many = kwargs.pop('many', True)
-    #    super(LiteMeasurementSerializer, self).__init__(many=many, *args, **kwargs)
-
     class Meta:
         model = Measurement
         fields = ('timestamp', 'value')
@@ -111,6 +98,7 @@ class TemplateParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = TemplateParameter
         fields = ('attribute', 'value')
+
 
 class TemplateSerializer(serializers.ModelSerializer):
     params = TemplateParameterSerializer(many=True, read_only=True)

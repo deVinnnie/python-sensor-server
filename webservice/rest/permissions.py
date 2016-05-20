@@ -8,8 +8,6 @@ from data.models import Gateway, Permission
 # for each request.
 class IsGatewayOrAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
-        #print("Hello World, this is the guard.")
-
         #pprint(vars(request))
         # pprint (vars(view))
         if request.user.is_authenticated():

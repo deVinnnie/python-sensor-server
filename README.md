@@ -2,12 +2,20 @@ Master Thesis - IoT server
 =========================
 
 
-Loading Fixture Data:
+Loading Fixture Data
+--------------------
 
 `python manage.py loaddata dummy-data.json sensors.json`
 
 
 Setup
+-----
+
+### Installing Dependencies
+
+`pip install -r requirements.txt`
+
+### Django Setup
 
 `
 python manage.py makemigrations

@@ -53,7 +53,7 @@ class Gateway(models.Model):
                                      related_name="gateways")
     active = models.BooleanField(default=True)
 
-    api_key = UUIDField(default=uuid.uuid4, editable=False)#auto=True)
+    api_key = UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
         managed = True
@@ -61,13 +61,17 @@ class Gateway(models.Model):
 
     def get_absolute_url(self):
         return reverse('data:gateway_detail',
-                       args=[str(self.installation.company.company_id), str(self.installation.installation_id),
+                       args=[str(self.installation.company.company_id),
+                             str(self.installation.installation_id),
                              str(self.gateway_id)])
 
     def __str__(self):
         return 'Gateway ' + repr(self.gateway_id)
 
-    def measurement_types(self): #Return all available measurement types
+    def measurement_types(self):
+        """
+        Return all available measurement types
+        """
         return MeasurementType.objects.all()
 
 
@@ -87,8 +91,8 @@ class Sensor(models.Model):
 
     def get_absolute_url(self):
         return reverse('data:sensor_detail', args=[str(self.gateway.installation.company.company_id),
-                                                            str(self.gateway.installation.installation_id),
-                                                            str(self.gateway.gateway_id), str(self.sensor_id)])
+                                                   str(self.gateway.installation.installation_id),
+                                                   str(self.gateway.gateway_id), str(self.sensor_id)])
 
     def measurement_chart(self):
         return render_to_string('admin/data/sensor/measurement_chart.html')
@@ -127,11 +131,8 @@ class Measurement(models.Model):
     measurement_id = models.AutoField(db_column='Measurement_ID', primary_key=True)
     timestamp = models.DateTimeField(db_column='Timestamp')
     sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements')
-    #sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='measurements')
     measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type')
     value = models.FloatField(db_column='Value', blank=True, null=True)
-
-    #alert = models.BooleanField(default=False)
 
     class Meta:
         managed = True
@@ -184,9 +185,7 @@ class Alert(models.Model):
     text = models.CharField(max_length=500)
     company = models.ForeignKey(Company, related_name='alerts')
     archived = models.BooleanField(default=False)
-    #gateway = models.ForeignKey(Gateway, db_column='Gateway_ID', related_name='alerts')
     sensor = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='alerts')
-    #measurementTypeID = models.ForeignKey(MeasurementType, db_column='MeasurementTypeID', related_name='alerts')
     measurement = models.ForeignKey(Measurement, db_column='Measurement_ID', related_name='alert')
 
     def type_name(self):
@@ -219,49 +218,22 @@ class TemplateParameter(models.Model):
     template = models.ForeignKey(Template, related_name='params')
 
 
-class VagueMeasurement(models.Model):
-    id = models.AutoField(primary_key=True)
-    timestamp = models.DateTimeField(db_column='Timestamp')
-    sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='overview_measurements')
-    measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type')
-    value = models.FloatField(db_column='Value', blank=True, null=True)
 
-    class Meta:
-        managed = True
-        db_table = 'VagueMeasurement'
-
-    def __str__(self):
-        return '{:%Y-%m-%d %H:%M:%S}'.format(self.timestamp)
-
-
-
-# class SingletonModel(models.Model):
-#     """""
-#     Adapted from http://goodcode.io/articles/django-singleton-models/
-#     """""
-#
-#     singleton_enforce = models.IntegerField(default=1, unique=True)
+# Unused models:
+# --------------
+# class VagueMeasurement(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     timestamp = models.DateTimeField(db_column='Timestamp')
+#     sensor_id = models.ForeignKey(Sensor, db_column='Sensor_ID', related_name='overview_measurements')
+#     measurement_type = models.ForeignKey(MeasurementType, db_column='Measurement_Type')
+#     value = models.FloatField(db_column='Value', blank=True, null=True)
 #
 #     class Meta:
-#         abstract = True
+#         managed = True
+#         db_table = 'VagueMeasurement'
 #
-#     def save(self, *args, **kwargs):
-#         self.__class__.objects.exclude(id=self.id).delete()
-#         super(SingletonModel, self).save(*args, **kwargs)
-#
-#     @classmethod
-#     def load(cls):
-#         try:
-#             return cls.objects.get()
-#         except cls.DoesNotExist:
-#             return cls()
-#
-# class Settings(SingletonModel):
-#
-
-
-
-
+#     def __str__(self):
+#         return '{:%Y-%m-%d %H:%M:%S}'.format(self.timestamp)
 #     class RemoteDatabase(models.Model):
 #         remote_database_id = models.IntegerField(db_column='Remote_Database_ID', primary_key=True)
 #         url = models.CharField(db_column='URL', max_length=300, blank=True)

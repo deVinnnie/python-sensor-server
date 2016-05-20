@@ -1,6 +1,5 @@
 from _ast import arg
 from _testcapi import raise_exception
-
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import status, permissions, views, renderers, viewsets
 from rest_framework.response import Response
@@ -33,16 +32,16 @@ class HTMLGenericViewSet(viewsets.ModelViewSet):
     This is used for viewsets to define explicit templates per action,
     without manually overriding each action.
     """
-    renderer_classes = (renderers.JSONRenderer,
-                        renderers.TemplateHTMLRenderer,
-                        renderers.BrowsableAPIRenderer
-                        )
+    renderer_classes = (
+        renderers.JSONRenderer,
+        renderers.TemplateHTMLRenderer,
+        renderers.BrowsableAPIRenderer
+    )
 
     permission_classes = (IsGatewayOrAuthenticated, IsUserAllowed)
 
     def get_template_names(self):
         meta = self.get_queryset().model._meta
-        #app = meta.app_label
         app = 'data'
         name = meta.object_name.lower()
 
@@ -112,7 +111,7 @@ class InstallationViewSet(HTMLGenericViewSet):
 
     To create a new Installation: POST JSON or Form data to /rest/installations/
     This method is not explicitly defined, but is provided by the ModelViewSet class.
-    A POST request will be handled by the list method (defined in ModelViewSet, the super class).
+    A POST request will be handled by the create method (defined in ModelViewSet, the super class).
     See http://www.django-rest-framework.org/api-guide/viewsets/
     """
     queryset = Installation.objects.all()
@@ -120,22 +119,25 @@ class InstallationViewSet(HTMLGenericViewSet):
 
     @detail_route(methods=['get'])
     def add_gateway(self, request, pk=None):
+        """
+        Load the create form for a new gateway.
+        """
         installation = get_object_or_404(self.queryset, pk=pk)
         serializer = InstallationSerializer(installation)
         return Response(serializer.data,template_name='data/installation-add_gateway.html')
 
     @detail_route(methods=['get'])
     def deactivate(self, request, pk=None):
-        company = get_object_or_404(self.queryset, pk=pk)
-        company.active = False
-        company.save()
+        entity = get_object_or_404(self.queryset, pk=pk)
+        entity.active = False
+        entity.save()
         return redirect('installation-detail', pk)
 
     @detail_route(methods=['get'])
     def activate(self, request, pk=None):
-        company = get_object_or_404(self.queryset, pk=pk)
-        company.active = True
-        company.save()
+        entity = get_object_or_404(self.queryset, pk=pk)
+        entity.active = True
+        entity.save()
         return redirect('installation-detail', pk)
 
 
@@ -230,8 +232,10 @@ class GatewayViewSet(HTMLGenericViewSet):
         while(startDate != endDate):
             values = []
             for sensor in gateway.sensors.all():
-                queryRes = sensor.measurements.filter(measurement_type=type, timestamp__gte=startDate,
-                                                  timestamp__lte=startDate + timedelta(days=1)).aggregate(Avg('value'))
+                queryRes = sensor.measurements.filter(
+                                    measurement_type=type, timestamp__gte=startDate,
+                                    timestamp__lte=startDate + timedelta(days=1)
+                                  ).aggregate(Avg('value'))
                 average = queryRes["value__avg"]
                 if average != None:
                     average = round(average, 2)
@@ -244,6 +248,14 @@ class GatewayViewSet(HTMLGenericViewSet):
 
     @detail_route(methods=['get'])
     def use_template(self, request, pk=None, *args, **kwargs):
+        """
+        Set the configuration parameters for this gateway based on a template.
+
+        If keys in the template already exist, they will be overwritten with
+        the template value.
+        Keys with are present in the current configuration, but are absent from
+        the template are left untouched.
+        """
         gateway = get_object_or_404(self.queryset, pk=pk)
 
         template_id = request.GET['template_id']
@@ -303,7 +315,6 @@ class SensorViewSet(HTMLGenericViewSet):
     """
     /gateways/$1/sensors
     """
-    #renderer_classes = HTMLGenericViewSet.renderer_classes
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
     permission_classes = (IsGatewayOrAuthenticated, IsUserAllowed)

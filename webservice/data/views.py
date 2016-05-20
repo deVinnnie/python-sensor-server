@@ -5,9 +5,9 @@ from django.db.models import Max
 
 
 def alerts(request):
-    """""
+    """
     Determine Alerts
-    """""
+    """
     measurement_types = MeasurementType.objects.all()
     for t in measurement_types:
         min = t.lower_bound
@@ -15,9 +15,6 @@ def alerts(request):
 
         set = Sensor.objects.all()
         for s in set:
-            # dangers = s.measurements.filter(value__gte=10)
-            # dangers = dangers.filter(value__lte=10)
-
             max_timestamp = s.measurements.aggregate(Max('timestamp'))['timestamp__max']
             if s.last_check != None:
                 dangers = s.measurements.filter(measurement_type__exact=t.measurementTypeID, timestamp__gt = s.last_check)

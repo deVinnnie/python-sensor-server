@@ -5,6 +5,7 @@ import uuid
 
 from django import forms
 from django.db.models import Field, SubfieldBase
+
 try:
     from django.utils.encoding import smart_unicode
 except ImportError:

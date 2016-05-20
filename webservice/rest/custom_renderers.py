@@ -13,6 +13,14 @@ from django.utils import six
 class RawMeasurementJSONRenderer(renderers.BaseRenderer):
     """
     Renderer which serializes to a specific lite format for a list of Measurement objects.
+
+    Example output
+    {
+        measurements: [
+            { "2015-01-01T00:00:00", 10.54545},
+            { "2015-02-01T00:00:00", 10.54654}
+        ]
+    }
     """
     media_type = 'application/json'
     format = 'json'
@@ -31,28 +39,18 @@ class RawMeasurementJSONRenderer(renderers.BaseRenderer):
 
         separators = INDENT_SEPARATORS
 
-        """"
-        {
-            measurements: [
-                { "2015-01-01T00:00:00", 10.54545},
-                { "2015-02-01T00:00:00", 10.54654}
-            ]
-        }
-        """
-
         if not 'measurements' in data:
             jsonRenderer = renderers.JSONRenderer()
             ret = jsonRenderer.render(data, accepted_media_type=None, renderer_context=None)
             return ret
 
-        ret = '{ "measurements": ['
+        #ret = '{ "measurements": ['
         responseData = { "measurements" : [] }
 
         for d in data['measurements']:
             responseData["measurements"].append([d['timestamp'], d['value']])
             ret+="\n"
-        ret += "]}"
-
+        #ret += "]}"
 
         ret = json.dumps(
             responseData, cls=self.encoder_class,
@@ -60,23 +58,17 @@ class RawMeasurementJSONRenderer(renderers.BaseRenderer):
             separators=separators
         )
 
-        # On python 2.x json.dumps() returns bytestrings if ensure_ascii=True,
-        # but if ensure_ascii=False, the return type is underspecified,
-        # and may (or may not) be unicode.
-        # On python 3.x json.dumps() returns unicode strings.
-        if isinstance(ret, six.text_type):
-            # We always fully escape \u2028 and \u2029 to ensure we output JSON
-            # that is a strict javascript subset. If bytes were returned
-            # by json.dumps() then we don't have these characters in any case.
-            # See: http://timelessrepo.com/json-isnt-a-javascript-subset
-            ret = ret.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
-            return bytes(ret.encode('utf-8'))
         return ret
 
 
 class RawConfigJSONRenderer(renderers.BaseRenderer):
     """
-    Renderer which serializes to a specific lite format for a list of Measurement objects.
+    Renderer which serializes to a specific lite format for a list of Configuration objects.
+
+    {
+        "interval" : "12",
+        "meta" : "super"
+    }
     """
     media_type = 'application/json'
     format = 'json'
@@ -92,15 +84,7 @@ class RawConfigJSONRenderer(renderers.BaseRenderer):
             return bytes()
 
         renderer_context = renderer_context or {}
-
         separators = INDENT_SEPARATORS
-
-        """"
-        {
-            "interval" : "12",
-            "meta" : "super"
-        }
-        """
 
         config = {}
         for d in data:
@@ -112,15 +96,4 @@ class RawConfigJSONRenderer(renderers.BaseRenderer):
             separators=separators
         )
 
-        # On python 2.x json.dumps() returns bytestrings if ensure_ascii=True,
-        # but if ensure_ascii=False, the return type is underspecified,
-        # and may (or may not) be unicode.
-        # On python 3.x json.dumps() returns unicode strings.
-        if isinstance(ret, six.text_type):
-            # We always fully escape \u2028 and \u2029 to ensure we output JSON
-            # that is a strict javascript subset. If bytes were returned
-            # by json.dumps() then we don't have these characters in any case.
-            # See: http://timelessrepo.com/json-isnt-a-javascript-subset
-            ret = ret.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
-            return bytes(ret.encode('utf-8'))
         return ret

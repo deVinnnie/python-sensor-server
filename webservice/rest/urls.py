@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 from rest_framework_nested.routers import NestedSimpleRouter
 
 """
-Routing: 4 major routes.
+Routing: 5 major routes.
 
 Companies and Installations do not use nested routes.
 
@@ -42,17 +42,10 @@ sensors_router = NestedSimpleRouter(gateways_router, r'sensors', lookup='sensor'
 sensors_router.register(r'measurements', views.MeasurementViewSet)
 sensors_router.register(r'config', views.SensorConfigurationViewSet)
 
-#lite_router = SimpleRouter()
-#lite_router.register(r'lite', views.LiteMeasurementView, 'lite')
-#measurements_router = routers.NestedSimpleRouter(sensors_router, r'measurements', lookup='measurement')
-#measurements_router.register(r'sensors', views.SensorViewSet)
-
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^', include(gateways_router.urls)),
     url(r'^', include(sensors_router.urls)),
-
-    #url(r'^lite', views.LiteMeasurementView.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
