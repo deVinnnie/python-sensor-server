@@ -2,25 +2,24 @@
 
 {% block title %}Sensor Configuration{% endblock %}
 
-{% block bread_1 %}<li><a href="{% url 'gateway-detail' gateway %}">Sensor {{ gateway }}</a></li>{% endblock %}
+{% block bread_1 %}<li><a href="{% url 'gateway-detail' data.gateway %}">Sensor {{ data.gateway }}</a></li>{% endblock %}
 {% block bread_active %}<li class="active">Edit configuration</li>{% endblock %}
 
 {% block content %}
 <h1>Edit configuration</h1>
-<form action="/rest/gateways/{{ gateway }}/sensors/{{ sensor }}/config/{{ id }}/" role="form" method="PUT">
+<form action="/rest/gateways/{{ data.gateway }}/sensors/{{ data.sensor }}/config/{{ data.id }}/" role="form" method="PUT">
     {% csrf_token %}
     <div class="form-group">
-        <input type="hidden" name="sensor" value="{{ sensor }}"/>
+        <input type="hidden" name="sensor" value="{{ data.sensor }}"/>
     </div>
     <div class="form-group">
         <label for="attribute">Attribute:</label>
-        <input name="attribute" id="attribute" class="form-control" type="text" value="{{ attribute }}">
+        <input name="attribute" id="attribute" class="form-control" type="text" value="{{ data.attribute }}">
     </div>
     <div class="form-group">
         <label for="value">Value:</label>
-        <input name="value" id="value" class="form-control" type="text" value="{{ value }}">
+        <input name="value" id="value" class="form-control" type="text" value="{{ data.value }}">
     </div>
     <button type="submit" class="btn btn-default">Save</button>
 </form>
-
 {% endblock %}

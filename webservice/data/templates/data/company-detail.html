@@ -3,24 +3,25 @@
 {% block title %}Installations{% endblock %}
 
 {% block bread_1 %}{% endblock %}
-{% block bread_active %}<li class="active">Company {{ company_id }}</li>{% endblock %}
+{% block bread_active %}<li class="active">{{ data.name }}</li>{% endblock %}
 
 {% block content %}
-<h1>{{ name }}</h1>
-{% if not active %}
+
+<h1>{{ data.name }}</h1>
+{% if not data.active %}
     <p>[Deactivated]</p>
 {% endif %}
 
-<a href="{% url 'company-new-installation' company_id %}">
+<a href="{% url 'company-new-installation' data.company_id %}">
     <span class="glyphicon glyphicon-plus"></span> Add Installation
 </a>
 
-{% if active %}
-<a href="{% url 'company-deactivate' company_id %}">
+{% if data.active %}
+<a href="{% url 'company-deactivate' data.company_id %}">
     <span class="glyphicon glyphicon glyphicon-off"></span> Deactivate
 </a>
 {% else %}
-<a href="{% url 'company-activate' company_id %}">
+<a href="{% url 'company-activate' data.company_id %}">
     <span class="glyphicon glyphicon glyphicon-off"></span> Activate
 </a>
 {% endif %}
@@ -34,7 +35,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for installation in installations %}
+            {% for installation in data.installations %}
                 <tr>
                     <td>{{ installation.installation_id }}</td>
                     <td><a href="{% url 'installation-detail' installation.installation_id %}">{{ installation.name }}</a></td>
@@ -51,10 +52,10 @@
 </div>
 
 
-<h1>Alerts <span class="badge">{{ alerts|length }}</span></h1>
+<h1>Alerts <span class="badge">{{ data.active_alerts|length }}</span></h1>
 <div class="row">
     <div class="col-md-10">
-        {% for alert in alerts %}
+        {% for alert in data.active_alerts %}
         <div class="alert alert-danger" role="alert">
             {{ alert.text }} {{ alert.url }}
         </div>

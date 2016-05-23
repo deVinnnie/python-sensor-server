@@ -2,15 +2,22 @@
 
 {% block title %}Create New SensorConfiguration{% endblock %}
 
-{% block bread_1 %}<li><a href="{% url 'gateway-detail' gateway %}">Sensor {{ sensor_id }}</a></li>{% endblock %}
-{% block bread_active %}<li class="active">Add configuration</li>{% endblock %}
+{% block bread_1 %}
+    <li>
+        <a href="{% url 'gateway-detail' data.gateway.gateway_id %}">Gateway</a>
+    </li>
+    <li>{{ data.tag }}</li>
+{% endblock %}
+{% block bread_active %}
+    <li class="active">Add configuration</li>
+{% endblock %}
 
 {% block content %}
-<h1>Create New config for Sensor {{ sensor_id }}</h1>
+<h1>Create New config for Sensor {{ data.sensor_id }}</h1>
 
-<form action="/rest/gateways/{{ gateway }}/sensors/{{ sensor_id }}/config/" method="POST">
+<form action="/rest/gateways/{{ data.gateway.gateway_id }}/sensors/{{ data.sensor_id }}/config/" method="POST">
     {% csrf_token %}
-    <input type="hidden" name="sensor" value="{{ sensor_id }}"/>
+    <input type="hidden" name="sensor" value="{{ data.sensor_id }}"/>
 
     <div class="form-group">
         <label for="attribute">Attribute</label>

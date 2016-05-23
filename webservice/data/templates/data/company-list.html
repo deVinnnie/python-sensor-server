@@ -6,6 +6,7 @@
 {% block bread_active %}{% endblock %}
 
 {% block content %}
+
 <div class="row">
     <div class="col-md-2">
         <h1>
@@ -21,45 +22,72 @@
 
 <div class="row">
     <div class="col-md-12">
-        {% for c in results %}
-            {% if c.not_archived %}
-                <h2>{{ c.name }}<span class="badge">{{ c.not_archived|length }}</span></h2>
+        {% for c in data.results %}
+            {% if c.active_alerts %}
+                <h2>{{ c.name }}<span class="badge">{{ c.active_alerts|length }}</span></h2>
             {% endif %}
-            {% for alert in c.not_archived %}
+            {% for alert in c.active_alerts %}
                     <div class="alert alert-danger" role="alert">
-                        <a href="{% url 'alert-alert' alert.id %}">{{ alert.text }}</a>
+                        <a href="{% url 'alert-detail' alert.id %}">{{ alert.text }}</a>
                     </div>
             {% endfor %}
         {% endfor %}
     </div>
 </div>
 
+
 <div class="row">
     <div class="col-md-6">
         <h1>Companies</h1>
-
         <a href="{% url 'company-new' %}" class="btn btn-xs">
             <span class="glyphicon glyphicon-plus"></span> Add Company
         </a>
+    </div>
+</div>
 
-        <div id="company-list">
-            <input type="text" class="fuzzy-search" placeholder="Search company name" />
-            <ul class="list">
-                {% for c in results %}
-                <li>
-                    {% if not c.active %}
-                    <a class="name deactivated" href="{% url 'company-detail' c.company_id %}">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                    </a>
-                    {% else %}
-                    <a class="name" href="{% url 'company-detail' c.company_id %}">
-                    {% endif %}
-                        {{ c.name }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
+
+<div id="company-list">
+     <div class="row">
+        <div class="col-md-6">
+            <form>
+                <input type="text" class="fuzzy-search form-control" placeholder="Search on company name" />
+            </form>
         </div>
+     </div>
+     <div class="row">
+         <div class="col-md-6">
+             <ul class="list list-group">
+                {% for c in data.results %}
+
+                    <li
+                            {% if c.active_alerts|length == 0 %}
+                                class="list-group-item"
+                            {% else %}
+                                class="list-group-item list-group-item-danger"
+                            {% endif %}
+                    >
+                        {% if not c.active %}
+                        <a class="deactivated" href="{% url 'company-detail' c.company_id %}">
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                        {% else %}
+                        <a href="{% url 'company-detail' c.company_id %}">
+                             <span class="glyphicon glyphicon-briefcase"></span>
+                        {% endif %}
+
+                            {{ c.name }}
+                        </a>
+
+                        {% if c.active_alerts %}
+                            <span class="badge">{{ c.active_alerts|length }}</span>
+                        {% endif %}
+
+                        <span hidden="hidden" class="name">
+                            {{ c.name}}
+                        </span>
+                    </li>
+                {% endfor %}
+             </ul>
+         </div>
     </div>
 </div>
 {% endblock %}

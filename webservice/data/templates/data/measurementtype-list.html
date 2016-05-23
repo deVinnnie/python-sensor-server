@@ -11,7 +11,7 @@
 {%block content%}
 <h1>Measurement Types</h1>
 <ul>
-{% for mt in results %}
+{% for mt in data.results %}
     <li>
         <a href="{% url 'measurementtype-detail' mt.measurementTypeID %}">{{ mt.name }}</a>
     </li>

@@ -7,6 +7,7 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from data.models import *
 from rest.serializers import *
 from datetime import datetime, timedelta
@@ -18,6 +19,7 @@ from django.db.models import Avg
 from django.http import HttpResponse
 
 from django.contrib.auth.models import User
+import pprint
 
 # Note on PUT requests:
 #
@@ -31,10 +33,13 @@ class HTMLGenericViewSet(viewsets.ModelViewSet):
     Generic class implementing the get_template_names() method.
     This is used for viewsets to define explicit templates per action,
     without manually overriding each action.
+
+    Adapted from https://gist.github.com/egasimus/6095421
     """
     renderer_classes = (
         renderers.JSONRenderer,
-        renderers.TemplateHTMLRenderer,
+        #renderers.TemplateHTMLRenderer,
+        CustomTemplateHTMLRenderer,
         renderers.BrowsableAPIRenderer
     )
 
@@ -67,6 +72,61 @@ class HTMLGenericViewSet(viewsets.ModelViewSet):
     def getQSet(self):
         return self.queryset
 
+# Adapted from https://gist.github.com/egasimus/6095421
+class UserFacingMixin():
+    def is_facing_user(self):
+        return getattr(self.request.accepted_renderer, 'bypass', False)
+
+    def add(self, request, *args, **kwargs):
+        if self.is_facing_user():
+            self.form_object = None
+            return self._route_form(request, *args, **kwargs)
+        else:
+            return self.create(request, *args, **kwargs)
+
+    def edit(self, request, *args, **kwargs):
+        if self.is_facing_user():
+            self.form_object = self.get_object()
+            return self._route_form(request, *args, **kwargs)
+        else:
+            return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        if self.is_facing_user():
+            pass  # todo implement delete confirmation form
+        else:
+            return self.destroy(request, *args, **kwargs)
+
+    def list(self, request, *args, **kwargs):
+        self.object_list = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(self.object_list)
+
+        if not self.is_facing_user():
+            if page is not None:
+                serializer = self.get_pagination_serializer(page)
+            else:
+                serializer = self.get_serializer(self.object_list, many=True)
+            return Response(serializer.data)
+        else:
+            data = page or self.object_list
+            return Response(data)
+
+    def retrieve(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if not self.is_facing_user():
+            serializer = self.get_serializer(self.object)
+            return Response(serializer.data)
+        else:
+            return Response(self.object)
+
+
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 1000
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
+
 
 class CompanyViewSet(HTMLGenericViewSet):
     """
@@ -74,6 +134,7 @@ class CompanyViewSet(HTMLGenericViewSet):
     """
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+    pagination_class = LargeResultsSetPagination
 
     @list_route(methods=['get'])
     def new(self, request):
@@ -105,7 +166,7 @@ class CompanyViewSet(HTMLGenericViewSet):
         return redirect('company-detail', pk)
 
 
-class InstallationViewSet(HTMLGenericViewSet):
+class InstallationViewSet(UserFacingMixin, HTMLGenericViewSet):
     """
     /installations/
 
@@ -141,7 +202,7 @@ class InstallationViewSet(HTMLGenericViewSet):
         return redirect('installation-detail', pk)
 
 
-class GatewayViewSet(HTMLGenericViewSet):
+class GatewayViewSet(UserFacingMixin, HTMLGenericViewSet):
     """
     /gateways
     """
@@ -311,7 +372,18 @@ class GatewayConfigurationViewSet(HTMLGenericViewSet):
         # else:
         #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class SensorViewSet(HTMLGenericViewSet):
+    def destroy(self, request, gateway_pk, format=None, *args, **kwargs):
+        result = super(GatewayConfigurationViewSet, self).destroy(request, *args, **kwargs)
+
+        if format == None or format == 'html':
+            response = HttpResponse(content="", status=303)
+            response["Location"] = reverse('gateway-detail', args=gateway_pk)
+            return response
+        else:
+            return result
+
+
+class SensorViewSet(UserFacingMixin, HTMLGenericViewSet):
     """
     /gateways/$1/sensors
     """
@@ -328,23 +400,35 @@ class SensorViewSet(HTMLGenericViewSet):
         request.data['gateway'] = gateway_pk
         return super(SensorViewSet, self).create(request, *args, **kwargs)
 
+    def partial_update(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, pk=None, format=None, *args, **kwargs):
+        print("Hello World")
+        print(vars(request.data))
+
+        return super(SensorViewSet, self).partial_update(request, *args, **kwargs)
+
     @detail_route(methods=['get'])
     def new_config(self, request, gateway_pk=None, pk=None):
+        """
+        HTML only method.
+        """
         sensor = get_object_or_404(self.queryset, pk=pk)
-        serializer = SensorSerializer(sensor)
-        return Response(serializer.data,template_name='data/sensor_new_config.html')
+        return Response(sensor, template_name='data/sensor_new_config.html')
 
     @detail_route(methods=['get'])
     def edit(self, request, gateway_pk, pk=None,format=None):
+        """
+        HTML only method.
+        """
         sensor = get_object_or_404(self.queryset, pk=pk)
-        serializer = SensorSerializer(sensor)
-        return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensor-edit.html')
+        return Response(sensor, status=status.HTTP_200_OK, template_name='data/sensor-edit.html')
 
     @detail_route(methods=['get'])
     def archive(self, request, gateway_pk, pk=None, format=None):
+        """
+        HTML only method.
+        """
         sensor = get_object_or_404(self.queryset, pk=pk)
-        serializer = SensorSerializer(sensor)
-        return Response(serializer.data, status=status.HTTP_200_OK, template_name='data/sensor-archive.html')
+        return Response(sensor, status=status.HTTP_200_OK, template_name='data/sensor-archive.html')
 
 
 class MeasurementViewSet(
@@ -517,7 +601,7 @@ class MeasurementTypeViewSet(HTMLGenericViewSet):
         return Response()
 
 
-class AlertViewSet(HTMLGenericViewSet):
+class AlertViewSet(UserFacingMixin, HTMLGenericViewSet):
     queryset=Alert.objects.all()
     serializer_class = AlertSerializer
 

@@ -24,7 +24,7 @@ def is_archived(alerts):
     """
     result = []
     for alert in alerts:
-        if(alert['archived']):
+        if(alert.archived):
             result.append(alert)
     return result
 
@@ -38,6 +38,6 @@ def is_active(alerts):
     """
     result = []
     for alert in alerts:
-        if(not alert['archived']):
+        if(not alert.archived):
             result.append(alert)
     return result

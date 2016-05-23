@@ -2,26 +2,26 @@
 
 {% block title %}Installation{% endblock %}
 
-{% block bread_1 %}<li><a href="{% url 'installation-list' %}">Installations</a></li>{% endblock %}
-{% block bread_active %}<li class="active">Installation {{ installation_id }}</li>{% endblock %}
+{% block bread_1 %}<li><a href="{% url 'company-detail' data.company.company_id %}">{{ data.company.name }}</a></li>{% endblock %}
+{% block bread_active %}<li class="active">{{ data.name }}</li>{% endblock %}
 
 {% block content %}
-<h1>{{ name }} ({{ installation_id }})</h1>
+<h1>{{ data.name }}</h1>
 
-{% if not active %}
+{% if not data.active %}
      <p>[Deactivated]</p>
 {% endif %}
 
-<a href="{% url 'installation-add-gateway' installation_id %}">
+<a href="{% url 'installation-add-gateway' data.installation_id %}">
      <span class="glyphicon glyphicon-plus"></span> Add Gateway
 </a>
 
-{% if active %}
-<a href="{% url 'installation-deactivate' installation_id %}">
+{% if data.active %}
+<a href="{% url 'installation-deactivate' data.installation_id %}">
     <span class="glyphicon glyphicon-off"></span> Deactivate
 </a>
 {% else %}
-<a href="{% url 'installation-activate' installation_id %}">
+<a href="{% url 'installation-activate' data.installation_id %}">
     <span class="glyphicon glyphicon-off"></span> Activate
 </a>
 {% endif %}
@@ -35,7 +35,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for gateway in gateways %}
+            {% for gateway in data.gateways.all %}
                 <tr>
                     <td><a href="{% url 'gateway-detail' gateway.gateway_id %}">{{ gateway.gateway_id }}</a></td>
                     <td>{{ gateway.api_key }}</td>

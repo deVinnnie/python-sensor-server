@@ -4,41 +4,44 @@
 
 {% block title %}Measurement Types{% endblock %}
 
-{% block bread %}<li><a href="{% url 'measurementtype-list' %}">Measurement types</a></li>{% endblock %}
-{% block bread_1 %}{% endblock %}
-{% block bread_active %}<li class="active">{{ name }}</li>{% endblock %}
-
-{% block page_2 %}<li class="active"><a href="{% url 'measurementtype-list' %}">Meassurement types</a></li>{% endblock %}
+{% block bread_1 %}
+    <li>
+        <a href="{% url 'measurementtype-list' %}">Measurement types</a>
+    </li>
+{% endblock %}
+{% block bread_active %}
+    <li class="active">{{ data.name }}</li>
+{% endblock %}
 
 {% block content %}
-<h1>{{ name }}</h1>
+<h1>{{ data.name }}</h1>
 
-<form action="/rest/measurement-types/{{ measurementTypeID }}/" method="PUT">
+<form action="/rest/measurement-types/{{ data.measurementTypeID }}/" method="PUT">
     {% csrf_token %}
 
     <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="name" value="{{ name }}"/>
+        <input type="text" class="form-control" name="name" value="{{ data.name }}"/>
     </div>
 
     <div class="form-group">
         <label>Scalar</label>
-        <input type="number" class="form-control" name="scalar" value="{{ scalar }}"/>
+        <input type="number" class="form-control" name="scalar" value="{{ data.scalar }}"/>
     </div>
 
     <div class="form-group">
         <label>Unit</label>
-        <input type="text" class="form-control" name="unit" value="{{ unit }}"/>
+        <input type="text" class="form-control" name="unit" value="{{ data.unit }}"/>
     </div>
 
     <div class="form-group">
         <label>Upper bound</label>
-        <input type="number" class="form-control" name="upper_bound" value="{{ upper_bound }}"/>
+        <input type="number" class="form-control" name="upper_bound" value="{{ data.upper_bound }}"/>
     </div>
 
     <div class="form-group">
         <label>Lower bound</label>
-        <input type="number" class="form-control" name="lower_bound" value="{{ lower_bound }}"/>
+        <input type="number" class="form-control" name="lower_bound" value="{{ data.lower_bound }}"/>
     </div>
 
     <button type="submit" class="btn btn-default">Save</button>

@@ -8,6 +8,8 @@ import json
 from rest_framework.utils import encoders
 from rest_framework.settings import api_settings
 from django.utils import six
+from django.template import RequestContext
+from rest_framework.renderers import TemplateHTMLRenderer
 
 
 class RawMeasurementJSONRenderer(renderers.BaseRenderer):
@@ -44,19 +46,28 @@ class RawMeasurementJSONRenderer(renderers.BaseRenderer):
             ret = jsonRenderer.render(data, accepted_media_type=None, renderer_context=None)
             return ret
 
-        #ret = '{ "measurements": ['
         responseData = { "measurements" : [] }
 
         for d in data['measurements']:
             responseData["measurements"].append([d['timestamp'], d['value']])
-            ret+="\n"
-        #ret += "]}"
 
         ret = json.dumps(
             responseData, cls=self.encoder_class,
             ensure_ascii=self.ensure_ascii,
             separators=separators
         )
+
+        # On python 2.x json.dumps() returns bytestrings if ensure_ascii=True,
+        # but if ensure_ascii=False, the return type is underspecified,
+        # and may (or may not) be unicode.
+        # On python 3.x json.dumps() returns unicode strings.
+        if isinstance(ret, six.text_type):
+            # We always fully escape \u2028 and \u2029 to ensure we output JSON
+            # that is a strict javascript subset. If bytes were returned
+            # by json.dumps() then we don't have these characters in any case.
+            # See: http://timelessrepo.com/json-isnt-a-javascript-subset
+            ret = ret.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
+            return bytes(ret.encode('utf-8'))
 
         return ret
 
@@ -96,4 +107,29 @@ class RawConfigJSONRenderer(renderers.BaseRenderer):
             separators=separators
         )
 
+        # On python 2.x json.dumps() returns bytestrings if ensure_ascii=True,
+        # but if ensure_ascii=False, the return type is underspecified,
+        # and may (or may not) be unicode.
+        # On python 3.x json.dumps() returns unicode strings.
+        if isinstance(ret, six.text_type):
+            # We always fully escape \u2028 and \u2029 to ensure we output JSON
+            # that is a strict javascript subset. If bytes were returned
+            # by json.dumps() then we don't have these characters in any case.
+            # See: http://timelessrepo.com/json-isnt-a-javascript-subset
+            ret = ret.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
+            return bytes(ret.encode('utf-8'))
+
         return ret
+
+
+
+# Adapted from https://gist.github.com/egasimus/6095421
+class BypassRenderer(object):
+    bypass = True
+
+
+class CustomTemplateHTMLRenderer(BypassRenderer, TemplateHTMLRenderer):
+    def resolve_context(self, data, request, response):
+        if response.exception:
+            data['status_code'] = response.status_code
+        return RequestContext(request, {'data': data})

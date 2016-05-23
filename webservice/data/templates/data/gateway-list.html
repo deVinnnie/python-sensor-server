@@ -8,7 +8,7 @@
 {% block content %}
 <h1>Gateways</h1>
 <ul>
-    {% for g in results %}
+    {% for g in data.results %}
     <li>
         <a href="/rest/gateways/{{ g.gateway_id }}/">Gateway {{ g.gateway_id }}</a>
     </li>

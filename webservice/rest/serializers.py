@@ -39,11 +39,11 @@ class SensorConfigurationSerializer(serializers.ModelSerializer):
 
 class SensorSerializer(serializers.ModelSerializer):
     config = SensorConfigurationSerializer(many=True, read_only=True)
-    alerts = AlertSerializer(many=True, read_only=True)
+    alerts = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Sensor
-        fields = ('sensor_id', 'tag', 'gateway', 'config', 'position_long', 'position_lat', 'alerts')
+        fields = ('sensor_id', 'tag', 'config', 'position_long', 'position_lat', 'alerts')
         read_only_fields = ('sensor_id')
 
 
@@ -56,10 +56,10 @@ class GatewayConfigurationSerializer(serializers.ModelSerializer):
 
 
 class GatewaySerializer(serializers.ModelSerializer):
-    sensors = SensorSerializer(many=True, read_only=True)
+    sensors = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     config = GatewayConfigurationSerializer(many=True, read_only=True)
     alerts = AlertSerializer(many=True, read_only=True)
-    measurement_types = MeasurementTypeSerializer(many=True, read_only=True)
+    measurement_types = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Gateway
@@ -68,7 +68,7 @@ class GatewaySerializer(serializers.ModelSerializer):
 
 
 class InstallationSerializer(serializers.ModelSerializer):
-    gateways = GatewaySerializer(many=True, read_only=True)
+    gateways = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Installation
@@ -78,12 +78,12 @@ class InstallationSerializer(serializers.ModelSerializer):
 
 class CompanySerializer(serializers.ModelSerializer):
     installations = InstallationSerializer(many=True, read_only=True)
-    alerts = AlertSerializer(many=True, read_only=True)
-    not_archived = AlertSerializer(many=True, read_only=True)
+    #alerts = AlertSerializer(many=True, read_only=True)
+    active_alerts = AlertSerializer(many=True, read_only=True)
 
     class Meta:
         model = Company
-        fields = ('company_id', 'name', 'installations', 'active', 'alerts', 'not_archived')
+        fields = ('company_id', 'name', 'installations', 'active', 'active_alerts')
         read_only_fields = ('company_id',)
 
 

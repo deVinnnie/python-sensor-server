@@ -2,7 +2,7 @@
 
 {% block title %}Add Gateway{% endblock %}
 
-{% block bread_1 %}<li><a href="{% url 'installation-add-gateway' installation %}">Add gateway</a></li>{% endblock %}
+{% block bread_1 %}<li><a href="{% url 'installation-add-gateway' data.installation %}">Add gateway</a></li>{% endblock %}
 {% block bread_active %}<li class="active">Gateway added</li>{% endblock %}
 
 {% block content %}
@@ -13,23 +13,23 @@
         <div class="alert alert-success" role="alert">
             <p>New gateway created</p>
             <p>Would you like to add a configuration?</p>
-            <a href="{% url 'gateway-detail' gateway_id %}">Skip</a>
+            <a href="{% url 'gateway-detail' data.gateway_id %}">Skip</a>
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-body">
-                API Key: {{ api_key }}
+                API Key: {{ data.api_key }}
             </div>
         </div>
     </div>
 </div>
 
 <h2>Use a Template</h2>
-<form action="/rest/gateways/{{ gateway_id}}/use_template/" method="GET">
+<form action="/rest/gateways/{{ data.gateway_id}}/use_template/" method="GET">
     <select name="template_id">
-        {% for template in templates %}
+        {% for template in data.templates %}
             <option value="{{ template.template_id }}">{{ template.name }}</option>
         {% endfor %}
     </select>

@@ -4,17 +4,24 @@
 
 {% block title %}Sensors{% endblock %}
 
-{% block bread_1 %}<li><a href="{% url 'gateway-list' %}">Gateways</a></li>{% endblock %}
-{% block bread_active %}<li class="active">Gateway {{ gateway_id }}</li>{% endblock %}
+{% block bread_1 %}
+<li>
+    <a href="{% url 'installation-detail' data.installation.installation_id %}">
+        {{ data.installation }}
+    </a>
+</li>
+{% endblock %}
+{% block bread_active %}<li class="active">Gateway {{ data.gateway_id }}</li>{% endblock %}
 
 {% block content %}
-<h1>Gateway {{ gateway_id }}</h1>
+
+<h1>Gateway {{ data.gateway_id }}</h1>
 
 <div class="row">
     <div class="col-md-8">
         <div class="tabbable">
             <ul class="nav nav-tabs" id="measurementDataTabs">
-                {% for t in measurement_types %}
+                {% for t in data.measurement_types %}
                     <li>
                         <a href="#type-tab{{ t.measurementTypeID }}" data-toggle="tab" data-measurement-type="{{ t.measurementTypeID }}">{{ t.name }}</a>
                     </li>
@@ -22,7 +29,7 @@
             </ul>
 
             <div class="tab-content">
-                {% for t in measurement_types %}
+                {% for t in data.measurement_types %}
                     <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}">
                         <div class="measurements" id="measurements-type-{{ t.measurementTypeID }}">
                             <table class="table table-striped">
@@ -47,14 +54,14 @@
         <!-- Meta data -->
         <div class="panel panel-default">
             <div class="panel-body">
-                API Key: {{ api_key }}
+                API Key: {{ data.api_key }}
             </div>
         </div>
 
         <div>
             <!-- Map -->
             <div id="googleMap" style="width:100%;height:380px;">
-                {% if sensors|length == 0 %}
+                {% if data.sensors|length == 0 %}
                     <p>Location unknown.</p>
                 {% endif %}
             </div>
@@ -74,7 +81,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for conf in config %}
+                        {% for conf in data.config.all %}
                             {% if not conf.confirmed %}
                             <tr class="not-confirmed">
                             {% else %}
@@ -90,13 +97,14 @@
                                 <td>{{ conf.value }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit"
-                                        href="{% url 'gatewayconfiguration-edit' gateway_id conf.id %}">
+                                        href="{% url 'gatewayconfiguration-edit' data.gateway_id conf.id %}">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 </td>
                                 <td>
-                                    <form action="/rest/gateways/{{ gateway_id }}/config/{{ conf.id }}/" data-method="DELETE">
-                                          <button class="btn btn-danger btn-xs" data-placement="top" data-toggle="tooltip" title="Delete">
+                                    <form action="/rest/gateways/{{ data.gateway_id }}/config/{{ conf.id }}/" data-method="DELETE">
+                                          <button type="submit" onsubmit="return true;" value="" class="btn btn-danger btn-xs"
+                                                  data-placement="top" data-toggle="tooltip" title="Delete">
                                               <span class="glyphicon glyphicon-trash"></span>
                                           </button>
                                     </form>
@@ -107,7 +115,7 @@
                     </tbody>
                 </table>
             </div>
-            <a href="{% url 'gateway-new-config' gateway_id %}">
+            <a href="{% url 'gateway-new-config' data.gateway_id %}">
                 <span class="glyphicon glyphicon-plus"></span> Add Configuration
             </a>
         </div>
@@ -125,14 +133,15 @@
 <!-- Tab for each sensor -->
 <div class="tabbable tabs-left">
     <div class="row">
+        {% if not data.sensors.all|length == 0 %}
         <div class="col-md-2">
             <ul class="nav nav-pills nav-stacked">
-                {% for sensor in sensors %}
+                {% for sensor in data.sensors.all %}
                     <li>
                         <a href="#sensor-tab{{ sensor.sensor_id }}" data-toggle="tab">
                             {{ sensor.tag }}
-                            {% if sensor.alerts|length > 0 %}
-                                <span class="badge badge-alert">{{ sensor.alerts|length }}</span>
+                            {% if sensor.alerts.all|length > 0 %}
+                                <span class="badge badge-alert">{{ sensor.alerts.all|length }}</span>
                             {% endif %}
                         </a>
                     </li>
@@ -145,6 +154,11 @@
                 {% include 'data/sensor-details.html' %}
             </div>
         </div>
+        {% else %}
+            <div class="col-md-12">
+                No sensors registered.
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
@@ -155,16 +169,16 @@
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB1VWOXuY2tPd4fKh-fi1XdvpwP4fCNPrU"></script>
 
 <script>
-    table_base_url = "/rest/gateways/{{ gateway_id }}/measurements/";
-    var base_url = '/rest/gateways/{{ gateway_id }}/';
+    table_base_url = "/rest/gateways/{{ data.gateway_id }}/measurements/";
+    var base_url = '/rest/gateways/{{ data.gateway_id }}/';
 
     // Define range for the measurements retrieved for table.
     var start = moment().subtract(20, 'days');
     var end = moment();
 
     var gateway_position = {
-         lat: {{ sensors.0.position_lat}},
-         lng: {{ sensors.0.position_long}}
+         lat: {{ data.sensors.all.0.position_lat}},
+         lng: {{ data.sensors.all.0.position_long}}
     };
 </script>
 <script src="{% static 'data/gateway.js' %}"></script>

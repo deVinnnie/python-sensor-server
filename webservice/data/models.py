@@ -23,8 +23,8 @@ class Company(models.Model):
     def __str__(self):
         return self.name
 
-    def not_archived(self):
-        return self.alerts.filter(archived=False)
+    def active_alerts(self):
+         return self.alerts.filter(archived=False)
 
 
 class Installation(models.Model):

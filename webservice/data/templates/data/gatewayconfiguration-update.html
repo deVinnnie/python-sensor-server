@@ -5,7 +5,6 @@
 {% block headextra %}
     {% url 'gateway-detail' gateway as redirect_url %}
     {% refresh redirect_url %}
-    <!--<meta http-equiv="refresh" content="5; url={% url 'gateway-detail' gateway %}"/>-->
 {% endblock %}
 
 {% block content %}

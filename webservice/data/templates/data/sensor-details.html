@@ -1,11 +1,11 @@
-{% for sensor in sensors %}
+{% for sensor in data.sensors.all %}
 <div class="tab-pane" id="sensor-tab{{ sensor.sensor_id }}">
     <!-- Detailed view of selected sensor -->
     <div class="row">
         <h2>Measurements</h2>
         <div class="tabbable">
             <ul class="nav nav-tabs graphDataTabs">
-                {% for t in measurement_types %}
+                {% for t in data.measurement_types %}
                     <li>
                         <a href="#type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}"
                             data-toggle="tab" data-measurement-type-name="{{ t.name }}"
@@ -16,7 +16,7 @@
             </ul>
 
             <div class="tab-content">
-                {% for t in measurement_types %}
+                {% for t in data.measurement_types %}
                     <div class="tab-pane" id="type-tab{{ t.measurementTypeID }}-{{ sensor.sensor_id }}">
                         <div id="chart-sensor-{{ sensor.sensor_id}}-type-{{t.measurementTypeID}}" class='with-3d-shadow with-transitions measurement-chart'>
                             <svg></svg>
@@ -29,7 +29,7 @@
 
     <div class="row">
         <h2>Alerts</h2>
-        {% for alert in sensor.alerts %}
+        {% for alert in sensor.alerts.all %}
             {% if not alert.archived %}
             <div class="alert alert-danger alert-dismissible" role="alert">
                  <!--<button type="button" class="close" aria-label="Close">-->
@@ -52,7 +52,7 @@
             <p>Everything is OK!</p>
         {% endfor %}
 
-        <a href="{% url 'sensor-detail' gateway_id sensor.sensor_id %}archive">See Archived Alerts</a>
+        <a href="{% url 'sensor-detail' data.gateway_id sensor.sensor_id %}archive">See Archived Alerts</a>
     </div>
 
     <div class="row">
@@ -69,19 +69,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for conf in sensor.config %}
+                    {% for conf in sensor.config.all %}
                         <tr>
                             <td>{{ conf.attribute }}</td>
                             <td>{{ conf.value }}</td>
                             <td>
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensorconfiguration-edit' gateway_id sensor.sensor_id conf.id %}">
+                                    <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensorconfiguration-edit' data.gateway_id sensor.sensor_id conf.id %}">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 </p>
                             </td>
                             <td>
-                                <form action="/rest/gateways/{{ gateway_id }}/sensors/{{ sensor.sensor_id }}/config/{{ conf.id }}/" data-method="DELETE">
+                                <form action="/rest/gateways/{{ data.gateway_id }}/sensors/{{ sensor.sensor_id }}/config/{{ conf.id }}/" data-method="DELETE">
                                     <button class="btn btn-danger btn-xs" data-placement="top" data-toggle="tooltip" title="Delete">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>
@@ -93,7 +93,7 @@
             </table>
         </div>
 
-        <a href="{% url 'sensor-new-config' gateway_id sensor.sensor_id %}">
+        <a href="{% url 'sensor-new-config' data.gateway_id sensor.sensor_id %}">
             <span class="glyphicon glyphicon-plus"></span> Add Configuration
         </a>
     </div>
@@ -115,7 +115,7 @@
                     <td>{{ sensor.position_lat }}</td>
                     <td>
                         <p data-placement="top" data-toggle="tooltip" title="Edit">
-                            <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensor-edit' gateway_id sensor.sensor_id %}">
+                            <a class="btn btn-primary btn-xs" data-title="Edit" href="{% url 'sensor-edit' data.gateway_id sensor.sensor_id %}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
                         </p>

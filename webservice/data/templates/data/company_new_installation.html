@@ -6,7 +6,7 @@
 {% block bread_active %}<li class="active">Add Installation</li>{% endblock %}
 
 {% block content %}
-<h1>Create New Installation for {{ name }}</h1>
+<h1>Create New Installation for {{ data.name }}</h1>
 
 <form action="/rest/installations/" method="POST">
     {% csrf_token %}
@@ -14,7 +14,7 @@
         <label for="installation-name">Name</label>
         <input type="text" class="form-control" name="name" placeholder="Name" id="installation-name"/>
     </div>
-    <input type="hidden" name="company" value="{{ company_id }}"/>
+    <input type="hidden" name="company" value="{{ data.company_id }}"/>
     <input type="submit" value="Save" class="btn btn-default">
 </form>
 {% endblock %}

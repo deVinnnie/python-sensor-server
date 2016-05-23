@@ -5,7 +5,7 @@
 {% load data_extras %}
 
 {% block headextra %}
-    {% url 'company-detail' company_id as redirect_url %}
+    {% url 'company-detail' data.company_id as redirect_url %}
     {% refresh redirect_url %}
 {% endblock %}
 
@@ -16,7 +16,7 @@
     </p>
 
     <p>
-        <a href="{% url 'company-detail' company_id %}">Go to company page.</a>
+        <a href="{% url 'company-detail' data.company_id %}">Go to company page.</a>
     </p>
 </div>
 {% endblock %}

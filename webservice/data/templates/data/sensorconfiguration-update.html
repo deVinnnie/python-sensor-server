@@ -5,7 +5,7 @@
 {% load data_extras %}
 
 {% block headextra %}
-    {% url 'gateway-detail' gateway as redirect_url %}
+    {% url 'gateway-detail' data.gateway as redirect_url %}
     {% refresh redirect_url %}
 {% endblock %}
 
@@ -16,7 +16,7 @@
     </p>
 
     <p>
-        <a href="{% url 'gateway-detail' gateway %}">Go to gateway page.</a>
+        <a href="{% url 'gateway-detail' data.gateway %}">Go to gateway page.</a>
     </p>
 </div>
 {% endblock %}

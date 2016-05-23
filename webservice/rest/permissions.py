@@ -20,6 +20,7 @@ class IsGatewayOrAuthenticated(permissions.BasePermission):
             else:
                 gateway_id = request.parser_context['kwargs']['pk']
 
+            print(gateway_id)
             gateway = Gateway.objects.get(pk=gateway_id)
             api_key = request.GET.get('api_key')
 

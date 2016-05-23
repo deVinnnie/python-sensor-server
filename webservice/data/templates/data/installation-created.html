@@ -5,7 +5,7 @@
 {% load data_extras %}
 
 {% block headextra %}
-    {% url 'installation-detail' installation_id as redirect_url %}
+    {% url 'installation-detail' data.installation_id as redirect_url %}
     {% refresh redirect_url %}
 {% endblock %}
 
@@ -16,7 +16,7 @@
     </p>
 
     <p>
-        <a href="{% url 'installation-detail' installation_id %}">Go to installation page.</a>
+        <a href="{% url 'installation-detail' data.installation_id %}">Go to installation page.</a>
     </p>
 </div>
 {% endblock %}

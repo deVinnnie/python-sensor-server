@@ -3,14 +3,24 @@
 {% load staticfiles %}
 {% load data_extras %}
 
-{% block title %}Archive {{ tag }}{% endblock %}
+{% block bread_1 %}
+<li>
+    <a href="{% url 'gateway-detail' data.gateway.gateway_id %}">Gateway</a>
+</li>
+<li>{{ data.tag }}</li>
+{% endblock %}
+
+{% block bread_active %}<li class="active">Alerts</li>{% endblock %}
+
+
+{% block title %}Archive {{ data.tag }}{% endblock %}
 
 {% block content %}
 
-<h1>{{ tag }} Alerts</h1>
+<h1>{{ data.tag }} Alerts</h1>
 
 <h2>Active</h2>
-{% for alert in alerts|is_active %}
+{% for alert in data.alerts.all|is_active %}
     <div class="alert alert-danger alert-dismissible" role="alert">
             <p>
                 {{ alert.measurement.timestamp }} <br/>
@@ -24,7 +34,7 @@
 
 
 <h2>Archived</h2>
-{% for alert in alerts|is_archived %}
+{% for alert in data.alerts.all|is_archived %}
     <div class="alert alert-info" role="alert">
             <p>
                 {{ alert.measurement.timestamp }} <br/>
