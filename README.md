@@ -29,3 +29,7 @@ python manage.py migrate
 python manage.py loaddata dummy-data.json sensors.json measurements.json
 python manage.py createsuperuser
 `
+Running Development Server
+--------------------------
+
+`python manage.py runserver`
