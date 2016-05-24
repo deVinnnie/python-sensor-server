@@ -51,7 +51,7 @@ function loadGraph(sensor, type){
         var stream = new Object();
         stream.values= values;
         stream.key = "Measurements";
-        stream.color = "#2ca02c";
+        stream.color = mtypes[type].color;
 
         data = new Array();
         data[0] = stream;
@@ -81,7 +81,7 @@ function loadGraph(sensor, type){
             var stream = new Object();
             stream.values= values;
             stream.key = "Overview";
-            stream.color = "#2ca02c";
+            stream.color = mtypes[type].color;
 
             data2 = new Array();
             data2[0] = stream;

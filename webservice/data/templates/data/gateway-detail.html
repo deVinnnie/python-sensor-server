@@ -185,12 +185,16 @@
          lng: {{ data.sensors.all.0.position_long}}
     };
 
+    /**
+     * Store measurementType data for future reference in JavaScript Ajax Calls.
+     */
     mtypes = {
         {% for t in data.measurement_types %}
         {{ t.measurementTypeID }} :
         {
             "name" : "{{ t.name }}",
-            "unit" : "{{ t.unit }}"
+            "unit" : "{{ t.unit }}",
+            "color" : "{% cycle '#2ca02c' '#ffca02' '#00caff' '#ffff2c' %}"
         },
         {% endfor %}
     };
