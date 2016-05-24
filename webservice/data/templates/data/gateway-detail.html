@@ -24,7 +24,10 @@
             <ul class="nav nav-tabs" id="measurementDataTabs">
                 {% for t in data.measurement_types %}
                     <li>
-                        <a href="#type-tab{{ t.measurementTypeID }}" data-toggle="tab" data-measurement-type="{{ t.measurementTypeID }}">{{ t.name }}</a>
+                        <a href="#type-tab{{ t.measurementTypeID }}"
+                           data-toggle="tab" data-measurement-type="{{ t.measurementTypeID }}">
+                            {{ t.name }} [{{ t.unit }}]
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
@@ -180,6 +183,16 @@
     var gateway_position = {
          lat: {{ data.sensors.all.0.position_lat}},
          lng: {{ data.sensors.all.0.position_long}}
+    };
+
+    mtypes = {
+        {% for t in data.measurement_types %}
+        {{ t.measurementTypeID }} :
+        {
+            "name" : "{{ t.name }}",
+            "unit" : "{{ t.unit }}"
+        },
+        {% endfor %}
     };
 </script>
 <script src="{% static 'data/gateway.js' %}"></script>

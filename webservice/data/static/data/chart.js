@@ -107,9 +107,16 @@ function initializeGraph(sensor, type, updateURL){
                 return d3.time.format('%Y-%m-%d')(new Date(d));
             }
         );
-        chart.yAxis.tickFormat(d3.format(',.2f'));
+        chart.yAxis.tickFormat(
+            function(d){
+                return d3.format(',.2f')(d) + mtypes[type].unit;
+            }
+        );
         chart.y2Axis.tickFormat(d3.format(',.2f'));
+
+
         chart.useInteractiveGuideline(true);
+        chart.forceY(0)
 
         chart.updateURL = updateURL;
 
@@ -118,7 +125,10 @@ function initializeGraph(sensor, type, updateURL){
         viewFinderStart = earliestMeasurementAvailable.isAfter(start) ? earliestMeasurementAvailable : start;
         chart.brushExtent([earliestMeasurementAvailable.valueOf(), end.valueOf()]);
 
-        currentRange = {"start" : viewFinderStart, "end" : end};
+        currentRange = {
+            "start" : viewFinderStart,
+            "end" : end
+        };
 
         chartID = '#chart-sensor-' + sensor + '-type-' + type;
         d3.select(chartID + ' svg')
