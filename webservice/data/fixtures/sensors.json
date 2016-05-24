@@ -188,5 +188,45 @@
       "position_long": 4.019,
       "position_lat": 51.1
     }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 20,
+    "fields": {
+      "gateway": 1,
+      "tag": "G1-S1",
+      "position_long": 4.45,
+      "position_lat": 52.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 21,
+    "fields": {
+      "gateway": 1,
+      "tag": "G1-S2",
+      "position_long": 4.45,
+      "position_lat": 52.1
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 22,
+    "fields": {
+      "gateway": 3,
+      "tag": "G3-S1",
+      "position_long": 4.45,
+      "position_lat": 52.5
+    }
+  },
+  {
+    "model": "data.sensor",
+    "pk": 23,
+    "fields": {
+      "gateway": 3,
+      "tag": "G3-S2",
+      "position_long": 4.45,
+      "position_lat": 52.5
+    }
   }
 ]
