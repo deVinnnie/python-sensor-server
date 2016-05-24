@@ -1,6 +1,7 @@
 {% extends "data/template.html" %}
 
 {% load staticfiles %}
+{% load data_extras %}
 
 {% block title %}Sensors{% endblock %}
 
@@ -140,8 +141,8 @@
                     <li>
                         <a href="#sensor-tab{{ sensor.sensor_id }}" data-toggle="tab">
                             {{ sensor.tag }}
-                            {% if sensor.alerts.all|length > 0 %}
-                                <span class="badge badge-alert">{{ sensor.alerts.all|length }}</span>
+                            {% if sensor.alerts.all|is_active|length > 0 %}
+                                <span class="badge badge-alert">{{ sensor.alerts.all|is_active|length }}</span>
                             {% endif %}
                         </a>
                     </li>
