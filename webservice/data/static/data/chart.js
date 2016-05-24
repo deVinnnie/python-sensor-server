@@ -114,6 +114,7 @@ function initializeGraph(sensor, type, updateURL){
         );
         chart.y2Axis.tickFormat(d3.format(',.2f'));
 
+        chart.margin({left: 80});
 
         chart.useInteractiveGuideline(true);
         chart.forceY(0)
