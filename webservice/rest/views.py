@@ -401,10 +401,24 @@ class SensorViewSet(UserFacingMixin, HTMLGenericViewSet):
         return super(SensorViewSet, self).create(request, *args, **kwargs)
 
     def partial_update(self, request, companies_pk=None, installation_pk=None, gateway_pk=None, pk=None, format=None, *args, **kwargs):
-        print("Hello World")
-        print(vars(request.data))
+        if format == None or format == 'html':
+            # Hacky way to fix form for web interface.
+            # The PATCH method works using postman or httpie,
+            # but the exact same request does not work from the web interface.
+            # It's black magic.
+            sensor = get_object_or_404(self.queryset, pk=pk)
 
-        return super(SensorViewSet, self).partial_update(request, *args, **kwargs)
+            sensor.position_long = request.data['position_long']
+            sensor.position_lat = request.data['position_lat']
+
+            sensor.save()
+
+            response = HttpResponse(content="", status=303)
+            response["Location"] = reverse('gateway-detail', args=gateway_pk)
+            return response
+        else:
+            # Use original method when doing a REST API call.
+            return super(SensorViewSet, self).partial_update(request, *args, **kwargs)
 
     @detail_route(methods=['get'])
     def new_config(self, request, gateway_pk=None, pk=None):
