@@ -117,7 +117,7 @@ function initializeGraph(sensor, type, updateURL){
         chart.margin({left: 80});
 
         chart.useInteractiveGuideline(true);
-        chart.forceY(0)
+        chart.forceY(0);
 
         chart.updateURL = updateURL;
 
