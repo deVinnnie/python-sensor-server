@@ -28,7 +28,13 @@ function loadMeasurements(type){
             function(a, b){
                 l = moment(a.date, 'YYYY-MM-DD');
                 r = moment(b.date, 'YYYY-MM-DD');
-                return l.isBefore(r);
+
+                if(l.isBefore(r)){
+                    return 1;
+                }
+                else{
+                    return -1;
+                }
             }
         );
 
