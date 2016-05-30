@@ -124,7 +124,7 @@ function initializeGraph(sensor, type, updateURL){
         // Set initial range.
         earliestMeasurementAvailable = moment(data2[0].values[0].x); //Array is already sorted!
         viewFinderStart = earliestMeasurementAvailable.isAfter(start) ? earliestMeasurementAvailable : start;
-        chart.brushExtent([earliestMeasurementAvailable.valueOf(), end.valueOf()]);
+        chart.brushExtent([viewFinderStart.valueOf(), end.valueOf()]);
 
         currentRange = {
             "start" : viewFinderStart,
