@@ -9,6 +9,6 @@ urlpatterns = patterns('',
     url(r'^rest/', include('rest.urls')),
     #url(r'^$', auth_views.login),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^$', RedirectView.as_view(url='https://217.136.241.171:8443/api-auth/login/?next=/rest/companies/')),
+    url(r'^$', RedirectView.as_view(url='/api-auth/login/?next=/rest/companies/')),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
 )
