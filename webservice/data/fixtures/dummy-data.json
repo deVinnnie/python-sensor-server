@@ -253,5 +253,15 @@
       "action" : "all",
       "user" : 1
     }
+  },
+  {
+    "model": "data.permission",
+    "pk": 1,
+    "fields": {
+      "entity" : "company",
+      "identifier" : 1,
+      "action" : "all",
+      "user" : 2
+    }
   }
 ]
