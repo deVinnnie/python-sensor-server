@@ -76,7 +76,7 @@ DATABASES = {
     # NAS Database
     # 'default': {
     #     'ENGINE': 'mysql.connector.django',
-    #     'NAME': 'Pasen_Test_Databank',
+    #     'NAME': 'Final_Test_Databank',
     #     'USER': 'api',
     #     'PASSWORD': 'api',
     #     'HOST': '127.0.0.1',
